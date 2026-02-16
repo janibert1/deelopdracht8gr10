@@ -1,0 +1,36 @@
+{
+    "WB TANK 1": {
+        "Volume_water_ballast_m3": 0.0,
+        "COV_WB_m": 0.0,
+        "Height_of_WB_%_of_h_tank": 8.512,
+        "Tank_lxbxh_m": 0.0,
+        "Area_WB_plane_m2": 0.0,
+        "COA_WB_plane_m": 0.0,
+        "Inertia_WB_plane_m4": 0.0
+    },
+    "WB TANK 2": {
+        "Volume_WB_m3": 0.0,
+        "COV_WB_m": 0.0,
+        "Height_of_WB_%_of_h_tank": 60.8137,
+        "Tank_lxbxh_m": 0.0,
+        "Area_WB_plane_m2": 0.0,
+        "COA_WB_plane_m": 0.0,
+        "Inertia_WB_plane_m4": 0.0
+    },
+    "WB TANK 3": {
+        "Volume_water_ballast_m3": 0.0,
+        "COV_WB_m": 0.0,
+        "Height_of_WB_%_of_h_tank": 22.0,
+        "Tank_lxbxh_m": 0.0,
+        "Area_WB_plane_m2": 0.0,
+        "COA_WB_plane_m": 0.0,
+        "Inertia_WB_plane_m4": 0.0
+    },
+    "_export_info": {
+        "created": "2026-01-05T11:55:41.245454+01:00",
+        "source_file": "MT1463_HullGenerator_V3.32(2) mentor groepje 14.gh",
+        "group": 14.0,
+        "version": 1,
+        "subversion": 0.0
+    }
+}
