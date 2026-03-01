@@ -1,0 +1,36 @@
+{
+    "WB TANK 1": {
+        "Volume_water_ballast_m3": 0.0,
+        "COV_WB_m": 0.0,
+        "Height_of_WB_%_of_h_tank": 59.322,
+        "Tank_lxbxh_m": 0.0,
+        "Area_WB_plane_m2": 0.0,
+        "COA_WB_plane_m": 0.0,
+        "Inertia_WB_plane_m4": 0.0
+    },
+    "WB TANK 2": {
+        "Volume_WB_m3": 0.0,
+        "COV_WB_m": 0.0,
+        "Height_of_WB_%_of_h_tank": 85.1747,
+        "Tank_lxbxh_m": 0.0,
+        "Area_WB_plane_m2": 0.0,
+        "COA_WB_plane_m": 0.0,
+        "Inertia_WB_plane_m4": 0.0
+    },
+    "WB TANK 3": {
+        "Volume_water_ballast_m3": 0.0,
+        "COV_WB_m": 0.0,
+        "Height_of_WB_%_of_h_tank": 72.0,
+        "Tank_lxbxh_m": 0.0,
+        "Area_WB_plane_m2": 0.0,
+        "COA_WB_plane_m": 0.0,
+        "Inertia_WB_plane_m4": 0.0
+    },
+    "_export_info": {
+        "created": "2026-02-27T16:52:57.600125+01:00",
+        "source_file": "MT1463_HullGenerator_V3.34_Gr98V1.0.gh",
+        "group": 98.0,
+        "version": 1,
+        "subversion": 0.0
+    }
+}
