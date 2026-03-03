@@ -1,12 +1,12 @@
-"""Transport ship class (deck cargo only, no crane)."""
+"""Transportschip-klasse (alleen deklading, geen kraan)."""
 
 from Ship_pelle import Ship
 
 
 class TransportSchip(Ship):
-    """Transport condition: no crane, transition pieces on deck.
+    """Transportconditie: geen kraan, transition pieces aan dek.
 
-    This subclass only maps input defaults; all calculations remain in `Ship`.
+    Deze subklasse zet alleen invoerdefaults; alle berekeningen blijven in `Ship`.
     """
 
     def __init__(self, file, TP_position, TP_mass, TP_amount, **kwargs):

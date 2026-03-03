@@ -1,12 +1,12 @@
-"""Crane ship class (crane + TP in hook, no deck cargo)."""
+"""Kraanschip-klasse (kraan + TP in de haak, geen deklading)."""
 
 from Ship_pelle import Ship
 
 
 class KraanSchip(Ship):
-    """Crane operating condition with one TP in the hook.
+    """Kraanconditie met één TP in de haak.
 
-    Deck cargo amount is forced to zero for this load case.
+    Deklading wordt in deze load case geforceerd op nul gezet.
     """
 
     def __init__(

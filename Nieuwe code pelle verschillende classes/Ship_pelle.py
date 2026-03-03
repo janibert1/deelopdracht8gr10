@@ -1,11 +1,10 @@
-"""Ship model used by the class-based project variant.
+"""Scheepsmodel voor de class-gebaseerde projectvariant.
 
-The class implements the same high-level workflow as used in the earlier
-assignment scripts:
-1. Read hydrostatic and tank input data.
-2. Build dry mass contributions (steel + cargo/crane).
-3. Solve tank percentages to satisfy transverse and vertical equilibrium.
-4. Compute initial stability metrics (KB, KG, BM, GM).
+De klasse volgt dezelfde hoofdlijn als in eerdere opdrachten:
+1. Lees hydrostatische en tankinvoer.
+2. Bouw droge massa-bijdragen op (staal + lading/kraan).
+3. Los tankpercentages op voor dwars en verticaal evenwicht.
+4. Bereken stabiliteitskengetallen (KB, KG, BM, GM).
 """
 
 from __future__ import annotations
@@ -20,13 +19,13 @@ from Functions_pelle import Tank, ZCG, deck, matrix_add, plates
 
 
 class Ship:
-    """Generic ship class for equilibrium and initial stability calculations.
+    """Generieke scheepsklasse voor evenwicht- en stabiliteitsberekeningen.
 
-    Notes
+    Notities
     -----
-    - Input `file` is expected as `[group, version, subversion]`.
-    - Distances are in meters, masses in kilograms.
-    - Water density defaults to seawater (1025 kg/m3).
+    - Invoer `file` wordt verwacht als `[groep, versie, subversie]`.
+    - Afstanden zijn in meters, massa's in kilogram.
+    - Waterdichtheid staat standaard op zeewater (1025 kg/m3).
     """
 
     def __init__(
@@ -72,10 +71,10 @@ class Ship:
         self._calculate_stability()
 
     def _resolve_data_dir(self, data_dir):
-        """Pick a usable data folder; fallback to repository example data if needed.
+        """Kies een bruikbare datamap; val terug op repository-voorbeelddata indien nodig.
 
-        This makes the project more robust when copied between machines:
-        local `data/` is used first, then a known repository-level fallback.
+        Dit maakt het project robuuster bij verplaatsen tussen machines:
+        eerst lokale `data/`, daarna een bekende fallback op repositoryniveau.
         """
         module_dir = Path(__file__).resolve().parent
         candidates = []
@@ -94,11 +93,11 @@ class Ship:
                 return candidate
 
         raise FileNotFoundError(
-            "No usable data folder found for MainShipParticulars and tank files."
+            "Geen bruikbare datamap gevonden voor MainShipParticulars en tankbestanden."
         )
 
     def _has_usable_main_particulars(self, data_dir):
-        """Return True when main particulars exist and contain non-zero buoyant volume."""
+        """Geef True terug als hoofdgegevens bestaan en niet-nul drijfvolume bevatten."""
         main_path = data_dir / f"MainShipParticulars_Gr{self.file[0]}_V{self.file[1]}.{self.file[2]}.json"
         if not main_path.exists():
             return False
@@ -109,20 +108,20 @@ class Ship:
         return isinstance(buoyant_volume, (int, float)) and buoyant_volume > 0
 
     def _data_file(self, stem):
-        """Build full path for a data file with group/version formatting."""
+        """Bouw volledig pad voor een databestand met groep/versie-opmaak."""
         return self.data_dir / f"{stem}_Gr{self.file[0]}_V{self.file[1]}.{self.file[2]}.csv"
 
     def _load_main_data(self):
-        """Read main hydrostatic particulars JSON."""
+        """Lees JSON met hoofd-hydrostatische gegevens."""
         path = self.data_dir / f"MainShipParticulars_Gr{self.file[0]}_V{self.file[1]}.{self.file[2]}.json"
         with open(path, "r", encoding="utf-8") as handle:
             return json.load(handle)
 
     def _read_main_dimensions(self):
-        """Read commonly used dimensions and hydrostatics into attributes.
+        """Lees veelgebruikte afmetingen en hydrostatica in attributen.
 
-        The hydrostatic JSON keeps values in nested sections. This method
-        flattens the values we use repeatedly in the calculations.
+        De hydrostatische JSON bevat geneste secties. Deze methode
+        haalt de vaak gebruikte waarden naar directe attributen.
         """
         dimensions = self.main_data["MAIN DIMENSIONS"]
         volume_data = self.main_data["VOLUME RELATED DATA (MOULDED)"]
@@ -139,7 +138,7 @@ class Ship:
         self.I = np.asarray(underwater_data["Inertia_WPA_around_COF_m4"], dtype=float)
 
     def _build_tanks(self):
-        """Create tank objects and set initial fill for tank 3."""
+        """Maak tankobjecten en zet de initiële vulling van tank 3."""
         self.tank1 = Tank(
             self._data_file("Tank1_Diagram_Volume"),
             self._data_file("Tank1_Diagram_Waterplane"),
@@ -164,14 +163,14 @@ class Ship:
         self.tank3.percentage_filled(self.tank3_initial)
 
     def _calculate_mass_balance(self):
-        """Calculate deck/steel contributions and solve tank 1 and tank 2 equilibrium.
+        """Bereken dek/staalbijdragen en los evenwicht met tank 1 en tank 2 op.
 
-        Calculation flow:
-        - Build dry-mass matrix from deck loads and steel plates.
-        - Use tank 3 as known initial condition.
-        - Solve tank 1 fill from transverse moment equilibrium.
-        - Solve tank 2 mass from total mass equilibrium.
-        - Solve tank 2 longitudinal location from longitudinal moment equilibrium.
+        Rekenvolgorde:
+        - Bouw droge-massamatrix uit deklasten en staalplaten.
+        - Gebruik tank 3 als bekende beginconditie.
+        - Los tank 1 vulling op uit dwarsscheeps momentevenwicht.
+        - Los tank 2 massa op uit totaal krachtevenwicht.
+        - Los tank 2 langsscheepse locatie op uit momentevenwicht.
         """
         self.deck_data = deck(
             self.crane_position,
@@ -193,20 +192,20 @@ class Ship:
         )
         self.dry_data = matrix_add(self.deck_data, self.plates_data)
 
-        # Dry-mass moments around COV (x) and centerline (y).
+        # Droge-massamomenten rond COV (x) en centerlijn (y).
         self.lM_dry = self.dry_data[0] * (self.dry_data[1] - self.COV[0])
         self.tM_dry = self.dry_data[0] * self.dry_data[2]
         self.dry_mass = np.sum(self.dry_data[0])
         self.dry_lM = np.sum(self.lM_dry)
         self.dry_tM = np.sum(self.tM_dry)
 
-        # Tank 1 is used to close transverse moment equilibrium: sum(tM) = 0.
+        # Tank 1 sluit dwarsscheeps momentevenwicht: som(tM) = 0.
         self.initial_tM = self.dry_tM + self.tank3.exact_tM
         self.tank1_tM = -self.initial_tM
         self.tank1_percentage = CubicSpline(self.tank1.tM, self.tank1.percentage)(self.tank1_tM)
         self.tank1.percentage_filled(self.tank1_percentage)
 
-        # Tank 2 is used to close vertical force equilibrium: displacement = weight.
+        # Tank 2 sluit verticaal krachtevenwicht: deplacement = gewicht.
         self.buoyant_mass = self.buoyant_volume * self.water_density
         self.tank2_mass = self.buoyant_mass - (
             self.dry_mass + self.tank1.exact_mass + self.tank3.exact_mass
@@ -214,7 +213,7 @@ class Ship:
         self.tank2_percentage = CubicSpline(self.tank2.mass, self.tank2.percentage)(self.tank2_mass)
         self.tank2.percentage_filled(self.tank2_percentage)
 
-        # Tank 2 longitudinal position that closes longitudinal moment equilibrium.
+        # Tank 2 langsscheepse positie die momentevenwicht sluit.
         self.buoyant_lM = self.buoyant_mass * (self.COV[0] - self.COB[0])
         self.initial_lM = (
             self.dry_lM + self.buoyant_lM + self.tank1.exact_lM + self.tank3.exact_lM
@@ -234,9 +233,9 @@ class Ship:
         self.ship_data = matrix_add(self.dry_data, self.tank_data)
 
     def _calculate_stability(self):
-        """Compute KB, KG, BM and GM values.
+        """Bereken KB-, KG-, BM- en GM-waarden.
 
-        BM uses the free-surface correction by subtracting per-tank GG terms.
+        BM gebruikt vrije-oppervlakcorrectie door GG-termen per tank af te trekken.
         """
         self.KB = self.COB[2]
         self.KG = ZCG(self.ship_data[0], self.ship_data[3])
@@ -246,7 +245,7 @@ class Ship:
         self.GM = self.KB - self.KG + self.BM
 
     def to_dict(self):
-        """Return a compact result dictionary for reporting/comparison lists."""
+        """Geef een compacte resultaatsdictionary terug voor rapportage/vergelijking."""
         return {
             "file": self.file,
             "tank1_percentage": float(self.tank1_percentage),

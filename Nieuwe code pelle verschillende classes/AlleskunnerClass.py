@@ -1,12 +1,12 @@
-"""Alleskunner class (crane operation + deck cargo)."""
+"""Alleskunner-klasse (kraanoperatie + deklading)."""
 
 from Ship_pelle import Ship
 
 
 class Alleskunner(Ship):
-    """Combined condition with crane load and transition pieces on deck.
+    """Gecombineerde conditie met kraanlast en transition pieces aan dek.
 
-    This class represents the assignment's "alleskunner" load case.
+    Deze klasse representeert de "alleskunner"-beladingsconditie uit de opdracht.
     """
 
     def __init__(
