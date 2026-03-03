@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css"></head><body style="color: rgb(32, 33, 34); font-family: arial, helvetica, sans-serif; font-size: 16px;"><h1>Antwoord blad inlezen en wegschrijven.</h1>
+<p><span style="font-family: Lato, sans-serif; font-size: 19px;">Na dat je alle berekeningen hebt uitgevoerd is het de bedoeling dat je het JSON antwoordenblad invult. Een voorbeeld antwoordenblad met foutieve waarden maar met de juiste keys is&nbsp;<a href="antwoordenblad.json" target="_blank" rel="noopener">hier te downloaden.</a> Na dat je het hebt gedownload zet het dan in de data folder waar ook de andere files staan die gegenereerd zijn met Rhino/grashopper. De code die je hebt geschreven om het antwoordblad in te lezen en weg te schrijven staat in de map er boven. Het is belangrijk dat die map de <strong>working directory</strong> is.</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 19px;">De structuur van het antwoordenblad is JSON. Met python kan je dictionaries maken van JSON files. Let op dat er meerdere lagen in zitten, en dat het dus eigenlijk een geneste dictionary is in Python. Het is de bedoeling dat je&nbsp;<strong>geen enkele dictionary key aanpast</strong> maar de waarden die bij de keys horen wel. De keys en waarden van de keys kan je bestuderen door de JSON file te openen met een text editor of na dat je ze hebt geladen in Spyder in de variable explorer. </span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 19px;">Na dat je de waarden hebt aangepast naar de correcte waarden kan je het antwoordenblad weer wegschrijven. Let op, als je dezelfde filenaam gebruikt voor het inlezen en het wegschrijven overschrijf je het originele antwoordenblad. Bij het inleveren, lever je 1 antwoordenblad in per schip die in de output folder staat.</span><span style="font-family: Lato, sans-serif; font-size: 19px;"></span></p>
+<ul></ul>
+<h2>Working Directory van Python</h2>
+<h2><img src="working%20directyr%20antwoordblad_20260128135000749.png" data-d2l-editor-default-img-style="true" style="max-width: 100%;"></h2>
+<p><span style="font-family: Lato, sans-serif; font-size: 19px;">In figuur hier boven staan de stappen in nummers om de working directory in testellen.</span></p>
+<ol>
+<li style="font-family: Lato, sans-serif; font-size: 19px;">Stel de working directory in door op de folder te klikken. Stel hem in op de folder waar je script staat opgeslagen en waar de data en output folder staan.&nbsp;</li>
+<li style="font-family: Lato, sans-serif; font-size: 19px;">Schrijf het python bestand en controleer of het python bestand ook daadwerkelijk in de working directory is opgeslagen en controleer of je ook daadwerkelijk in deze file zit te werken.</li>
+<li style="font-family: Lato, sans-serif; font-size: 19px;"><span style="font-family: Lato, sans-serif; font-size: 19px;">Maak een data folder en de output folder. Stop in de data folder het antwoord blad.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 19px;"><span style="font-family: Lato, sans-serif; font-size: 19px;">Na dat je klaar bent met de code schrijven kan je het uitvoeren en zie je het resultaat in de console en hopelijk ook het ingevulde antwoord blad in de output folder.&nbsp;</span></li>
+</ol>
+<h2>.JSON bestanden lezen, aanpassen, en weer opslaan</h2>
+<p><span style="font-family: Lato, sans-serif; font-size: 19px;">Een JSON file is ook een gestructureerde file met keys en values. Een JSON is gemakkelijk te lezen in Python omdat we de data uit een JSON makkelijk in een dictionary kunnen opslaan in Python. De individuele elementen uit de dictionary kan je benaderen door hun keys aan te roepen. Let er op dat je dus ook een dictionary in een dictionary kan hebben. Of een dictionary, met daarin een dictionary, en daarin weer een lijst. Het voorbeeld script om het json antwoord blad te lezen, aan te passen, en weer op te slaan is hier onder te vinden. Bij jullie code verwacht ik uiteraard dat het lezen, aanpassen, en wegschrijven van de gegevens netjes in functies is gedefinieerd. De volledige documentatie voor de json library vind je <a href="https://docs.python.org/3/library/json.html" target="_blank" rel="noopener">hier</a>. De basis van dictionaries vind je <a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries" target="_blank" rel="noopener">hier</a>.</span></p>
+<pre class="line-numbers d2l-code"><code class="language-python"># -*- coding: utf-8 -*-
+"""
+Created on Wed Jan 28 13:08:44 2026
+
+@author: roywinter
+"""
+import os
+import json
+
+# get current working directory
+print(os.getcwd())
+print()
+
+
+#lees een JSON file uit de data folder en maak er een dictionary van
+json_data = json.load(open('data/antwoordenblad.json'))
+#optioneel: welke keys zitten er in?
+#Print alle keys op die in de hoofd dictionary zitten.
+print(json_data.keys())
+#Print alle keys die in de geometrie sub dictionary zitten.
+print(json_data['Geometrie'].keys())
+#Print de waarde die bij geometrie, lengte hoort
+print(json_data['Geometrie']['Lengte #[m]']) 
+
+#Waarden veranderen
+#pas de lengte aan
+json_data['Geometrie']['Lengte #[m]'] = 350
+
+#Optineel, zijn de waarden aangepast? 
+#Print de nieuwe waarde die bij geometrie, lengte hoort
+print(json_data['Geometrie']['Lengte #[m]']) 
+
+
+# schrijf de nieuwe antwoord blad weg naar de output folder
+with open('output/antwoordenblad.json', 'w') as file:
+    json.dump(json_data, file, indent=4)
+    #met indent=4 zorg je er voor dat het beter te lezen is!</code></pre></body></html>

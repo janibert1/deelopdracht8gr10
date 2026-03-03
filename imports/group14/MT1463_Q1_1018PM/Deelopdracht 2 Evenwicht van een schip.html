@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css"></head><body style="color: rgb(32, 33, 34); font-family: arial, helvetica, sans-serif; font-size: 16px;"><h1><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;"><strong><span style="font-family: Lato, sans-serif; font-size: 24px;">Inleiding</span></strong></span></h1>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: Lato, sans-serif; font-size: 24px;">In deelopdracht 2 ga je het evenwicht berekenen van een schip met dezelfde hoofdafmetingen en tankindeling als bij deelopdracht 1. Bij een schip komen er enkele complicaties bij die via het stappenplan uitgelegd worden. Ook maak je kennis met tekstbestanden, die je gedurende het jaar vaker gaat gebruiken.&nbsp;</span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: Lato, sans-serif; font-size: 24px;">In kwartaal 2 gaan jullie werken met de 'Romp Generator' in Rhino en Grasshopper. Hierin is het schip van deelopdracht 2, maar ook de bak van deelopdracht 1 in gemaakt. De tekstbestanden waar je in deze opdracht mee gaat werken worden door dit programma gegenereerd.&nbsp;</span></p>
+<p></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;"></span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;"><img src="/content/enforced/682135-MT1463%2B2024%2B1/HullGernartor_voorbeeldschip2024.png" alt="" title="" data-d2l-editor-default-img-style="true" style="max-width: 100%;"></span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">Figuur 1 het schip van deelopdracht in in Rhino met rechts het grasshopper panel van de 'Romp Generator'</span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;"></span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><i>Deze opdracht hoort bij kwartaal 1 en gaat over in kwartaal 2. Deze opdracht sluit aan bij de kennis van het vak Maritieme Introductie (evenwicht) en bij statica (vectoren &amp; evenwicht).</i></span></p>
+<hr>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>De deelopdracht 2</strong></span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;">De opdracht van deelopdracht 2 is als volgt: Bereken met Python het krachten- en momenten evenwicht van het ontwerp van de alleskunner met een scheepsvorm volgens aangeleverde gegevens en schetsen, waarbij drie waterballasttanks gebruikt worden voor het vinden van het evenwicht.&nbsp; Deelopdracht 2 is een individuele opdracht.</span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"></span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><img src="/content/enforced/682135-MT1463%2B2024%2B1/Schets%20Deelopdracht%202.jpg" alt="deelopdracht 2 schip" title="deelopdracht 2 schip" data-d2l-editor-default-img-style="true" style="max-width: 100%;"></span></p>
+<hr>
+<h1 style="margin: 8pt 0cm 4pt; break-after: avoid; font-size: 14pt; font-family: Aptos, sans-serif; color: #0f4761; font-weight: normal;"><span style="font-size: 24px; font-family: Lato, sans-serif;"><strong>De gegevens</strong><br></span></h1>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong><span style="color: #d93636;">Het eerste deel van de gegevens zijn identiek aan die van deelopdracht 1. In de volgende paragraaf staan de extra gegevens.</span></strong>&nbsp;</span></p>
+<p style="break-after: avoid; margin: 0cm 0cm 10pt; font-size: 9pt; font-family: Aptos, sans-serif; color: #156082; font-weight: bold;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">Tabel 1 Gegevens deelopdracht 2.&nbsp;</span></p>
+<table cellpadding="0" cellspacing="0" border="1" class="MsoTableGrid" style="width: 979px; border-collapse: collapse; border: none;">
+<tbody>
+<tr>
+<td valign="top" style="width: 296.562px; border: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;"><b>Nederlands</b></span></p>
+</td>
+<td valign="top" style="width: 310.219px; border-top: 1pt solid windowtext; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-image: initial; border-left: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;"><b>Engels</b></span></p>
+</td>
+<td valign="top" style="width: 110.094px; border-top: 1pt solid windowtext; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-image: initial; border-left: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;"><b>afkorting</b></span></p>
+</td>
+<td valign="top" style="width: 82.4531px; border-top: 1pt solid windowtext; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-image: initial; border-left: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;"><b>eenheid</b></span></p>
+</td>
+<td valign="top" style="width: 101.797px; border-top: 1pt solid windowtext; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-image: initial; border-left: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;"><b>waarde</b></span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" colspan="5" style="width: 901.125px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;"><b>Hoofdafmetingen</b></span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 296.562px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Lengte over alles</span></p>
+</td>
+<td valign="top" style="width: 310.219px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Length over all</span></p>
+</td>
+<td valign="top" style="width: 110.094px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;Loa</span></p>
+</td>
+<td valign="top" style="width: 82.4531px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;[m]</span></p>
+</td>
+<td valign="top" style="width: 101.797px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">70</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 296.562px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Breedte</span></p>
+</td>
+<td valign="top" style="width: 310.219px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Breadth</span></p>
+</td>
+<td valign="top" style="width: 110.094px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;B</span></p>
+</td>
+<td valign="top" style="width: 82.4531px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;[m]</span></p>
+</td>
+<td valign="top" style="width: 101.797px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">20</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 296.562px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Holte</span></p>
+</td>
+<td valign="top" style="width: 310.219px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Depth</span></p>
+</td>
+<td valign="top" style="width: 110.094px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;H</span></p>
+</td>
+<td valign="top" style="width: 82.4531px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;[m]</span></p>
+</td>
+<td valign="top" style="width: 101.797px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">13</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 296.562px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Lengte loodlijnen</span></p>
+</td>
+<td valign="top" style="width: 310.219px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Length between perpendiculars</span></p>
+</td>
+<td valign="top" style="width: 110.094px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;Lpp</span></p>
+</td>
+<td valign="top" style="width: 82.4531px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;[m]</span></p>
+</td>
+<td valign="top" style="width: 101.797px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">65.8</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 296.562px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Diepgang</span></p>
+</td>
+<td valign="top" style="width: 310.219px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Draught</span></p>
+</td>
+<td valign="top" style="width: 110.094px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;T</span></p>
+</td>
+<td valign="top" style="width: 82.4531px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;[m]</span></p>
+</td>
+<td valign="top" style="width: 101.797px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;10</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" colspan="5" style="width: 901.125px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;"><b>Kraan</b></span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 296.562px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Zwenkhoek</span></p>
+</td>
+<td valign="top" style="width: 310.219px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Slewing angle</span></p>
+</td>
+<td valign="top" style="width: 110.094px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">&nbsp;</span></p>
+</td>
+<td valign="top" style="width: 82.4531px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">[deg]</span></p>
+</td>
+<td valign="top" style="width: 101.797px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">+90</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 296.562px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Giekhoek</span></p>
+</td>
+<td valign="top" style="width: 310.219px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Jib angle</span></p>
+</td>
+<td valign="top" style="width: 110.094px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">&nbsp;</span></p>
+</td>
+<td valign="top" style="width: 82.4531px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">[deg]</span></p>
+</td>
+<td valign="top" style="width: 101.797px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">60</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 296.562px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Hoogte draaipunt</span></p>
+</td>
+<td valign="top" style="width: 310.219px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Pivot height</span></p>
+</td>
+<td valign="top" style="width: 110.094px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">&nbsp;</span></p>
+</td>
+<td valign="top" style="width: 82.4531px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">[m]</span></p>
+</td>
+<td valign="top" style="width: 101.797px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">1</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 296.562px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Boomlengte</span></p>
+</td>
+<td valign="top" style="width: 310.219px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Jib length</span></p>
+</td>
+<td valign="top" style="width: 110.094px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">&nbsp;</span></p>
+</td>
+<td valign="top" style="width: 82.4531px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">[m]</span></p>
+</td>
+<td valign="top" style="width: 101.797px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">32.5</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 296.562px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Langscheeps &nbsp;zwaartepunt kraanhuis</span></p>
+</td>
+<td valign="top" style="width: 310.219px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Longitudinal center of gravity </span></p>
+</td>
+<td valign="top" style="width: 110.094px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">lcg</span></p>
+</td>
+<td valign="top" style="width: 82.4531px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">&nbsp;</span></p>
+</td>
+<td valign="top" style="width: 101.797px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">31</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 296.562px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Dwarscheeps zwaartepunt kraanhuis</span></p>
+</td>
+<td valign="top" style="width: 310.219px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Transverse center of gravity</span></p>
+</td>
+<td valign="top" style="width: 110.094px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">tcg</span></p>
+</td>
+<td valign="top" style="width: 82.4531px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">&nbsp;</span></p>
+</td>
+<td valign="top" style="width: 101.797px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">7.5</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" colspan="5" style="width: 901.125px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;"><b>Deklading</b></span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 296.562px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Aantal windmolen tussenstukken</span></p>
+</td>
+<td valign="top" style="width: 310.219px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Number of transition pieces</span></p>
+</td>
+<td valign="top" style="width: 110.094px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">n</span></p>
+</td>
+<td valign="top" style="width: 82.4531px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">[-]</span></p>
+</td>
+<td valign="top" style="width: 101.797px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">4</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 296.562px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Zwaartepunt in lengte</span></p>
+</td>
+<td valign="top" style="width: 310.219px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">&nbsp;Longitudinal center of gravity</span></p>
+</td>
+<td valign="top" style="width: 110.094px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">lcg</span></p>
+</td>
+<td valign="top" style="width: 82.4531px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">[m]</span></p>
+</td>
+<td valign="top" style="width: 101.797px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">31</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" style="width: 296.562px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Zwaartepunt in breedte</span></p>
+</td>
+<td valign="top" style="width: 310.219px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">&nbsp;Transverse center of gravity</span></p>
+</td>
+<td valign="top" style="width: 110.094px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">tcg</span></p>
+</td>
+<td valign="top" style="width: 82.4531px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">[m]</span></p>
+</td>
+<td valign="top" style="width: 101.797px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">-2.50</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">&nbsp;</span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="line-height: 107%;"><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Ga ook bij deelopdracht 2 nog uit van transition pieces van 230 ton.</span></span></span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;"><span style="line-height: 107%;"></span></span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;"><span style="line-height: 107%;">Ga uit van een kraan die maximaal een transition piece van 230 ton kan tillen.</span></span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;"><span style="line-height: 107%;"></span></span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;"><span style="line-height: 107%;">Ga uit van het soortelijk van zeewater van 1025 [kg/m³] voor zowel het buitenwater als het ballastwater. &nbsp;</span></span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;"></span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Ga bij het bepalen van staalgewicht uit van de volgende vereenvoudigingen, omdat jullie pas in kwartaal 3 leren hoe je de huiddikte gaat bepalen aan de hand van de globale sterkte:&nbsp;</span></p>
+<ul style="margin-bottom: 0cm; margin-top: 0px;">
+<li style="margin: 0cm 0cm 0cm 0px; font-size: 24px; font-family: Lato, sans-serif; text-indent: 0.4px;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Ga uit van een plaatdikte van 20 mm voor de zijhuid, het dek en de bodem. </span></li>
+<li style="margin: 0cm 0cm 0cm 0px; font-size: 24px; font-family: Lato, sans-serif; text-indent: 0.4px;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Ga uit van een plaatdikte van 10 mm voor de tankwanden.</span></li>
+<li style="margin: 0cm 0cm 0cm 0px; font-size: 24px; font-family: Lato, sans-serif; text-indent: 0.4px;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Ga uit van een plaatdikte van het achterschot (ook wel de spiegel genoemd en in het Engels: stern) van 10 mm.</span></li>
+<li style="margin: 0cm 0cm 0cm 0px; font-size: 24px; font-family: Lato, sans-serif; text-indent: 0.4px;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Ga uit van het soortelijk staalgewicht van 7850 [kg/m³]</span></li>
+<li style="margin: 0cm 0cm 0cm 0px; font-size: 24px; font-family: Lato, sans-serif; text-indent: 0.4px;"><span style="font-size: 24px; font-family: Lato, sans-serif;">De huid, het dek, de spiegel en de tankschotten bestaan natuurlijk niet alleen uit een plaatveld, maar zullen verstijvers krijgen, zoals spanten, zaathouten en vrangen (zie <a href="image_20251023141624396.png?isCourseFile=true" target="_blank" rel="noopener">schets van een dubbele bodem constructie</a> en &nbsp;<a href="https://nl.wikipedia.org/wiki/Scheepsconstructie" target="_blank" rel="noopener">wiki/Scheepsconstructie</a>) . Ga voor het staalgewicht van plaatveld en verstijvers uit van een factor van 2.1 van gewicht van het betreffende plaatveld. Neem voor het zwaartepunt van de verstijvers hetzelfde als van het betreffende plaatveld.<br></span></li>
+</ul>
+<p style="font-size: 24px; font-family: Lato, sans-serif; text-indent: 0.4px; margin: 0cm 0cm 0cm 0px;"><span style="font-size: 24px; font-family: Lato, sans-serif;"></span></p>
+<hr>
+<p style="font-size: 12pt; font-family: Aptos, sans-serif; text-indent: 0.4px; margin: 0cm 0cm 0cm 0px;"></p>
+<p style="break-after: avoid; margin: 0cm 0cm 10pt; font-size: 9pt; font-family: Aptos, sans-serif; color: #156082; font-weight: bold;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">Tabel 2 Tabel met de tankgegevens van deelopdracht 2</span></p>
+<table cellpadding="0" cellspacing="0" border="1" class="MsoTableGrid" style="width: 922px; border-collapse: collapse; border: none; height: 271.125px;">
+<tbody>
+<tr style="height: 34.7625px;">
+<td valign="top" colspan="5" style="width: 844.39px; border: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;"><b>Waterballasttanken</b></span></p>
+</td>
+</tr>
+<tr style="height: 27.7875px;">
+<td style="width: 219.594px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><strong><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Nederlands</span></strong></p>
+</td>
+<td style="width: 184px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><strong><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Engels</span></strong></p>
+</td>
+<td style="width: 129.953px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><strong><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">uitleg</span></strong></p>
+</td>
+<td style="width: 136.484px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><strong><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">eenheid</span></strong></p>
+</td>
+<td style="width: 174.359px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><strong><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">gegevens 2</span></strong></p>
+</td>
+</tr>
+<tr style="height: 34.7625px;">
+<td valign="top" style="width: 219.594px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Bakboord tank 1</span></p>
+</td>
+<td valign="top" style="width: 184px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Portside tank 1</span></p>
+</td>
+<td valign="top" style="width: 129.953px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;lxbxh</span></p>
+</td>
+<td valign="top" style="width: 136.484px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;[m]</span></p>
+</td>
+<td valign="top" style="width: 174.359px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;70x6.65x13</span></p>
+</td>
+</tr>
+<tr style="height: 34.7625px;">
+<td valign="top" style="width: 219.594px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Midden tank 2</span></p>
+</td>
+<td valign="top" style="width: 184px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Mid tank 2</span></p>
+</td>
+<td valign="top" style="width: 129.953px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;lxbxh</span></p>
+</td>
+<td valign="top" style="width: 136.484px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;[m]</span></p>
+</td>
+<td valign="top" style="width: 174.359px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;34x6.70x13</span></p>
+</td>
+</tr>
+<tr style="height: 34.7625px;">
+<td valign="top" style="width: 219.594px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Stuurboord tank 3</span></p>
+</td>
+<td valign="top" style="width: 184px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Starboard tank&nbsp; 3</span></p>
+</td>
+<td valign="top" style="width: 129.953px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;lxbxh</span></p>
+</td>
+<td valign="top" style="width: 136.484px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;[m]</span></p>
+</td>
+<td valign="top" style="width: 174.359px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">&nbsp;70x6.65x13</span></p>
+</td>
+</tr>
+<tr style="height: 34.7625px;">
+<td valign="top" style="width: 219.594px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Tank 1 vullingsgraad</span></p>
+</td>
+<td valign="top" style="width: 184px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Tank filling tnk1</span></p>
+</td>
+<td valign="top" style="width: 129.953px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">&nbsp;h/hmax*100</span></p>
+</td>
+<td valign="top" style="width: 136.484px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">[% of h tank]</span></p>
+</td>
+<td valign="top" style="width: 174.359px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;"><i>Te bepalen</i></span></p>
+</td>
+</tr>
+<tr style="height: 34.7625px;">
+<td valign="top" style="width: 219.594px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Tank 2 vullingsgraad</span></p>
+</td>
+<td valign="top" style="width: 184px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Tank filling tnk 2</span></p>
+</td>
+<td valign="top" style="width: 129.953px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">&nbsp;h/hmax*100</span></p>
+</td>
+<td valign="top" style="width: 136.484px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">[% of h tank]</span></p>
+</td>
+<td valign="top" style="width: 174.359px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;"><i>Te bepalen</i></span></p>
+</td>
+</tr>
+<tr style="height: 34.7625px;">
+<td valign="top" style="width: 219.594px; border-right: 1pt solid windowtext; border-bottom: 1pt solid windowtext; border-left: 1pt solid windowtext; border-image: initial; border-top: none; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Tank 3 vullingsgraad</span></p>
+</td>
+<td valign="top" style="width: 184px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Tank filling tnk 3</span></p>
+</td>
+<td valign="top" style="width: 129.953px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">&nbsp;h/hmax*100</span></p>
+</td>
+<td valign="top" style="width: 136.484px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">[% of h tank]</span></p>
+</td>
+<td valign="top" style="width: 174.359px; border-top: none; border-left: none; border-bottom: 1pt solid windowtext; border-right: 1pt solid windowtext; padding: 0cm 5.4pt;">
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">72</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"></p>
+<hr>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><em><span style="font-size: 24px; font-family: Lato, sans-serif;"><span style="line-height: 107%;"><strong>Waarom de vullingsgraad&nbsp; als percentage van de tankhoogte?: </strong>De vulling van een tank wordt vaak als een vullingshoogte opgegeven, omdat de meetsystemen aan boord ook deze maat meten. Denk bijvoorbeeld aan een meetlint door een meetbuis vanaf de bovenkant van de tank, of een meetinstrument dat de vloeistofhoogte meet met behulp van druk. Het percentage van de tankhoogte is een afgeleide van de vullingshoogte die ook gelijk een indicatie geeft hoe vol de tank is.&nbsp;</span></span></em><br><span style="font-family: 'arabic transparent', sans-serif; font-size: 19px;">&nbsp;</span></p>
+<hr>
+<h1 style="margin: 8pt 0cm 4pt; break-after: avoid; font-size: 14pt; font-family: Aptos, sans-serif; color: #0f4761; font-weight: normal;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>Extra gegevens</strong></span></h1>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Tank 1 en 3 zijn nu gevormd door de scheepsvorm. Tank 2 staat nog niet op de juiste langsscheepse locatie. Ga er van uit dat tank 2 vierkant is en blijft, mits deze niet teveel aan de uiteinden van het schip geplaatst moet worden</span><span style="font-family: Lato, sans-serif; font-size: 24px;">.&nbsp;</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Je krijgt de beschikking over de volgende tekst bestanden:&nbsp;</span></p>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="MainShipParticulars_Gr98_V1.0.json" target="_blank" rel="noopener">MainShipParticulars_Gr98_V1.0.json</a>, met de&nbsp;<a href="MainShipParticulars_UItleg.xlsx" target="_blank" rel="noopener">verklarende woordenlijst van main particulars</a>.</span></li>
+<li style="break-after: avoid; font-size: 24px; font-family: Lato, sans-serif; color: #0f4761; font-weight: normal;"><span style="font-size: 24px; font-family: Lato, sans-serif;"><a href="HullAreaData_Gr98_V1.0.csv" target="_blank" rel="noopener">HullAreaData_Gr98_V1.0.csv</a>, met de <a href="HullAreaData_Uitleg%20V2.png?isCourseFile=true" target="_blank" rel="noopener">Hull Area Data Uitleg.</a></span></li>
+<li style="break-after: avoid; font-size: 24px; font-family: Lato, sans-serif; color: #0f4761; font-weight: normal;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="TankBHD_Data_Gr98_V1.0.csv" target="_blank" rel="noopener">TankBHD_Data_Gr98_V1.0.csv</a>, met een uitleg: <a href="Tank%20Bulkhead%20Data%20Uiteg.png?isCourseFile=true" target="_blank" rel="noopener">Tank Bulkhead Data Uiteg.png</a></span></li>
+<li style="break-after: avoid; font-size: 24px; font-family: Lato, sans-serif; color: #0f4761; font-weight: normal;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="TankData_Gr98_V1.01.json" target="_blank" rel="noopener">TankData_Gr98_V1.0.json</a> met uitleg: <a href="Verklarende%20woordenlijst%20tankdata%20V4.png?isCourseFile=true" target="_blank" rel="noopener">Verklarende woordenlijst tankdata V4.png</a></span></li>
+</ul>
+<p style="break-after: avoid; font-size: 24px; font-family: Lato, sans-serif; color: #0f4761; font-weight: normal; padding-left: 40px;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><strong>Tankdata.json</strong> bevat de <strong>werkelijke</strong> vullingen van de drie tanken en de gegevens die daar bij horen, zoals volume en het zwaartepunt.&nbsp; Tank 1 en 2 staan nog op nul voor deze opdracht.</span></p>
+<ul>
+<li style="break-after: avoid; font-size: 24px; font-family: Lato, sans-serif; color: #0f4761; font-weight: normal;"><a href="Tank1_Diagram_Volume_Gr98_V1.0.csv" target="_blank" rel="noopener">Tank1_Diagram_Volume_Gr98_V1.0.csv</a></li>
+<li style="break-after: avoid; font-size: 24px; font-family: Lato, sans-serif; color: #0f4761; font-weight: normal;"><a href="Tank2_Diagram_Volume_Gr98_V1.0.csv" target="_blank" rel="noopener">Tank2_Diagram_Volume_Gr98_V1.0.csv</a></li>
+<li style="break-after: avoid; font-size: 24px; font-family: Lato, sans-serif; color: #0f4761; font-weight: normal;"><a href="Tank3_Diagram_Volume_Gr98_V1.0.csv" target="_blank" rel="noopener">Tank3_Diagram_Volume_Gr98_V1.0.csv</a></li>
+</ul>
+<p style="break-after: avoid; font-size: 24px; font-family: Lato, sans-serif; color: #0f4761; font-weight: normal; padding-left: 40px;"><span style="color: #d93636;"><strong>Tankdiagrammen</strong> bevatten een tabel met <strong>het verloop in stapjes</strong> van de tankvulling en de daarbij horende tankvolume en andere gegevens die daar bij horen. De tussenliggende waardes kunnen gevonden worden met <strong>interpolatie</strong>. Zie meer hierover in het stappenplan hieronder.&nbsp;</span></p>
+<p style="break-after: avoid; font-size: 19px; font-family: 'arabic transparent', sans-serif; color: #0f4761; font-weight: normal;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Download hier de &nbsp;<a href="TXT%20bestanden%20deelopdracht%202%202025%20V2.zip" target="_blank" rel="noopener">Tekst bestanden deelopdracht 2 2025 V2.zip</a> met daarin de bovenstaande tekst en json bestanden in een <strong>zipp</strong> bestand.</span></p>
+<p style="break-after: avoid; font-size: 19px; font-family: 'arabic transparent', sans-serif; color: #0f4761; font-weight: normal;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Download hier het&nbsp;<a href="MT1463_RhinoModelDeelopdracht2.3dm" target="_blank" rel="noopener">Rhino Model van Deelopdracht 2</a>.</span></p>
+<hr>
+<h1 style="margin: 8pt 0cm 4pt; break-after: avoid; font-size: 14pt; font-family: Aptos, sans-serif; color: #0f4761; font-weight: normal;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>Het stappenplan</strong></span></h1>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Voor het stappenplan van Deelopdracht 2 krijg je de volgende <strong>tips </strong>mee:</span></p>
+<p style="margin: 0cm; font-size: 12pt; font-family: Aptos, sans-serif;"></p>
+<ul type="1" start="1" style="margin-top: 0cm; margin-bottom: 0cm;">
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Bestudeer MainShipParticulars.json, HullAreaData.csv en TankBHD_Data.csv. Bekijk dan de gegeven verklarende woordenlijst(en) om te zien wat alles betekend.</span></li>
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Lees hoe je de <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775279&amp;type=content&amp;rcode=tudelft-1701146" target="_blank" rel="noopener">code kan organiseren</a>.</span></li>
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Lees de betreffende tekst en JSON bestanden in. Lees meer over <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775279&amp;type=content&amp;rcode=tudelft-1701127" target="_blank" rel="noopener">tekstbestanden en json files inlezen</a>.</span></li>
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Verzamel daaruit alle benodigde gewichten met bijbehorende zwaartepunten:</span>
+<ul type="1" style="margin-top: 0cm; margin-bottom: 0cm;">
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Haal het opdrijvend vermogen (Buoyancy) uit <a href="MainShipParticulars_Gr98_V1.0.json" target="_blank" rel="noopener">MainShipParticulars_Gr98_V1.0.json</a></span></li>
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Haal de staaloppervlaktes van de romp uit <a href="HullAreaData_Gr98_V1.0.csv" target="_blank" rel="noopener">HullAreaData_Gr98_V1.0.csv</a></span></li>
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Haal de staaloppervlaktes van de tankschotten uit <a href="TankBHD_Data_Gr98_V1.0.csv" target="_blank" rel="noopener">TankBHD_Data_Gr98_V1.0.csv</a></span></li>
+<li>Haal de hoofdafmetingen van tank 2 uit <span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="TankData_Gr98_V1.01.json" target="_blank" rel="noopener">TankData_Gr98_V1.0.json</a></span><span style="font-family: Lato, sans-serif; font-size: 24px;"></span></li>
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif;">Haal de gegevens van tank 3 uit <span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="TankData_Gr98_V1.01.json" target="_blank" rel="noopener">TankData_Gr98_V1.0.json</a></span></li>
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Neem de gewichten en zwaartepunten van de kraan en de deklading over van <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775279&amp;type=content&amp;rcode=tudelft-1536152" target="_blank" rel="noopener">Deelopdracht 1</a>.</span></li>
+</ul>
+</li>
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Maak eerst een schema, of werk het eerst uit op papier, voordat je gaat programmeren. Je mag ook al een flowchart maken als je daar al ervaring mee hebt. Je creëert hier overzicht mee voor jezelf.</span></span></li>
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Het gewicht kan je in kg, N of ton noteren, mits je maar consequent bent. De ANS toets vraagt om kg.</span></span></li>
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Zet alle data van bekende gewichten met de bijbehorende zwaartepunten in een <strong>tabel </strong>of vector <strong>notatie. </strong>Zie meer uitleg daarover bij <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775279&amp;type=content&amp;rcode=tudelft-1700713" target="_blank" rel="noopener">Momentenstelling maken van verzamelde krachten</a>.</span></span><span style="font-family: Lato, sans-serif; font-size: 24px;"><span style="line-height: 107%;"></span></span></li>
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Los het evenwicht op. Maak gebruik van waterballasttanks 1 en 2 om het evenwicht te vinden. </span>
+<ul type="1" style="margin-top: 0cm; margin-bottom: 0cm;">
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Bepaal van de middentank (tank 2) zowel de langsscheepse positie als de vullingsgraad.&nbsp;</span></li>
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif; color: #d93636;"><span style="font-size: 24px; font-family: Lato, sans-serif; color: #d93636;">Let op dat ook de dwarsschotten van tank 2 moeten worden verschoven. Je kan deze selecteren door te filteren op tcg = 0 samen met dat Xmax - Xmin = 1 m. Zie&nbsp;<a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775279&amp;type=content&amp;rcode=tudelft-1710504" target="_blank" rel="noopener">Uitleg over de dwarstankschotten van tank 2</a>.</span></li>
+<li style="margin-top: 0cm; margin-right: 0cm; margin-bottom: 0cm; font-size: 24px; font-family: Lato, sans-serif;"><span style="color: #d93636;">Maak bij tank 1 gebruik </span>van de gegevens uit de gegeven tankdiagrammen: Zie <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775279&amp;type=content&amp;rcode=tudelft-1700738" target="_blank" rel="noopener">Tankdiagrammen gebruiken</a>.</li>
+</ul>
+</li>
+<li style="font-size: 24px; font-family: Lato, sans-serif;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Controleer of je met de interpolatie methode vanuit het tankdiagram van tank 3</span><span style="font-size: 24px; font-family: Lato, sans-serif;">&nbsp;op hetzelfde antwoord uitkomt voor volume en cov als in<a href="TankData_Gr98_V1.01.json" target="_blank" rel="noopener"> TankData_Gr98_V1.0.json</a>. Zo niet, wat is dan de afwijking? <em>De vragen 1h-1j in ANS gaan hier over.&nbsp;</em></span></li>
+<li style="font-size: 24px; font-family: Lato, sans-serif;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Leg de eind- en tussenantwoorden van deelopdracht 1 en 2 naast elkaar om grote verschillen en daarmee om fouten er uit te halen.&nbsp;</span></li>
+</ul>
+<hr>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>ANS-toets (5 pogingen)</strong></span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Hoe werkt het?</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Je maakt deze deelopdracht via ANS, bereikbaar alleen via Brightspace (zie: <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775279&amp;type=content&amp;rcode=tudelft-1539873" target="_blank" rel="noopener">CONTENT&gt; ...&gt; Deelopdracht 2</a>.</span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Je hebt maximaal 5 pogingen om de toets te maken.</span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Gebruik het werkcollege om vragen te stellen en je antwoorden te verbeteren voor een volgende poging.</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>Deadline:</strong></span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Woensdag <span style="color: #202122;"><strong>26</strong></span></span><span style="font-family: Lato, sans-serif; font-size: 24px;"><span style="color: #202122;"><strong>&nbsp;november om 18:00</strong></span> sluit Deelopdracht 2 in ANS.</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>Beoordeling</strong></span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Alleen de drie eindantwoorden (primaire vragen in ANS) tellen mee voor je beoordeling.</span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Tussenantwoorden (secundaire vragen) leveren geen punten op, maar:</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Je ziet of ze goed of fout zijn.</span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Je krijgt tips bij fouten → noteer deze voor je volgende poging!</span></p>
+<p><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Het resultaat per poging is Voldoende of Onvoldoende (O/V).</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Het resultaat voor alle pogingen is:</span></p>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">&nbsp;Je krijgt een G (voor goed) als binnen 2 pogingen de deelopdracht goed is gemaakt</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Je krijgt een V (voor voldoende) als binnen 5 pogingen de deelopdracht goed is gemaakt</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Je krijgt een O (voor onvoldoende) als alle 5 pogingen onvoldoende zijn.</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Je krijgt een V (voor voldoende) als bij de herkansing laat zien dat je de stof begrijpt.</span></li>
+</ul>
+<p><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Je moet minimaal een voldoende halen voor deelopdracht 2.</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>Herkansing</strong></span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Heb je de toets niet op tijd of niet voldoende afgerond? Dan krijg je één herkansing.</span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Voor deze herkansing geldt:</span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Je stuurt vooraf je code en de verkregen antwoorden naar&nbsp;<a href="mailto:b.goris@tudelft.nl">b.goris@tudelft.nl</a> voor uiterlijk <strong>28 november 18:00</strong>. Je krijgt dan een uitnodiging voor een mondeling gesprek. Je legt in het mondeling gesprek uit hoe jouw code is opgebouwd en hoe je berekeningen werken, zodat je bij deze laatste poging wel zult slagen.</span></p></body></html>

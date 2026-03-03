@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css"></head><body style="color: rgb(32, 33, 34); font-family: arial, helvetica, sans-serif; font-size: 16px;"><p><span style="font-family: Lato, sans-serif; font-size: 24px;"><em>Tank 2 staat nog niet op de juiste langsscheepse locatie.&nbsp; </em>De dwarsschotten van tank 2 bevinden zich dus nog op een verkeerde langsscheepse positie in het bestand <a rel="noopener" target="_blank" href="TankBHD_Data_Gr98_V1.0.csv?ou=775279">TankBHD_Data_Gr98_V1.0.csv</a>.&nbsp;&nbsp;</span><span style="font-family: Lato, sans-serif; font-size: 24px;"></span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"><em><img src="image_20251115135544671.png" data-d2l-editor-default-img-style="true" style="max-width: 100%;" alt="dwarsschotten tank2" width="675" height="448"></em></span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Er zijn een paar manieren om te achterhalen welke gegevens van&nbsp;<a rel="noopener" target="_blank" href="TankBHD_Data_Gr98_V1.0.csv?ou=775279">TankBHD_Data_Gr98_V1.0.csv</a> de (dwars)schotten zijn die mee moeten worden geschoven, namelijk:</span></p>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">De transverse centre of grafity is nul (<strong>tcg=0</strong>). <em>We willen deze tank immers gebruiken om het langsscheepse evenwicht op te lossen, zonder dat het dwarsscheepse evenwicht verandert.&nbsp; </em><span style="color: #d93636;"><strong>Dit is de voorkeurs methode voor dit project.&nbsp;</strong></span></span><span style="font-family: Lato, sans-serif; font-size: 24px;"></span></li>
+</ul>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Uit&nbsp;<a rel="noopener" target="_blank" href="TankData_Gr98_V1.01.json?ou=775279">TankData_Gr98_V1.0.json</a> is bekend dat de hoofdafmetingen van tank 2 zijn:</span>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">lengte= 34.0 m,&nbsp;</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">breedte = 6.7 m,&nbsp;</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">hoogte = 13.0 m.&nbsp;</span></li>
+</ul>
+</li>
+</ul>
+<p style="padding-left: 40px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Het oppervlak van het tankschot moet dus ongeveer <strong>6.7 x 13 = 87.1 m<sup>2</sup></strong> zijn.&nbsp; <em>Je mag er immers </em></span><span style="font-family: Lato, sans-serif; font-size: 24px;"><em>van uit gaan dat tank 2 rechthoekig is en blijft, mits deze niet teveel naar de uiteinden van het schip geplaatst hoeft te worden.</em>&nbsp;</span></p>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;"><em>De <strong>Xmin</strong> en <strong>Xmax</strong> liggen respectievelijk een halve meter vóór en achter het <strong>longitudinal center of gravity (lcg)</strong>. Waarom alle dwarsschotten dit hebben heeft te maken met de verdeelde belasting. Dit wordt later uitgelegd bij deelopdracht 9 .</em></span></li>
+</ul>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">De twee rijen in <span style="font-family: Lato, sans-serif; font-size: 24px;"><a rel="noopener" target="_blank" href="TankBHD_Data_Gr98_V1.0.csv?ou=775279">TankBHD_Data_Gr98_V1.0.csv</a>&nbsp;</span>met de dwarsschotten zijn rood gemarkeerd in het onderstaande plaatje:</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"><img src="image_20251115135544756.png" data-d2l-editor-default-img-style="true" style="max-width: 100%;" alt="Tankdiagram tank 1 dwarsschotten" width="861" height="301"></span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>Opmerking: </strong>Het oppervlak wijkt iets af van 87,1 m². Dit komt door de opbouw van de scheepsvorm in Rhino. Negeer dit voorlopig. Hoe je dit kunt voorkomen met L-vormige tanks leer je later in <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775279&amp;type=content&amp;rcode=tudelft-1357239" target="_blank" rel="noopener">deelopdracht 5</a>.&nbsp;</span></p>
+<p><strong><span style="font-family: Lato, sans-serif; font-size: 24px;">Aanpak</span></strong></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Er zijn nu twee manieren om hier mee om te gaan bij het bepalen van het evenwicht:</span></p>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>Optie 1</strong>: Verwijder de dwarstankschotten uit de lijst en bepaal het evenwicht (van de verticale krachten en de langsscheepse momenten) voor de som van de vulling van tank 2 en de dwarsschotten. Bepaal daarna de vulling van de tank door het gewicht van de dwarsschotten van deze som af te trekken.</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>Optie 2:</strong> Plaats eerst de twee dwarsschotten en de vulling van tank 2 in het langszwaartepunt van de buoyancy (dus <strong>lcg=LCB</strong>). Bepaal het verticale krachtenevenwicht en verplaats daarna de gehele tank 2 via de berekening van het langsscheeps evenwicht.</span></li>
+</ul>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"></span></p>
+<p></p></body></html>

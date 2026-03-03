@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css"></head><body style="color: rgb(32, 33, 34); font-family: arial, helvetica, sans-serif; font-size: 16px;"><h1>Inleiding</h1>
+<p><span style="font-family: Lato, sans-serif; font-size: 19px;">Met Python is het mogelijk om bestanden van je computer in te lezen en daar gegevens uit te halen en of met deze gegevens te rekenen/werken. Alle libraries die we nodig hebben om te rekenen en of files te lezen met python heb je in principe (ongemerkt) al geïnstalleerd op de eerste dag toen je anaconda installeerde. Op deze pagina staan instructies hoe je libraries kan gebruiken om de volgende type files te lezen:</span></p>
+<ul>
+<li style="font-weight: bold; font-family: Lato, sans-serif; font-size: 19px;"><span style="font-family: Lato, sans-serif; font-size: 19px;"><strong>Ongestructureerde .txt bestanden,</strong></span></li>
+<li style="font-weight: bold; font-family: Lato, sans-serif; font-size: 19px;"><span style="font-family: Lato, sans-serif; font-size: 19px;"><strong>.CSV (Comma-Separated Values bestanden),</strong></span></li>
+<li style="font-weight: bold; font-family: Lato, sans-serif; font-size: 19px;"><span style="font-family: Lato, sans-serif; font-size: 19px;"><strong>.XLSX (Excel bestanden),</strong></span></li>
+<li style="font-weight: bold; font-family: Lato, sans-serif; font-size: 19px;"><span style="font-family: Lato, sans-serif; font-size: 19px;"><strong>gestructureerde .TXT bestanden,</strong></span></li>
+<li style="font-weight: bold; font-family: Lato, sans-serif; font-size: 19px;"><span style="font-family: Lato, sans-serif; font-size: 19px;"><strong>.JSON (JavaScript Object Notation)</strong></span></li>
+</ul>
+<p><span style="font-family: Lato, sans-serif; font-size: 19px;">Voor dat je aan de slag gaat, bekijk de structuur van de file die je wilt inlezen en kies voor iedere file een methode die je wilt gebruiken, en zorg er voor dat het bestand dat je wilt uitlezen in de <strong>Python working directory</strong> staan.&nbsp;</span></p>
+<h2>Working Directory van Python</h2>
+<p><span style="font-family: Lato, sans-serif; font-size: 19px;">In figuur hier onder staan 3 voorbeelden van hoe je files kan inlezen en waar je de files kan opslaan en hoe je ze kan benaderen vanuit Python. Bij ieder nummer een uitleg:</span></p>
+<ol>
+<li style="font-family: Lato, sans-serif; font-size: 19px;"><span style="font-family: Lato, sans-serif; font-size: 19px;">Het <a href="read_files.py" target="_blank" rel="noopener">voorbeeld script read_files.py</a> met de 3 voorbeelden en de prints in de console.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 19px;"><span style="font-family: Lato, sans-serif; font-size: 19px;">Hier kan je zien wat de working directory van Python is. Je kan de working directory ook printen door print(os.getcwd()) te runnen. Door op het mapje te klikken rechts van 2 kan je de working directory aanpassen.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 19px;"><span style="font-family: Lato, sans-serif; font-size: 19px;">Dit is waar je de python file hebt opgeslagen en in welke file je aan het programmeren bent. Het handigste is voor jezelf om deze file in dezelfde folder te stoppen als de working directory.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 19px;"><span style="font-family: Lato, sans-serif; font-size: 19px;">Om de python scripts en de data files te scheiden kan je een data folder maken. Zet hier de files in die je wilt gaan lezen. Als je vervolgens een file wilt lezen die in data folder zit (een level dieper, dan de working directory). Dan kan je bijvoorbeeld pd.read_csv('data/HullAreaData_GR_v1.0.txt') doen. Wat Python dan doet, die kijkt in de working directory of er een data folder is, hij gaat in de data folder, en leest daaruit de HullAreaData_GR_v1.0.txt. Uiteraard kan je de filenaam en foldernaam aanpassen. Het gebruik van absolute paden is niet aangeraden! Dan werkt het niet meer als je files verplaatst of het op een andere computer probeert (als je moet samen werken).</span></li>
+</ol>
+<p><img src="/content/enforced/775279-MT1463%2B2025%2B1/working%20directory.png" alt="working directory python" title="working directory python" data-d2l-editor-default-img-style="true" style="max-width: 100%;"></p>
+<h2>.TXT bestanden inlezen&nbsp;</h2>
+<p><span style="font-family: Lato, sans-serif; font-size: 19px;">Ongestructureerde .txt files kan je uitlezen met de volgende voorbeeld code:</span></p>
+<pre class="line-numbers d2l-code"><code class="language-python">txt = open('data/HullAreaData_Gr98_V1.0.csv').read()
+print(txt)
+specific_characterrs = txt[10:20]
+all_separate_words_list = txt.split()</code></pre>
+<p><span style="font-family: Lato, sans-serif; font-size: 19px;">In de txt variabele zit nu een string. Je kan specifieke characters uit de string halen door de string te behandelen als een lijst. Of je kan een lijst maken van alle woorden in de txt file door txt.split() uit te voeren. Je kan ook splitsen op andere dingen, bijvoorbeeld op '\n' wat de code is voor een enter. Kijk voor de complete python documentatie over strings en files lezen <a href="https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files" target="_blank" rel="noopener">hier</a>. De user guide voor numpy vind je <a href="https://numpy.org/doc/stable/user/" target="_blank" rel="noopener">hier</a>.</span></p>
+<h2>.CSV, .XLSX, en gestructueerde .TXT bestanden inlezen</h2>
+<p><span style="font-family: Lato, sans-serif; font-size: 19px;">Gestructureerde files kan je lezen op twee verschillende manieren. Met de numpy library of met de pandas library. De numpy library wordt voornamelijk gebruikt voor data die numeriek is. De pandas library wordt gebruikt voor een mix van datatypen zoals strings, floats, integers, booleans, of meer complexe datatypen zoals datums.&nbsp;</span></p>
+<h3>Data lezen met Numpy</h3>
+<p><span style="font-family: Lato, sans-serif; font-size: 19px;">Sommige <strong>.txt files</strong> kan ook een gezien worden als&nbsp;<strong>.CSV files</strong> omdat deze bestaat uit nummers gescheiden door commas. Onderstaand voorbeeld is dus gemaakt voor een van de voorbeeld txt files maar dezelfde code kan ook gebruikt worden voor .csv files uit te lezen. Het scheidingsteken in csv's noemen we een <em>delimiter,</em> omdat de bovenste twee lijnen in de file bestaan uit text ipv data slaan we deze over met <em>skip_header=2.&nbsp;</em>Hier onder een voorbeeld hoe je een .txt file kan uitlezen met numpy. Het resultaat (csv_data variabele) in dit geval is nu een numpy array met grootte (8,6). Eigenlijk dus een matrix met rijen en kolommen met nummers er in. Kijk voor de complete python documentatie over lezen met numpy <a href="https://numpy.org/doc/stable/user/how-to-io.html" target="_blank" rel="noopener">hier</a>.</span></p>
+<pre class="line-numbers d2l-code"><code class="language-python">import numpy as np
+# read numeric data, set delimiter, and skip the first two rows 
+csv_data = np.genfromtxt('data/TankBHD_Data_Gr98_V1.0.csv', 
+                         delimiter=',', 
+                         skip_header=2)
+print(csv_data[:,1]) # get the second column out of the data</code></pre>
+<h3>Data lezen met Pandas</h3>
+<p><span style="font-family: Lato, sans-serif; font-size: 19px;">De pandas library kan je gebruiken om gestructureerde .txt, .csv, .xlsx bestanden uit te lezen. Dit gebruiken we als de data typen gemixt zijn. In de df variabele zit nu een datatype genaamd DataFrame. Je kan kolommen benaderen door de kolom op te vragen tussen vierkante haken [ ]. Het resultaat is dan een variable van het datatype pandas series. Je kan ook specifieke waarden uit uit de pandas dataframe halen door df.loc aan te roepen. In plaats van index 1, kan je ook bijvoorbeeld 1 tot met 3 aanroepen door df.loc[1:3, 'area [m2]']. Pandas heeft ook een functie om excel files uit te lezen. Deze functie heet pandas read_excel (aan te roepen met pd.read_excel('path/to/filename.xlsx'). Een file met voorbeelden van hoe je met pandas om kan gaan vind je in dit&nbsp;<a href="python_pandas_lecture.py" target="_blank" rel="noopener">pandas_voorbeeld_script.py</a>. De volledige documentatie van pandas read_csv vind je&nbsp;<a href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html" target="_blank" rel="noopener">hier</a>. De user guide voor pandas vind je&nbsp;<a href="https://pandas.pydata.org/docs/user_guide/index.html" target="_blank" rel="noopener">hier</a>. Net zoals files lezen met Numpy kan je met Pandas ook irrelevante informatie op de eerste regel overslaan door bijvoorbeeld <em>skiprows=1</em> te gebruiken als additioneel argument in de pd.read_csv functie.</span></p>
+<pre class="line-numbers d2l-code"><code class="language-python">import pandas as pd
+# read a csv with pandas library
+df = pd.read_csv('data/HullAreaData_Gr98_V1.0.csv', sep=',', skipinitialspace=True, skiprows=1)
+print(df['Area [m2]']) # get area m2 column out of the table
+print(df.loc[1, 'Area [m2]']) # get second item out of the area m2 column</code></pre>
+<h2>.JSON bestanden inlezen</h2>
+<p><span style="font-family: Lato, sans-serif; font-size: 19px;">Een JSON file is ook een gestructureerde file maar tegelijkertijd volledig anders dan CSV's. Een JSON is ook gemakkelijk te lezen in Python omdat we de data uit een JSON makkelijk in een dictionary kunnen opslaan in Python. De individuele elementen uit de dictionary kan je benaderen door hun keys aan te roepen. Let er op dat je dus ook een dictionary in een dictionary kan hebben. Of een dictionary, met daarin een dictionary, en daarin weer een lijst. De volledige documentatie voor de json library vind je <a href="https://docs.python.org/3/library/json.html" target="_blank" rel="noopener">hier</a>. De basis van dictionaries vind je <a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries" target="_blank" rel="noopener">hier</a>.</span></p>
+<pre class="line-numbers d2l-code"><code class="language-python">import json
+#read a JSON File and make a dictionary from the file
+json_data = json.load(open('data/MainShipParticulars_Gr98_V1.0.json'))
+# get the value of LOA in the MAIN DIMENSION dictionary
+print(json_data['MAIN DIMENSIONS']['Loa_m']) 
+ # get the list in COF_m in the DATA OF UNDERWATER AREAS (MOULDED) dictionary
+print(json_data['DATA OF UNDERWATER AREAS (MOULDED)']['COF_m'])</code></pre></body></html>

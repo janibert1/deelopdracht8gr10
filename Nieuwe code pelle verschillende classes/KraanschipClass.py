@@ -1,24 +1,30 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Feb 27 16:16:45 2026
+"""Crane ship class (crane + TP in hook, no deck cargo)."""
 
-@author: ellin
-"""
+from Ship_pelle import Ship
 
-from scipy.interpolate import interp1d, CubicSpline
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
-import json
-import random
-import math
-import os
-
-from Class import Ship
-from Functions import Tank, deck, plates, ZCG, matrix_add
 
 class KraanSchip(Ship):
-    def __init__(self, file, crane_position, jib_length, slewing_angle, jib_angle, **kwargs):
-        super().__init__(file=file, TP_position=None, TP_mass=0, 
-                         TP_amount=0, crane_position=craneposition, 
-                         jib_length=jib_length, **kwargs)
+    """Crane operating condition with one TP in the hook."""
+
+    def __init__(
+        self,
+        file,
+        crane_position,
+        jib_length,
+        slewing_angle,
+        jib_angle,
+        TP_mass,
+        TP_position=None,
+        **kwargs,
+    ):
+        super().__init__(
+            file=file,
+            TP_position=TP_position,
+            TP_mass=TP_mass,
+            TP_amount=0,
+            crane_position=crane_position,
+            jib_length=jib_length,
+            slewing_angle=slewing_angle,
+            jib_angle=jib_angle,
+            **kwargs,
+        )

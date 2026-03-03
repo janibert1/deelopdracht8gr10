@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css"></head><body style="color: rgb(32, 33, 34); font-family: arial, helvetica, sans-serif; font-size: 16px;"><p style="font-family: Lato, sans-serif; font-size: 24px;"><strong><span style="font-family: Lato, sans-serif; font-size: 24px;">Het nakijkmodel</span></strong></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Het nakijkmodel optimaliseert niets. </span><span style="font-family: Lato, sans-serif; font-size: 24px;">Het nakijkmodel controleert <strong>bij deelopdracht 8</strong> op evenwicht en G'M berekening en neemt daarbij de volgende gegevens over:</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">uit het Json antwoordenblad:</span></p>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">De lengte en breedte locatie van het kraanhuis (lcg en tcg)</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">De stand van de kraan via de pivothoogte, de jib angle, de jib length en de slewing angle</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">De pivot hoogte van de kraan</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">De zwaarte van de kraan via de opgegeven SWLmax</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Het opgegeven gewicht van de transition piece in de kraan</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Het aantal transition pieces als deklading</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Het gewicht per transition piece van de deklading</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">De lengte en breedte locatie het zwaartepunt van de deklading (als geheel bij deelopdracht 8 en per stuk bij deelopdracht 9)</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">De huiddikte zoals opgegeven in het antwoordenblad.json</span><span style="font-family: Lato, sans-serif; font-size: 24px;"></span></li>
+</ul>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">uit de rompgenerator:</span></p>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">De tankvullingen met de bijbehorende zwaartepunten via TankData.json</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">De oppervlakten van de tankschotten via TankBHD_Data.csv</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">De romp oppervlakken uit HullAreaData.csv</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Algemene gegevens uit MainShipParticulars.json</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">De huiddikte in grasshopper moet op 1 mm staan.&nbsp;</span><span style="font-family: Lato, sans-serif; font-size: 24px;"></span></li>
+</ul>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Bij <strong>deelopdracht 9 t/m 11 </strong>berekend het nakijkmodel tevens:</span></p>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">de locatie en de&nbsp; maximale spanning in het dek of bodem en of deze voldoet aan het criterium</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">de maximale doorbuiging en de langsscheepse locatie daarvan.</span></li>
+</ul>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Het gebruikt daarbij:</span></p>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Een (halve) cirkelvormige verdeelde belasting van elke transition piece</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Een (halve) cirkelvormige verdeelde belasting voor het kraanhuis</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">De lengte van het kraanhuis, zoals opgegeven in het Json antwoordenblad.</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">De huiddikte zoals opgegeven in het antwoordenblad.json</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Alle tekstbestanden met de verdeelde belasting die door de rompgenerator worden gemaakt ( dus met CSA in de naamgeving, wat Cross Sectional Area betekend)</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">De huiddikte in grasshopper moet daarbij op 1 mm staan.&nbsp;</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Het vermenigvuldigd de omtrek (outline length) uit de Shell_CSA.csv met de huiddikte uit het antwoordenblad.json</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">De locatie van iedere transition piece, zoals opgegeven in het antwoordenblad.json</span></li>
+</ul>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"></span></p></body></html>

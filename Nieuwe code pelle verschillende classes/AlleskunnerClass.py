@@ -1,23 +1,32 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Feb 27 14:07:12 2026
+"""Alleskunner class (crane operation + deck cargo)."""
 
-@author: ellin
-"""
+from Ship_pelle import Ship
 
-from scipy.interpolate import interp1d, CubicSpline
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
-import json
-import random
-import math
-import os
-
-from Class import Ship
-from Functions import Tank, deck, plates, ZCG, matrix_add
 
 class Alleskunner(Ship):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    """Combined condition with crane load and transition pieces on deck."""
+
+    def __init__(
+        self,
+        file,
+        crane_position,
+        jib_length,
+        slewing_angle,
+        jib_angle,
+        TP_position,
+        TP_mass,
+        TP_amount,
+        **kwargs,
+    ):
+        super().__init__(
+            file=file,
+            crane_position=crane_position,
+            jib_length=jib_length,
+            TP_position=TP_position,
+            TP_mass=TP_mass,
+            TP_amount=TP_amount,
+            slewing_angle=slewing_angle,
+            jib_angle=jib_angle,
+            **kwargs,
+        )
         

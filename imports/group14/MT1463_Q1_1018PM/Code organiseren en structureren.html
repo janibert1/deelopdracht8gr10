@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css"></head><body style="color: rgb(32, 33, 34); font-family: arial, helvetica, sans-serif; font-size: 16px;"><h2><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><strong>Code Organiseren &amp; Samenwerken</strong></span></h2>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Om de code overzichtelijk te houden is een plan en verdeling van functies, classes, en Python files noodzakelijk. Een goede manier om dit te doen is door de verschillende stappen die uitgevoerd moeten worden in functies en classes<strong>&nbsp;</strong>op te delen in een hoofd functie, functies die voor input zorgen, functies die berekeningen maken, en functies die resultaten genereren.</span><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"></span></p>
+<h2><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Hoofdfunctie en file verdeling</span></h2>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">In de hoofdfunctie leg je vast in welke volgorde je de andere functies gaat aanroepen (onthoud dat een functie wordt pas uitgevoerd wanneer de functie aangeroepen wordt). Verdeel de functies over verschillende python files met een logische verdeling van taken die in deze files gedaan worden. Een voorbeeld van een taak verdeling per python file zou kunnen zijn:</span></p>
+<ul>
+<li style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">De hoofdfunctie (<strong>main.py</strong> hier start en eindigt het programma),&nbsp;</span></li>
+<li style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Input (<strong>read_files.py</strong> hier zit bijvoorbeeld de functie&nbsp;<strong>readTankVolumes(filename)</strong> in die de tank volume csv bestanden leest, en de <strong>readMainParticulars(filename) </strong>die de JSON file leest met de hoofdafmetingen)</span></li>
+<li><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Berekening (<strong>ship_calculations.py</strong>) in deze file zitten functies die bijvoorbeeld berekend of het schip in evenwicht is, of een andere functie die berekent hoe vol de tanks moeten zijn.</span><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"></span></li>
+<li style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Output (<strong>generate_output.py</strong>). In deze file zitten functies die een plot maken van hoe de GM veranderd gegeven verschillende tankvullingen, of een functie die resultaten wegschrijven in een csv.</span></li>
+</ul>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Zorg in ieder python bestand dat de benodigde python functies geimporteerd worden. Wil je de <strong>readTankVolumes()</strong> functie in <strong>main.py</strong> gebruiken? Zet dan bovenin de main.py file:&nbsp;<code><strong>from read_files import readTankVolumes</strong></code>. Vervolgens kan je de <strong>readTankVolumes</strong> functie gebruiken in de main python file.&nbsp;</span></p>
+<h2><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Functie richtlijnen</span></h2>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Algemene richtlijnen voor functies zijn:&nbsp;</span></p>
+<ul>
+<li style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Zorg er voor dat iedere functie een logische naam heeft,</span></li>
+<li style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Zorg er voor dat iedere functie een docstring heeft,</span></li>
+<li style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Zorg er voor dat iedere functie met een werkwoord te beschrijven is,</span></li>
+<li style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Gebruik #commentaar bij gebruik moeilijk te interpreteren regels code,</span></li>
+<li style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Voorkom gebruik van globale variabelen in functies (als je een variabele in de functie gebruikt geef hem dan mee als argument),&nbsp;</span></li>
+<li style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Zorg dat een functie op één scherm past (dus niet meer dan +/-30 regels per functie anders probeer je waarschijnlijk te veel te doen in een functie)</span></li>
+</ul>
+<h2><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Naamgeving conventies</span></h2>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Om python bestanden onverzichtelijk en leesbaar te houden raden we aan om variabelen, functies, classes, constanten, bestanden en errors logische namen te geven, niet te veel gebruik te maken van ongebruikelijke afkortingen, en de volgende naamgeving conventies te gebruiken:</span></p>
+<table border="1" style="border-collapse: collapse; width: 100%; height: 134.344px;"><colgroup><col style="width: 33.3929%;"><col style="width: 33.3929%;"><col style="width: 33.3036%;"></colgroup>
+<tbody>
+<tr style="height: 22.3906px;">
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><strong>Item</strong></span></td>
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><strong>Conventie</strong></span></td>
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><strong>Voorbeeld</strong></span></td>
+</tr>
+<tr style="height: 22.3906px;">
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">variablen</span></td>
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">snake_case</span></td>
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">ship_length</span></td>
+</tr>
+<tr style="height: 22.3906px;">
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">functies</span></td>
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">camelCase()</span></td>
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">calculateStability()</span></td>
+</tr>
+<tr>
+<td><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">classes</span></td>
+<td><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">PascalCase</span></td>
+<td><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">ContainerShip<br></span></td>
+</tr>
+<tr style="height: 22.3906px;">
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">constanten</span></td>
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">ALL_CAPS</span></td>
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">WATER_DENSITY</span></td>
+</tr>
+<tr style="height: 22.3906px;">
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">python bestanden</span></td>
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">snake_case.py</span></td>
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">read_files.py</span></td>
+</tr>
+<tr style="height: 22.3906px;">
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">exceptions</span></td>
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">PascalCase</span></td>
+<td style="height: 22.3906px;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">StabilityCalculationError</span></td>
+</tr>
+</tbody>
+</table>
+<h2><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Nuttige functies</span></h2>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Kijk <a href="/d2l/le/content/775279/viewContent/4629636/View" target="_blank" rel="noopener">hier</a>, en in de Python college slides van Q2 welke functies/libraries je kunt gebruiken voor files in lezen/wegschrijven, <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775279&amp;type=content&amp;rcode=tudelft-1707788" target="_blank" rel="noopener">numeriek integreren</a>, ect.</span></p>
+<p><strong><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Stappenplan code programmeren</span></strong></p>
+<ul>
+<li><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Bedenk welke formules je nodig hebt om de benodigde output te genereren, welke input is er voor nodig, en in welke volgorde ga je deze dingen doen.</span>
+<ul>
+<li><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Maak een hoofdfunctie en logische python file verdeling (bijvoorbeeld: main.py, read_files.py, generate_output.py, ship_calculations.py).</span></li>
+<li><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Beschrijf de functies die geprogrammeerd moeten worden en definieer voor iedere functie input, output, datatypen, en een docstring.</span></li>
+</ul>
+</li>
+<li><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Ga aan de slag met programmeren en vergeet niet de naamgeving conventies en functie richtlijnen.</span></li>
+<li><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Combineer de code door de aparte python functies een voor een aan te roepen vanuit de hoofdfunctie.</span></li>
+<li><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Test de individuele functies (geeft de functie het verwachte resultaat voor ieder redelijke input?)</span></li>
+</ul>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"></span></p>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"></span></p>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"></span></p>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"></span></p>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"></span></p>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"></span></p>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"></span></p>
+<p><strong><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Optioneel Flowchart:</span></strong></p>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Wat helpt bij het ontwerpen van de code is er een <strong>flowchart</strong> van maken. Deze flowchart beeld de hoofdfunctie uit en ieder proces in deze flowchart is een aparte functie. Gebruik in ieder geval proces blokken voor input (de functies de csv files in lezen), process blokken voor berekeningen maken (stabiliteit berekening, evenwichtsberekening), en proces blokken die output genereren (data plotten, data naar een csv wegschrijven). Geef in de flowchart in ieder geval aan:</span></p>
+<ul>
+<li style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">De naam van de functie</span></li>
+<li style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">De volgorde van de input argumenten, hun naam, en hun datatype (float, integer, list)</span></li>
+<li style="font-size: 19px; font-family: 'arabic transparent', sans-serif;"><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">De volgorde van de return waarden, hun naam, en hun datatype (float, integer, list)</span></li>
+</ul>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">Op deze manier kun je in een groep afspreken hoe bepaalde functies gaat noemen en wat de input en output wordt van deze functies. Zie hier een voorbeeld van een flowchart om een document te maken die en map plot van locatie data:</span></p>
+<p><img src="/content/enforced/775279-MT1463%2B2025%2B1/flowchart.png" alt="flowchart" title="flowchart" width="644" height="649"></p>
+<p><span style="font-size: 19px; font-family: 'arabic transparent', sans-serif;">De flowchart is in eerste instantie misschien nog niet 100% correct (veranderingen tijdens het programmeren mogen). Zorg dat je flowchart up to date blijft.</span></p></body></html>

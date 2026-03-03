@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css"></head><body style="color: rgb(32, 33, 34); font-family: arial, helvetica, sans-serif; font-size: 16px;"><h1><span style="font-size: 24px; font-family: Lato, sans-serif;">Inleiding</span></h1>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">In deelopdracht 2 en 4 van MT1463 heb je een code geschreven om de stabiliteit en het evenwicht van scheepsontwerpen te bepalen met behulp van Python. Daarbij hebben jullie al wel aanwijzingen gehad hoe je een code moet structureren, maar is de gemaakte code daar nog niet op getoetst. In deelopdracht 8 gaan we dat wel doen. De code gaat getoetst worden op structuur en op de antwoorden. </span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">In deze deelopdracht gebruik je de gegevens die gegenereerd worden door de <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1457009" target="_blank" rel="noopener">rompgenerator</a> in Rhino en grasshopper. Het doel is om een zo generiek mogelijke code te ontwikkelen, zodat deze toepasbaar is voor de ontwerpwedstrijd en op alle drie de scheepstypen.</span></p>
+<h2><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>De opdracht</strong></span></h2>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">1. Jullie moeten de code van deelopdracht 2 en 4 herschrijven en uitbreiden om:</span></p>
+<ul>
+<li style="list-style-type: none;">
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">te voldoen aan de beoordelingscriteria (zie verderop deze pagina)</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">de drie typen schepen te kunnen doorrekenen, namelijk:&nbsp;</span>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">het transportschip (in de beladingsconditie: transport)</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">het kraanschip&nbsp; (in de beladingsconditie: kraan met een TP in de haak boven de fundatiepaal)</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">de alleskunner (in de beladingsconditie: kraan met een TP in de haak boven de fundatiepaal en het maximaal aantal TPs aan dek)</span></li>
+</ul>
+</li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;">variaties in de kraan te kunnen variëren:&nbsp;
+<ul>
+<li style="list-style-type: none;">
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">slewing angle op 0, 90, 180 en -90 (dus dwars en langsscheeps)</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">jib angle&nbsp;</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">pivot height&nbsp;</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">jib length</span></li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">de antwoorden per ontwerp naar <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1729764" target="_blank" rel="noopener">de antwoorden-json</a> te schrijven.&nbsp;</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">de scheepsgegevens per ontwerp op te slaan in een aparte lijst om vergelijk tussen de ontwerpen mogelijk te maken.</span></li>
+</ul>
+</li>
+</ul>
+<p style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">2. Sla daarbij de scheepsgegevens op van de&nbsp;<a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1722063" target="_blank" rel="noopener">voorbeeldschepen</a>.</span></p>
+<p style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">3. Bereken&nbsp;<a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1546711" target="_blank" rel="noopener">de puntentelling</a> van de <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1722063" target="_blank" rel="noopener">voorbeeldschepen.</a></span></p>
+<p style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">4. Maak een grafiek van <span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1546711" target="_blank" rel="noopener">de totale puntentelling</a> van<span style="color: #d93636;"> tenminste </span>de voorbeeld-<span style="color: #d93636;">alleskunners. <span style="color: #202122;">Deze grafiek moet v</span></span><span style="color: #202122;">oldoen aan de eisen van een goede grafiek.&nbsp;</span></span></span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>Voorbeeldschepen</strong></span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Jullie krijgen meerdere voorbeeldschepen ter beschikking:</span><span style="font-family: Lato, sans-serif; font-size: 24px;"></span></p>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1722052" target="_blank" rel="noopener">Voorbeeld Alleskunner met kraan dwarsscheeps</a></span></li>
+</ul>
+<p style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">De volgende voorbeeldschepen zulle komende twee weken ter beschikking komen:</span></p>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1722044" target="_blank" rel="noopener">Voorbeeld transportschip</a></span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1722045" target="_blank" rel="noopener">Voorbeeld kraanschip met de kraan op 75 graden</a></span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1722047" target="_blank" rel="noopener">Voorbeeld alleskunner met de kraan langsscheeps</a> &nbsp;</span></li>
+</ul>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Van de voorbeeldschepen krijgen jullie:</span></p>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">de rompgenerator (Rhino en Grasshopper bestand)</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">alle tekst bestanden die de rompgenerator genereerd, zoals de csv en json bestanden</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Tussenuitkomsten middels een lijst met alle gewichten en zwaartepunten.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">het ingevulde antwoordenblad in JSON format<span style="color: #d93636;">&nbsp;<span style="color: #202122;">met:</span></span></span>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">de locatie en dimensies van de kraan&nbsp;</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">de plaatdikte van de huid en het dek en de bodem.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">het gewicht van de transition piece in de kraan</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">de locatie en gewicht van iedere transition piece aan dek</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">de afwijking van het evenwicht als de tankvullingen werkelijk in grasshopper worden ingevuld in plaats van via de tankdiagrammen.&nbsp;</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">De berekende G'M</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">De scheepsweerstand</span></li>
+</ul>
+</li>
+</ul>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">De voorbeeldschepen voldoen bewust niet aan de criteria van de opdrachtgever, deze kunnen dus niet gebruikt worden bij de ontwerpwedstrijd van deelopdracht 12. Gebruik ze enkel om jullie code mee te controleren. Zo kan het vrijboord te klein zijn, de lengte te groot, de transition pieces te zwaar of te licht en de G'M te laag of zelfs negatief.</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">De voorbeeldschepen bevatten ook al gegevens die horen bij de volgende deelopdracht 9 (bepalen van de huiddikte)</span></p>
+<p><strong><span style="font-family: Lato, sans-serif; font-size: 24px;">Vaste gegevens</span></strong></p>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Ga uit van een plaatdikte van 10 mm voor de tankwanden.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Ga uit van een plaatdikte van het achterschot van 10 mm.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Ga uit van het soortelijk staalgewicht van 7850 [kg/m³]</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Ga uit van het soortelijk van zeewater van 1025 [kg/m³] voor zowel het buitenwater als het ballastwater. &nbsp;</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">De huid, het dek, de spiegel en de tankschotten bestaan natuurlijk niet alleen uit een plaatveld, maar zullen verstijvers krijgen. Ga voor het staalgewicht van plaatveld en verstijvers uit van een factor van 2.1 van gewicht van het betreffende plaatveld. Neem voor het zwaartepunt van de verstijvers hetzelfde als van het betreffende plaatveld.</span></li>
+</ul>
+<h4><span style="font-family: Lato, sans-serif; font-size: 24px;">Stappenplan:&nbsp;&nbsp;</span></h4>
+<ol>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Lees de hoofdopdracht nogmaals door.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Bestudeer de beoordelingsmethode. Voor deze opdracht wordt je namelijk gedeeltelijk beoordeeld op de structuur van het programmeren en gedeeltelijk op de juiste eindantwoorden.&nbsp;</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-size: 24px; font-family: Lato, sans-serif;">Identificeer de verschillen tussen de drie ontwerpen. Noteer wat generiek te maken is en wat een aparte functie vereist.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Bestudeer met de groep jullie gemaakte codes bij deelopdracht 2 en 4. Bespreek welke codes of delen van codes jullie willen hergebruiken en wat er herschreven moet worden.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Lees hoe je de<a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1549680" target="_blank" rel="noopener">&nbsp;code kan organiseren</a>.</span><span style="font-family: Lato, sans-serif; font-size: 24px;"></span>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Bedenk een logische python file en folder verdeling met een hoofd functie (bijvoorbeeld: main.py, read_files.py, generate_output.py, ship.py).</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Definieer voor iedere functie, methode, en class de input, output, datatypen, en een docstring.&nbsp;</span></li>
+</ul>
+</li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Maak een class diagram en flowchart en bespreek deze in je groep. Zie&nbsp;<a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1549680" target="_blank" rel="noopener">Tips om een Python code te organiseren</a>. &nbsp;Let daar bij op:</span>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Alleen de class diagram van de objecten en een flowchart voor de main.py hoeft gemaakt te worden. Geef daarin de datatypen en namen van de argumenten, de return datatypen, en functie namen, class namen, en class methoden aan.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Verdeel alles dat geprogrammeerd moeten worden onder de team leden.</span></li>
+</ul>
+</li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><span style="color: #d93636;"><strong>Verzamel de gegevens</strong> van de voorbeeldschepen</span>:</span>
+<ul style="list-style-type: circle;">
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;">Het vullingspercentage van de tanks per voorbeeldschip is daarbij terug te vinden in:</span>
+<ul style="list-style-type: circle;">
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;">TankData.json</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;">In de rompgenerator (grasshopper)</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;">In de beschrijvingen van het momenten evenwicht</span></li>
+</ul>
+</li>
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;">Neem de volgende gegevens&nbsp;<span style="font-family: Lato, sans-serif; font-size: 24px;">over uit het <em>antwoordenblad.jso</em><em>n:</em></span></span>
+<ul style="list-style-type: circle;">
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px;">SWLmax van de kraan</span></span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px;">gewicht van de TP in de kraan</span></span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px;">lcg en tcg van het kraanhuis</span></span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px;">pivot hoogte&nbsp;</span></span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px;">pivot angle</span></span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px;">slewing angle</span></span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px;">kraanboomlengte</span></span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px;">cog van de deklading</span></span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">de plaatdikte&nbsp;voor de zijhuid, het dek en de bodem</span></span></span></li>
+</ul>
+</li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Let op:&nbsp;Laat de huiddikte in de&nbsp;<strong>rompgenerator</strong> echter op <strong>1 mm</strong>. Waarom dit is wordt uitgelegd bij deelopdracht 9.&nbsp;<strong>Neem het nu even voor waar aan.</strong>&nbsp;</span><span style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><span style="color: #202122;"><em><span style="font-family: Lato, sans-serif; font-size: 24px;"></span></em></span></span></span></li>
+</ul>
+</li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Ga aan de slag en vergeet niet&nbsp;<a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1549680" target="_blank" rel="noopener">de&nbsp;naamgeving conventies&nbsp;en functie richtlijnen</a>.<strong></strong></span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Combineer de code door de python functies een voor een aan te roepen vanuit de hoofdfunctie.</span></li>
+<li style="font-style: italic; font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><em>Draag zorg voor kennisoverdracht en review. Ieder groepslid presenteert zijn code aan de andere groepsleden. Groepsleden geven mondeling feedback over structuur en aanpak.</em></span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><em><span style="color: #d93636;">Creëer een test voor jullie code. Pas elk <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1722063" target="_blank" rel="noopener" style="color: #d93636;">voorbeeldschip</a> aan door deze uit evenwicht te brengen</span>:</em></span>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;">Zet de tankinhoud van tank 1 en 2 op nul.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;">Verschuif de locatie van tank 2 in Rhino.</span></li>
+</ul>
+</li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Test de individuele functies via&nbsp;<a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1722063" target="_blank" rel="noopener">voorbeeld-schepen</a> van deze opdracht. (Geeft iedere functie gegeven de input de output die je had verwacht?).</span><span style="font-family: Lato, sans-serif; font-size: 24px; color: #d93636;"></span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Bepaal de afwijking van het evenwicht. Het evenwicht is immers bepaald aan de hand van de tankdiagrammen wat een afwijking geeft. Ook als de middentank niet helemaal rechthoekig blijft geeft dit een afwijking. Een middentank op twee L vormige tanks voorkomt dit laatste.</span>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Vul de tankvullingen in grasshopper zoals je die hebt berekend met jullie code met behulp van de tankdiagrammen.&nbsp;</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Verplaatst de tank in Rhino die jullie hebben gebruikt om het langsscheeps evenwicht te bepalen (waarschijnlijk de middentank 2).</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">De TankData.csv en de TankBHD_Data zullen nu veranderd zijn. Gebruik deze data om te bepalen wat de afwijkingen zijn van alle som van evenwichten. Noteer deze afwijkingen in het antwoordenblad in Json format.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #ff575a;">Controleer of de afwijking binnen te toegestane waarden zit:</span>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">verticaal evenwicht: xx% van xx</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">langscheepsevenwicht: maximaal xx graden trim</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">dwarsscheeps evenwicht: maximaal xx graden helling</span></li>
+</ul>
+</li>
+<li style="font-family: Lato, sans-serif; font-size: 24px; color: #202122;"><span style="font-family: Lato, sans-serif; font-size: 24px; color: #202122;">Je kan de afwijking verkleinen door in de rompgenerator het aantal stappen voor de tankdiagrammen te vergroten.&nbsp;</span></li>
+</ul>
+</li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Zet de tankvullingen in de rompgenerator op de door jullie berekende waarde (4 cijfers achter de komma nauwkeurig).</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Zet de middentank 2 in Rhino op de berekende langsscheepse locatie.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1729764" target="_blank" rel="noopener">Vul het antwoordenblad.json in</a> met alle gevraagde gegevens. Pas alleen de values aan die bij de keys horen en pas <strong>in geen enkel geval </strong>de keys van het antwoordblad aan want dan kunnen we jullie resultaat niet nakijken.&nbsp;</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Zet de antwoorden van jullie code en die van het voorbeeldschip naast elkaar.&nbsp;</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Debug jullie code totdat de antwoorden van jullie code kloppen met die van het voorbeeldschip.&nbsp;</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Sla de scheepsgegevens op van de voorbeeldschepen in een lijst of een Excel.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Bereken <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1546711" target="_blank" rel="noopener">de puntentelling</a>&nbsp;van de voorbeeldschepen</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Maak een grafiek(en) van de totale puntentelling <span style="font-family: Lato, sans-serif; font-size: 24px;">van tenminste de voorbeeldschepen (de twee alleskunners)&nbsp;<span style="font-family: Lato, sans-serif; font-size: 24px;">volgens <span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1546711" target="_blank" rel="noopener">de puntentelling</a> </span></span>. Deze moeten voldoen aan de eisen van een goede grafiek.&nbsp;</span></span><span style="font-family: Lato, sans-serif; font-size: 24px;"></span></li>
+</ol>
+<h2><span style="font-family: Lato, sans-serif; font-size: 24px;">Inleveren <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=dropbox&amp;rcode=tudelft-1549687" target="_blank" rel="noopener">Brightspace Assignment</a></span></h2>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">De deadline voor deelopdracht 8 is <span style="color: #202122;"><strong>woensdag 4 maart</strong> om <strong>18:00</strong> (woensdag week 3.4)</span></span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Voor de deelopdracht 8 dien je één van de voorbeeldschepen of een eigen ontwerp in met:</span></p>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Een <strong>zip folder</strong> met de naam "<strong>groepxx</strong>" met daarin de volgende elementen. De bedoeling is dat als wij de zip file uitpakken dat we dan jullie python code direct kunnen draaien:</span>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">de flowchart en class diagram</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">de python code(s)&nbsp;</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">de Rhino (3dm)&nbsp; en grasshopper (.gh) bestand van één van de voorbeeldschepen </span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Een <strong>data</strong> folder met daarin:&nbsp;</span>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">de tekstbestanden uit de grashopperfile (csv en json bestanden)</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">het Json antwoordenblad dat is aangeleverd bij het voorbeeldschip<span style="color: #d93636;">.</span></span></li>
+</ul>
+</li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Een <strong>output</strong> folder met daarin:</span>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">het door jullie code ingevulde <span style="color: #202122;">antwoorden json bestand.</span></span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;"><span style="color: #202122;">De lijst met (voorbeeld)schepen</span></span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;"><span style="color: #202122;">De grafiek volgens de puntentelling</span></span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>Beoordeling (Totaal 10 punten)</strong></span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Hoe het nakijkmodel werkt is te lezen in: <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1731654" target="_blank" rel="noopener">Hoe werkt het nakijkmodel?</a></span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Te behalen punten voor programmeren (totaal 7 punten):</span></p>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">1 pt: File organisatie en documentatie van code in de vorm van docstrings en commentaar.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">1 pt: Flowchart van de hoofdcode en classe diagram van gemaakte classes.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">1 pt: Volgen van naamgevingconventies en zelf beschrijvende code.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">1 pt: Correct gebruik van locale en globale variabelen in functies en classes</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">1 pt: Onderscheid tussen functies en methoden met ieder hun eigen unieke taak met een lengte van minder dan 30 regels.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">1 pt: Gebruik van classes die objecten representeren met attributen en methoden.&nbsp;</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">1 pt: Een grafiek met de puntentelling van (tenminste) de voorbeeldschepen.</span><span style="font-family: Lato, sans-serif; font-size: 24px;"></span></li>
+</ul>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Te behalen punten voor de juiste antwoorden (totaal 3 punten) Elk onderdeel dat niet goed is gemaakt geeft alle punten aftrek van dat onderdeel:</span></p>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">1 pt: Evenwicht (dwars- en langsscheeps en verticaal).</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">1 pt: Juist berekende G'M.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">1 pt: Correcte notatie van de afwijking van het evenwicht.&nbsp;</span></li>
+</ul>
+<ul></ul>
+<p><strong><span style="font-family: Lato, sans-serif; font-size: 24px;">Deelcijfer</span></strong></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Deelopdracht 8, 9, 10 en 11 vormen samen met andere deelcijfers het cijfer voor MT1466:</span></p>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Deelopdracht 8 telt voor 1<strong>0% </strong>mee.</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Deelopdracht 9 telt voor <strong>35%</strong> mee. De beoordeling is dan nagenoeg hetzelfde als bij deelopdracht 8.</span></li>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Deelopdracht 10 en 11 worden samen beoordeeld en dat cijfer telt <strong>5%</strong> mee. De beoordeling is enkel op basis van de (juiste) antwoorden.</span></li>
+</ul>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Zie ook: <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775282&amp;type=content&amp;rcode=tudelft-1456993" target="_blank" rel="noopener">Beoordeling &amp; Herkansing</a></span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>Herkansing</strong></span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Hebben jullie de deelopdrachten 8 niet op tijd of niet voldoende (<strong>&lt;=5</strong>) afgerond? Dan krijgen jullie één herkansing. Voor deze herkansing geldt:&nbsp;</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Stuur een verzoek tot herkansing naar <a href="mailto:R.deWinter@tudelft.nl" target="_self">r.dewinter@tudelft.nl</a> en <a href="mailto:b.goris@tudelft.nl">b.goris@tudelft.nl</a> uiterlijk 5 werkdagen na het verkrijgen van het cijfer van deelopdracht 8. De herkansingen van deelopdracht 8 en 9 vallen samen met het inleveren van deelopdracht 10 &amp; 11.&nbsp;</span></p></body></html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css"></head><body style="color: rgb(32, 33, 34); font-family: arial, helvetica, sans-serif; font-size: 16px;"><h1><span style="font-family: Lato, sans-serif; font-size: 24px;">Inleiding</span></h1>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">In deelopdracht 4 ga je verder met het schip van <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775279&amp;type=content&amp;rcode=tudelft-1535471" target="_blank" rel="noopener">Deelopdracht 2</a>. Je moet de aanvangsstabiliteit berekenen van het schip en controleren of deze voldoet aan de stabiliteitseisen van de opdrachtgever.</span></p>
+<p><em><span style="font-family: Lato, sans-serif; font-size: 24px;">Aanvangsstabiliteit krijgen jullie in week 2 bij het vak MT1462 Hydrostatica. Je moet ook de correctie voor vrije vloeistofoppervlakken van de waterballasttanks toepassen. Vrije vloeistof correctie krijgen jullie aan het eind van week 2 bij het vak MT1462 Hydrostatica en in week 3 krijgen jullie daar oefensommen over.</span></em></p>
+<h1><span style="font-family: Lato, sans-serif; font-size: 24px;">De deelopdracht 4</span></h1>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">De opdracht van deelopdracht 4 is als volgt: Bereken met Python de G'M van het schip van deelopdracht 2 en controleer of deze aan de stabiliteitseisen van de opdrachtgever voldoet. Deze deelopdracht is ook weer een individuele opdracht.&nbsp;</span></p>
+<h1><span style="font-family: Lato, sans-serif; font-size: 24px;">De gegevens</span></h1>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">De gegevens zijn identiek aan het schip van <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775279&amp;type=content&amp;rcode=tudelft-1535471" target="_blank" rel="noopener">Deelopdracht 2</a>.</span></p>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">In <a rel="noopener" target="_blank" href="MainShipParticulars_Gr98_V1.0.json?ou=775279">MainShipParticulars_Gr98_V1.0.json</a> uit deelopdracht 2 kan je de gegevens vinden als buoyancy en traagheidsmoment van het waterlijnopppervlak van het schip.</span></li>
+</ul>
+<p><strong><span style="font-family: Lato, sans-serif; font-size: 24px;">Extra gegevens</span></strong><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Je krijgt de beschikking over de volgende extra tekst bestanden:&nbsp;</span></p>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="Tank1_Diagram_Waterplane_Gr98_V1.0.csv" target="_blank" rel="noopener">Tank1_Diagram_Waterplane_Gr98_V1.0.csv</a> met de <a href="Verklarende%20Woorden%20TankDiagramWaterplane.png?isCourseFile=true" target="_blank" rel="noopener">Verklarende woordenlijst Tank Diagram Waterplane</a>&nbsp;</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="Tank2_Diagram_Waterplane_Gr98_V1.0.csv" target="_blank" rel="noopener">Tank2_Diagram_Waterplane_Gr98_V1.0.csv</a></span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="Tank3_Diagram_Waterplane_Gr98_V1.0.csv" target="_blank" rel="noopener">Tank3_Diagram_Waterplane_Gr98_V1.0.csv</a></span></li>
+</ul>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Download hier de bovenstaande tekst bestanden in een <a href="Tank_Diagrams_Waterplane.zip" target="_blank" rel="noopener">zipp bestand</a>.&nbsp;</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"></span></p>
+<hr>
+<h1><span style="font-family: Lato, sans-serif; font-size: 24px;">Het stappenplan</span></h1>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Voor het stappenplan van Deelopdracht 3 krijg je de volgende tips mee: </span></p>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Ga verder met een kopie van jouw code voor het schip van deelopdracht 2 en hernoem deze naar deelopdracht 4.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Bepaal het zwaartepunt in hoogte van alle onderdelen.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Bereken de GM, maar nog zonder vrije vloeistof correctie voor de waterballasttanks.</span></li>
+<li><span style="font-size: 24px; font-family: Lato, sans-serif;">Bestudeer Tank1_Diagram_Waterplane_Gr98_V1.0.csv. Bekijk dan de gegeven verklarende woordenlijst om te zien wat alles betekend.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Koppel de gegevens van het tankvloeistofoppervlak met die van het volume uit deelopdracht 2. Samen vormen ze een uitgebreid tankdiagram.&nbsp; Zie <a href="Samenvoegen%20tankdiagram%20Volume%20en%20Plane%20Data.png?isCourseFile=true" target="_blank" rel="noopener">hier een voorbeeld</a>.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Bereken de vrije vloeifstof correctie:</span>
+<ul>
+<li><span style="font-family: Lato, sans-serif; font-size: 24px;">Voor tank 3 kan je de vloeistof correctie ook precies berekenen met de exacte gegevens uit <span style="font-family: Lato, sans-serif; font-size: 24px;"><a href="TankData_Gr98_V1.01.json" target="_blank" rel="noopener">TankData_Gr98_V1.0.json</a>&nbsp; uit deelopdracht 2</span>.&nbsp;</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Interpoleer de gegevens die je nodig hebt om de vrije vloeistof correctie te berekenen voor tank 1 uit het nieuwe uitgebreide tankdiagram. Interpoleer direct via het benodigde moment&nbsp; voor het evenwicht om de interpolatiefout niet te vergroten.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;">Voor de rechthoekige tank 2 kan je interpoleren, maar je kan de vrije vloeistof correctie ook direct berekenen.</li>
+</ul>
+</li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Bereken de G'M met de vrije vloeistof correctie voor de waterballasttanks. Als een tank 0% of 100% gevuld is mag de correctie worden weggelaten.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Leg de eind- en tussenantwoorden van deelopdracht 4 en 3 naast elkaar om grote verschillen en daarmee om fouten er uit te halen.&nbsp;</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Controleer de G'M met de minimaal toelaatbare eis voor de GM uit de <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775279&amp;type=content&amp;rcode=tudelft-1362064" target="_blank" rel="noopener">Integratie Hoofdopdracht 2025/26 V0.47</a>.</span></li>
+</ul>
+<hr>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>ANS-toets (5 pogingen)</strong></span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Hoe werkt het?</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Je maakt deze Deelopdracht via ANS, bereikbaar alleen via Brightspace (zie: <a href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou=775279&amp;type=content&amp;rcode=tudelft-1705184" target="_blank" rel="noopener">CONTENT&gt;.....&gt;Deelopdracht 4</a>)</span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Je hebt maximaal 5 pogingen om de toets te maken.</span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Gebruik het werkcollege om vragen te stellen en je antwoorden te verbeteren voor een volgende poging.</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>Deadline:</strong></span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Woensdag <strong>3 december&nbsp;</strong>om 18:00 (kwartaal 2 week 4) sluit Deelopdracht 4 in ANS.</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;"><strong>Beoordeling</strong></span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Alleen de drie eindantwoorden (primaire vragen in ANS) tellen mee voor je beoordeling.</span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Tussenantwoorden (secundaire vragen) leveren geen punten op, maar:</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Je ziet of ze goed of fout zijn.</span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Je krijgt tips bij fouten → noteer deze voor je volgende poging!</span></p>
+<p><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Het resultaat per poging is Voldoende of Onvoldoende (O/V).</span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Het resultaat voor alle pogingen is:</span></p>
+<ul>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">&nbsp;Je krijgt een G (voor goed) als binnen 2 pogingen de deelopdracht goed is gemaakt</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Je krijgt een V (voor voldoende) als binnen 5 pogingen de deelopdracht goed is gemaakt</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Je krijgt een O (voor onvoldoende) als alle 5 pogingen onvoldoende zijn.</span></li>
+<li style="font-family: Lato, sans-serif; font-size: 24px;"><span style="font-family: Lato, sans-serif; font-size: 24px;">Je krijgt een V (voor voldoende) als bij de herkansing laat zien dat je de stof begrijpt.</span></li>
+</ul>
+<p><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Je moet minimaal een voldoende halen voor deelopdracht 4.</span></p>
+<p><strong style="font-family: Lato, sans-serif; font-size: 24px;">Herkansing</strong><span style="font-family: Lato, sans-serif; font-size: 24px;"></span></p>
+<p><span style="font-family: Lato, sans-serif; font-size: 24px;">Heb je de toets niet op tijd of niet voldoende afgerond? Dan krijg je één herkansing.</span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Voor deze herkansing geldt:</span><br><span style="font-family: Lato, sans-serif; font-size: 24px;">Je stuurt vooraf je code en de verkregen antwoorden naar&nbsp;<a href="mailto:b.goris@tudelft.nl">b.goris@tudelft.nl</a> voor uiterlijk <strong>6&nbsp;december</strong></span><strong style="font-family: Lato, sans-serif; font-size: 24px;">&nbsp;18:00</strong><span style="font-family: Lato, sans-serif; font-size: 24px;">. Je krijgt dan een uitnodiging voor een mondeling gesprek. Je legt in het mondeling gesprek uit hoe jouw code is opgebouwd en hoe je berekeningen werken, zodat je bij deze laatste poging wel zult slagen.</span></p></body></html>

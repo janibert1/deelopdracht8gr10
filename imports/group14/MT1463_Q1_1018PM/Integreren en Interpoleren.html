@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html><head></head><body style="color: rgb(32, 33, 34); font-family: arial, helvetica, sans-serif; font-size: 16px;"><h1>Interpoleren</h1>
+<p>Interpoleren kan met behulp van splines of linear. Zie voor verschillende opties de <a href="https://docs.scipy.org/doc/scipy/tutorial/interpolate/1D.html#tutorial-interpolate-1dsection" target="_blank" rel="noopener">documentatie van de 1D interpolatie functie van scipy.</a>.</p>
+<pre class="line-numbers d2l-code"><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d, CubicSpline
+
+# Gegeven data
+x = np.array([0, 1, 2, 3, 4, 5])
+y = np.array([0, 0.8, 0.9, 0.1, -0.8, -1])
+# Nieuwe x-waarden voor interpolatie
+x_new = np.linspace(0, 5, 100)
+# Lineaire interpolatie
+linear_interp = interp1d(x, y, kind='linear')
+y_linear = linear_interp(x_new)
+y_linear15 = linear_interp(1.5)
+
+# Cubische interpolatie
+cubic_interp = CubicSpline(x, y)
+y_cubic = cubic_interp(x_new)
+y_cubic15 = cubic_interp(1.5)
+
+plt.plot(x, y, 'o', label='Originele data')
+plt.plot(x_new, y_linear, '--', label='Piecewise Lineaire Interpolatie')
+plt.plot(x_new, y_cubic, '-', label='Piecewise Cubische Interpolatie')
+plt.plot(1.5, y_cubic15, 'r*', label='Value for x=1.5 with cubic spline')
+plt.plot(1.5, y_linear15, 'k*', label='Vlaue for x=1.5 with linear interpolation')
+plt.legend()
+plt.xlabel('x')
+plt.ylabel('y')</code></pre>
+<h1>Integreren</h1>
+<p>We kunnen de <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.trapezoid.html#scipy.integrate.trapezoid" target="_blank" rel="noopener">trapezoid </a>of de <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.simpson.html#scipy.integrate.simpson" target="_blank" rel="noopener">simpson </a>regel gebruiken om te integreren. Let op dat y altijd als eerste argument mee gegeven moet worden en x als tweede argument.</p>
+<pre class="line-numbers d2l-code"><code class="language-python">from scipy.integrate import trapezoid, simpson
+import numpy as np
+
+# Definieer de functie
+def f(x):
+    return np.sin(x)
+
+n = 100  # Even aantal voor Simpson
+
+# Genereer x-waarden en y-waarden # Interval [0, pi]
+x = np.linspace(0, np.pi, n + 1)
+y = f(x)
+
+# Trapeziumregel via scipy
+trapezoidal_result = trapezoid(y, x)
+
+# Simpsonregel via scipy
+simpson_result = simpson(y, x)
+
+# Print resultaten
+print(f"Trapeziumregel (scipy): {trapezoidal_result}")
+print(f"Simpsonregel (scipy): {simpson_result}")</code></pre>
+<p></p>
+<h1></h1></body></html>
