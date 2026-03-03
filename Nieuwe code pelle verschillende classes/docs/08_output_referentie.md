@@ -1,19 +1,33 @@
-﻿# 08 Output Referentie
+# 08 Output Referentie
 
-## 1. `output/ship_results.json`
+## 1. Overzicht van outputmap
 
-### Structuur
+Na een run schrijft de code standaard naar:
 
-- `scenarios`: scenario-invoer per loadcase
-- `results`: berekende resultaten per loadcase
-- `errors`: foutmeldingen per loadcase
+- `output/ship_results.json`
+- `output/errors.json`
+- `output/ship_results_graph.png`
+- `output/antwoordenblad_TransportSchip.json`
+- `output/antwoordenblad_KraanSchip.json`
+- `output/antwoordenblad_Alleskunner.json`
+- `output/antwoordenblad.json`
+
+## 2. `ship_results.json`
+
+### Structuur op topniveau
+
+- `scenarios`: gebruikte scenario-config per loadcase
+- `results`: berekende output per loadcase
+- `errors`: fouttekst per loadcase (alleen gevulde entries)
 
 ### `results.<LoadCase>.status`
+
+Mogelijke waarden:
 
 - `ok`
 - `infeasible`
 
-### `results.<LoadCase>` velden (bij status `ok`)
+### Velden bij `status: ok`
 
 - `file`
 - `tank1_percentage`
@@ -28,49 +42,77 @@
 - `long_m_residual_kgm`
 - `trans_m_residual_kgm`
 - `status`
+- `error` (`null`)
+
+### Velden bij `status: infeasible`
+
+Numerieke velden worden `null`, met een gevulde fouttekst in `error`.
+
+## 3. `errors.json`
+
+Compacte status per loadcase:
+
+- `status`
 - `error`
+- `data_dir`
+- `fallback_data_dir`
 
-## 2. `output/errors.json`
+Gebruik dit bestand voor snelle triage in CI of teamreviews.
 
-Compact overzicht per loadcase:
+## 4. Antwoordenbladbestanden
 
-- status
-- error text
-- gebruikte `data_dir`
-- gebruikte `fallback_data_dir`
+### Per loadcase
 
-## 3. `output/antwoordenblad_<LoadCase>.json`
+- `antwoordenblad_TransportSchip.json`
+- `antwoordenblad_KraanSchip.json`
+- `antwoordenblad_Alleskunner.json`
 
-Per loadcase een ingevulde versie in originele key-structuur.
+De keystructuur van het template blijft behouden.
 
-Bij infeasible cases:
+### Infeasible gedrag
 
-- veldwaarden die niet berekend kunnen worden worden `null`.
-- projectversie krijgt suffix `_INFEASIBLE`.
+Als een loadcase infeasible is:
 
-## 4. `output/antwoordenblad.json`
+- kritieke resultaatvelden worden `null`;
+- `Groepsversie` krijgt suffix `_INFEASIBLE`.
 
-Default kopie voor opdrachtconventie. Momenteel gebaseerd op alleskunner als beschikbaar.
+### Default antwoordenblad
 
-## 5. `output/ship_results_graph.png`
+`antwoordenblad.json` is een kopie van de Alleskunner-output als die bestaat, anders de eerste beschikbare case-output.
 
-Grafiek met:
+## 5. `ship_results_graph.png`
 
-- GM per loadcase
-- tank vullingspercentages
-- markering van infeasible cases
+Grafiek bevat twee panelen:
 
-## 6. Interpreteer residuen correct
+1. `GM` per loadcase
+2. tank1/tank2 percentages per loadcase
 
-Een `ok` status betekent:
+Infeasible cases worden grijs gemarkeerd en gelabeld als `infeasible`.
 
-- tankoplossingen lagen binnen bereik.
+## 6. Interpretatierichtlijnen
 
-Maar residuwaarschuwingen kunnen nog wijzen op model-inconsistenties (bijv. vaste tank2-locatie).
+### 6.1 Kijk niet alleen naar `status`
 
-Controleer daarom altijd:
+`status: ok` betekent dat de solver een geldige oplossing binnen grenzen vond. Controleer aanvullend:
 
+- `force_residual_kg`
 - `long_m_residual_kgm`
 - `trans_m_residual_kgm`
 
-in combinatie met gekozen flags.
+### 6.2 `tank2_lcg` versus `tank2_lcg_solved`
+
+- `tank2_lcg`: waarde die echt in de eindbalans is gebruikt.
+- `tank2_lcg_solved`: theoretische oplossing uit momentevenwicht.
+
+Als `tank2_is_movable=false` kunnen deze waarden verschillen.
+
+### 6.3 GM als kwaliteitsindicator
+
+`GM` is de aanvangsstabiliteitsindicator. Vergelijk tussen loadcases en beoordeel altijd in combinatie met de gekozen invoercondities.
+
+## 7. Praktisch leespad bij analyse
+
+1. begin met `errors.json` voor statusoverzicht;
+2. ga naar `ship_results.json` voor details;
+3. open daarna `ship_results_graph.png` voor snelle visuele vergelijking;
+4. controleer ten slotte het relevante `antwoordenblad_<LoadCase>.json`.

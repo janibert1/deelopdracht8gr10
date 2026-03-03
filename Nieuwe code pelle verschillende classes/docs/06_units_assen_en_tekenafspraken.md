@@ -1,20 +1,22 @@
-﻿# 06 Units, Assen en Tekenafspraken
+# 06 Units, Assen en Tekenafspraken
 
-## 1. Interne units (hard policy)
+## 1. Unitbeleid (hard policy)
 
-- Massa: `kg`
-- Lengte: `m`
-- Moment: `kgm`
-- Hoeken in input: graden
+Interne eenheden in de code zijn altijd:
 
-## 2. Externe units in antwoordenblad
+- massa: `kg`
+- lengte: `m`
+- moment: `kgm`
 
-- Meerdere velden geven gewichten in `N`.
-- Conversie wordt direct gedaan bij inlezen:
+Dit geldt voor alle balansvergelijkingen en residucontroles.
+
+## 2. Externe invoer in Newton
+
+In `antwoordenblad.json` staan meerdere gewichten in `N`. De code zet die direct om:
 
 `massa_kg = gewicht_n / 9.81`
 
-Terugschrijven naar antwoordenblad:
+Bij wegschrijven naar antwoordenblad gebeurt de inverse conversie:
 
 `gewicht_n = massa_kg * 9.81`
 
@@ -24,34 +26,58 @@ Terugschrijven naar antwoordenblad:
 - `y`: dwarsscheeps (TCG)
 - `z`: verticaal (VCG)
 
-## 4. Momentreferenties
+Voor momenten gebruikt de code:
 
-Langsscheeps moment gebruikt `(x - x_cov)`.
+- langsscheeps balans rond `x_cov`;
+- dwarsscheeps balans rond centerline (`y=0`).
 
-Dwarsscheeps moment gebruikt `y` t.o.v. centerline.
+## 4. Tekenconventies
 
-## 5. Positieve richting
+Conventie in de rekensommen:
 
-Conventie in code:
+- positief `y` geeft positief transversaal moment `m*y`;
+- langsscheeps moment gebruikt `(x - x_cov)`;
+- buoyancyterm langsscheeps gebruikt `(x_cov - x_cob)`.
 
-- positieve `y` levert positief transversaal moment;
-- positieve afwijkingen volgen directe somconventie in arrays.
+Belangrijk is consistentie: niet het absolute teken op zich, maar dat alle termen dezelfde conventie volgen.
 
-## 6. Tankpercentages
+## 5. Tankpercentages
 
-- Interpreteer als `% of h_tank`.
-- Geldig domein: `[0, 100]`.
+Interpretatie:
 
-## 7. Belang van unit-consistentie
+- `% of h_tank`
 
-Een mix van `N` en `kg` in massabalans leidt direct tot:
+Geldig domein:
 
-- te zware lading;
-- tankdoelwaarden buiten bereik;
-- kunstmatig negatieve of >100% vullingen.
+- `[0, 100]`
 
-## 8. Praktische checks
+Elke oplossing buiten dit domein wordt als infeasible behandeld.
 
-1. Vergelijk `deck_tp_mass_kg` met `deck_tp_weight_n/9.81` in `ship_results.json`.
-2. Controleer of `hook_tp_mass_kg` realistisch is.
-3. Controleer of `buoyant_mass` qua orde-grootte bij scheepsvolume past.
+## 6. Waar unitfouten meestal ontstaan
+
+Typische foutbron:
+
+- `N` direct optellen bij `kg` in een externe berekening of handmatige controle.
+
+Typische symptomen:
+
+- tankdoelwaarden ver buiten range;
+- onrealistische `GM`;
+- grote residuen ondanks geldige geometrie.
+
+## 7. Praktische controles op unitconsistentie
+
+Gebruik `output/ship_results.json` en controleer:
+
+1. `deck_tp_mass_kg` is ongeveer `deck_tp_weight_n / 9.81`;
+2. `hook_tp_mass_kg` is qua orde-grootte realistisch;
+3. `buoyant_mass` (impliciet) past bij `Buoyant_Volume_m3 * water_density`;
+4. tankpercentages blijven binnen 0-100.
+
+## 8. Aanbevolen teamafspraak
+
+Leg in het team vast:
+
+- alle nieuwe helperfuncties accepteren intern `kg` en `m`;
+- elke externe interface benoemt units expliciet in veldnaam of docstring;
+- conversiepunten (`N <-> kg`) blijven gecentraliseerd bij in- en output.

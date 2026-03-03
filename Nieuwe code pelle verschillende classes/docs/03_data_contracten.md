@@ -1,12 +1,14 @@
-﻿# 03 Data Contracten
+# 03 Data Contracten
 
 ## 1. Doel
 
-Deze pagina beschrijft exact welke inputbestanden nodig zijn, welke velden verplicht zijn, en hoe de code die gebruikt.
+Deze pagina beschrijft welke inputstructuur de code verwacht, welke velden kritisch zijn en welke validaties hard afgedwongen worden.
 
-## 2. Verplichte bestanden per datamap
+Belangrijk: de code accepteert alleen bestandsnamen met de verwachte patronen op basis van `file_id`.
 
-Minimaal:
+## 2. Bestandsset per datamap
+
+Minimaal nodig in elke gebruikte `data_dir`:
 
 - `antwoordenblad.json`
 - `InputData_Gr<groep>_V<versie>.<sub>.json`
@@ -20,11 +22,28 @@ Minimaal:
 - `HullAreaData_...csv`
 - `TankBHD_Data_...csv`
 
-## 3. Kritieke JSON-velden
+## 3. Naam- en versieregels
 
-### 3.1 `antwoordenblad.json`
+`file_id` wordt afgeleid uit:
 
-Gebruikte secties:
+- `Project_info -> Groepsversie #[naam/nummer]` in `antwoordenblad.json`.
+
+Parsergedrag:
+
+1. neemt tekst voor een eventuele underscore;
+2. splitst op `.`;
+3. verwacht minimaal drie numerieke delen.
+
+Voorbeeld:
+
+- `98.1.0` -> `file_id = [98, 1, 0]`
+- `98.1.0_Alleskunner` -> ook `file_id = [98, 1, 0]`
+
+## 4. Kritieke JSON-velden
+
+### 4.1 `antwoordenblad.json`
+
+Vereiste secties die door de code gebruikt worden:
 
 - `Project_info`
 - `Constructie`
@@ -32,7 +51,7 @@ Gebruikte secties:
 - `Kraan_beladingsconditie`
 - `Zwaartepunten_kraanlast`
 - `Deklast_transition_pieces`
-- `Lading_locaties`
+- `Lading_locaties` (optioneel per TP, met fallback)
 
 Belangrijke keys:
 
@@ -43,18 +62,18 @@ Belangrijke keys:
 - `Gewicht_per_TP #[N]`
 - `Gewicht_per_transition_piece #[N]`
 
-### 3.2 `InputData_...json`
+### 4.2 `InputData_...json`
+
+Vereist:
+
+- object `INPUT DATA`
+- key `Filling_Tank_3_%h3`
+
+## 5. Kritieke CSV-kolommen
+
+### 5.1 Tank volume diagram (`Tank*_Diagram_Volume_...csv`)
 
 Verplicht:
-
-- `INPUT DATA` blok
-- `Filling_Tank_3_%h3`
-
-## 4. Kritieke CSV-kolommen
-
-### 4.1 Tank volume diagram
-
-Vereiste kolommen:
 
 - ` Tankfilling [% of h_tank]`
 - ` Tankvolume [m3]`
@@ -62,57 +81,77 @@ Vereiste kolommen:
 - ` tcg [m]`
 - ` vcg [m]`
 
-### 4.2 Tank waterplane diagram
+### 5.2 Tank waterplane diagram (`Tank*_Diagram_Waterplane_...csv`)
 
-Vereiste kolom:
+Verplicht:
 
 - ` Inertia_x [m4]`
 
-### 4.3 Hull area data
+### 5.3 Hull area data (`HullAreaData_...csv`)
 
-Vereiste kolommen:
+Verplicht:
 
 - ` Area [m2]`
 - ` lca [m]`
 - ` tca [m]`
 - ` vca [m]`
 
-### 4.4 Tank bulkhead data
+### 5.4 Bulkhead data (`TankBHD_Data_...csv`)
 
-Vereiste kolommen:
+Verplicht:
 
 - `BHD Area [m2]`
 - ` lcg [m]`
 - ` tcg [m]`
 - ` vcg [m]`
 
-## 5. Validatievoorwaarden
+## 6. Validatiestappen in de code
 
-Data-map wordt als bruikbaar gezien als:
+### 6.1 Vroege datamap-check (`Ship._is_usable_data_dir`)
 
-1. `MainShipParticulars` bestaat.
-2. `Buoyant_Volume_m3 > 0`.
-3. `COB_m` en `COV_Total_m` lijsten zijn met minimaal 3 componenten.
+Controleert minimaal:
 
-## 6. Datatypes en units
+1. bestaan van `MainShipParticulars_...json`;
+2. `Buoyant_Volume_m3 > 0`;
+3. `COB_m` en `COV_Total_m` bestaan als lijsten met minimaal 3 waarden.
 
-- percentages: `float`, [0, 100]
-- lengtes: `float`, meter
-- massa: `float`, kg (intern)
-- gewicht uit antwoordenblad: `float`, Newton
+Als dit niet klopt:
 
-## 7. Foutgedrag
+- zonder fallback -> `DataValidatieFout`;
+- met fallback -> poging op fallback map.
 
-- Ontbrekend bestand -> `DataValidatieFout`.
-- Ongeldige structuur -> `DataValidatieFout`.
-- Doelwaarde buiten tankrange -> `InfeasibleLoadCaseError`.
+### 6.2 Detailchecks tijdens rekenen
 
-## 8. Aanbeveling voor teamgebruik
+Daarna volgen impliciete detailchecks via file-open en kolomtoegang. Ontbrekende bestanden of kolommen geven expliciete fouten.
 
-Gebruik per loadcase een eigen datamap met:
+## 7. Datatypes en units
 
-- eigen `antwoordenblad.json`
-- eigen `InputData_...json`
-- bijbehorende hydro/tank CSV/JSON
+Aanbevolen types:
 
-en koppel die via `loadcase_config.json`.
+- percentages: `float` in `[0, 100]`
+- lengtes: `float` in meter
+- dichtheden: `float` in `kg/m3`
+- massa intern: `kg`
+- gewicht in antwoordenblad: `N`
+
+Belangrijk: gewichten uit antwoordenblad worden direct naar `kg` omgezet.
+
+## 8. Foutgedrag bij contractschending
+
+- ontbrekend of ongeldig inputbestand -> `DataValidatieFout`;
+- doelwaarde buiten tankdiagram -> `InfeasibleLoadCaseError`;
+- tankpercentage buiten `[0,100]` -> `InfeasibleLoadCaseError`.
+
+## 9. Praktische pre-flight checklist
+
+Gebruik deze checklist voordat je rekent:
+
+1. klopt `Groepsversie` met bestandsnamen;
+2. staat `antwoordenblad.json` in elke gebruikte `data_dir`;
+3. bestaat `MainShipParticulars_...json` en is `Buoyant_Volume_m3 > 0`;
+4. bestaan alle tankdiagram-CSV's;
+5. klopt `Filling_Tank_3_%h3` in `InputData_...json`.
+
+## 10. Aanbeveling voor teamgebruik
+
+Gebruik per loadcase een aparte datamap met eigen `antwoordenblad.json` en bijbehorende exportbestanden. Koppel die mappen via `loadcase_config.json` zodat verschillen tussen scheepstypen expliciet en traceerbaar blijven.

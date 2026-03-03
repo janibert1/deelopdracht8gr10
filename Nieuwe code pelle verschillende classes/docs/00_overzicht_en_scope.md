@@ -1,84 +1,121 @@
-﻿# 00 Overzicht en Scope
+# 00 Overzicht en Scope
 
 ## 1. Context
 
-Deze codebase rekent scheeps-evenwicht en aanvangsstabiliteit door voor drie verplichte loadcases uit de opdracht:
+Deze codebase rekent scheeps-evenwicht en aanvangsstabiliteit door voor drie loadcases uit de opdracht:
 
 - `TransportSchip`
 - `KraanSchip`
 - `Alleskunner`
 
-De code is class-gebaseerd opgezet en gebruikt gestructureerde input uit CSV/JSON bestanden van Rhino/Grasshopper plus het antwoordenblad-format.
+De implementatie is class-gebaseerd en combineert:
 
-## 2. Wat de code nu doet
+- invoer uit `antwoordenblad.json`;
+- groepsspecifieke JSON/CSV data uit Rhino/Grasshopper exports;
+- een vaste rekenworkflow met fysische grenzen en expliciete foutmeldingen.
 
-1. Leest inputdata per loadcase.
-2. Bouwt massa-overzicht op uit:
-   - staalplaten en schotten;
-   - kraancomponenten;
-   - gehesen TP;
-   - deklading TP's.
-3. Lost tankpercentages op voor evenwicht binnen begrensde tankdiagrammen.
-4. Berekent stabiliteitsgrootheden (`KB`, `KG`, `BM`, `GM`).
-5. Schrijft outputbestanden:
-   - `output/ship_results.json`
-   - `output/errors.json`
-   - `output/ship_results_graph.png`
-   - `output/antwoordenblad_*.json`
+## 2. Doel van de software
 
-## 3. Wat de code expliciet niet doet
+Het doel is niet alleen een numeriek antwoord geven, maar ook een reproduceerbare en controleerbare rekendoorgang bieden. Daarom schrijft de code per run meerdere outputbestanden weg, inclusief foutinformatie per loadcase.
 
-- Geen automatische geometrie-optimalisatie.
-- Geen automatische design-space search.
-- Geen volledige deelopdracht 9 spanningsberekeningen.
-- Geen externe database-opslag.
+Samengevat levert de software:
 
-## 4. Ontwerpkeuzes
+1. berekende tankvullingen voor tank 1 en tank 2;
+2. stabiliteitsgrootheden (`KB`, `KG`, `BM`, `GM`);
+3. balansresiduen voor kracht en momenten;
+4. antwoordenblad-output in het gewenste JSON-format.
 
-### 4.1 Interne eenheden
+## 3. Scope: wat zit er wel in
 
-Interne rekeneenheden zijn consequent:
+In scope:
 
-- massa: `kg`
-- lengte: `m`
-- moment: `kgm`
+- inlezen en valideren van kerninput;
+- oplossen van evenwicht binnen tankdiagramgrenzen;
+- automatische verwerking van alle drie loadcases in een run;
+- wegschrijven van resultaten, statusrapport en grafiek;
+- optionele fallback naar voorbeelddata (alleen bij expliciete flag).
 
-### 4.2 Invoer in Newton
+## 4. Scope: wat zit er niet in
 
-Velden in antwoordenbladen die als gewicht in `N` zijn opgegeven worden direct omgerekend naar `kg` met:
+Out of scope:
+
+- automatische geometrie-optimalisatie;
+- ontwerp-iteratie over grote design-spaces;
+- uitgebreide structurele sterkteberekeningen;
+- databaseopslag of web-API integratie.
+
+## 5. Kernontwerpkeuzes
+
+### 5.1 Interne eenheden zijn hard vastgelegd
+
+De code rekent intern consequent met:
+
+- massa in `kg`;
+- lengte in `m`;
+- moment in `kgm`.
+
+Deze keuze voorkomt menging van `N` en `kg` in massabalansen.
+
+### 5.2 Gewicht in Newton wordt direct omgezet
+
+Gewichten uit het antwoordenblad die in `N` staan worden direct geconverteerd:
 
 `massa_kg = gewicht_N / 9.81`
 
-### 4.3 Geen extrapolatie buiten tankdiagram
+Daardoor is de interne rekentrail uniform.
 
-Interpolatie voor tank-oplossing is begrensd. Als een doelwaarde buiten bereik valt, wordt de loadcase `infeasible` in plaats van een fysisch ongeldige waarde te genereren.
+### 5.3 Geen extrapolatie buiten tankdiagrammen
 
-## 5. Mappenstructuur
+Inverse interpolatie is begrensd. Als een doelwaarde buiten de tabel valt, wordt de loadcase als `infeasible` gemarkeerd in plaats van een niet-fysische waarde te accepteren.
+
+### 5.4 Alle loadcases worden altijd geprobeerd
+
+Een fout in loadcase A stopt loadcases B en C niet direct. Hierdoor blijft de run bruikbaar voor vergelijking en debug.
+
+## 6. Functionele stroom van een run
+
+Per loadcase gebeurt op hoofdlijn:
+
+1. bronconfig opbouwen (data-dir, flags, fallback);
+2. `antwoordenblad.json` en `InputData_...json` lezen;
+3. ship-object maken met loadcase-specifieke defaults;
+4. tank 1 en tank 2 oplossen;
+5. stabiliteit en residuen berekenen;
+6. resultaat opslaan als `ok` of `infeasible`.
+
+Na alle loadcases:
+
+1. `output/ship_results.json` schrijven;
+2. `output/errors.json` schrijven;
+3. `output/ship_results_graph.png` schrijven;
+4. antwoordenbladen per loadcase schrijven.
+
+## 7. Mappenstructuur (functioneel)
 
 Belangrijkste onderdelen:
 
-- `Main_pelle.py`: entrypoint, orchestration, output schrijven.
-- `Ship_pelle.py`: generieke Ship-berekening.
-- `Functions_pelle.py`: tank-, interpolatie- en hulpfuncties.
-- `TransportschipClass.py`, `KraanschipClass.py`, `AlleskunnerClass.py`: loadcase-specifieke wrappers.
+- `Main_pelle.py`: entrypoint, CLI, orchestration, output.
+- `Ship_pelle.py`: generieke solver voor massa-evenwicht en stabiliteit.
+- `Functions_pelle.py`: tankhulpklasse, interpolatie en utilityfuncties.
+- `TransportschipClass.py`, `KraanschipClass.py`, `AlleskunnerClass.py`: loadcase wrappers.
 - `data/`: invoerbestanden.
-- `output/`: resultaatbestanden.
-- `docs/`: deze documentatie.
+- `output/`: run-resultaten.
+- `docs/`: deze documentatieset.
 
-## 6. Begrippenlijst
+## 8. Begrippenlijst
 
 - `COB`: center of buoyancy.
-- `COV`: referentiepunt gebruikt voor momentbalans.
-- `LCG/TCG/VCG`: zwaartepuntlocaties langs lengte/dwars/verticaal.
-- `KB`: verticale locatie van opwaartse kracht.
-- `KG`: verticale locatie van totaal zwaartepunt.
-- `BM`: metacentric radius inclusief vrije-oppervlakcorrectie.
+- `COV`: referentiepunt voor momentbalansen in de code.
+- `LCG/TCG/VCG`: zwaartepuntlocaties in `x/y/z`.
+- `KB`: verticale positie van opwaartse kracht.
+- `KG`: verticale positie van totaal zwaartepunt.
+- `BM`: metacentric radius inclusief vrije-oppervlakcorrecties.
 - `GM`: aanvangsstabiliteit.
-- `Residual`: resterende fout in kracht/momentbalans na oplossen.
+- `Residual`: resterende fout in kracht- of momentbalans.
 
-## 7. Aanbevolen workflow
+## 9. Aanbevolen startvolgorde
 
-1. Start met [01 Snelle Start](./01_snelle_start.md).
-2. Check inputregels in [03 Data Contracten](./03_data_contracten.md).
-3. Stel per-loadcase config in via [04 Loadcase Configuratie](./04_loadcase_configuratie.md).
-4. Gebruik [09 Foutcatalogus en Debug](./09_foutcatalogus_en_debug.md) bij problemen.
+1. Gebruik [01 Snelle Start](./01_snelle_start.md) voor je eerste run.
+2. Controleer [03 Data Contracten](./03_data_contracten.md) voordat je data wisselt.
+3. Gebruik [04 Loadcase Configuratie](./04_loadcase_configuratie.md) voor teamscenario's.
+4. Raadpleeg [09 Foutcatalogus en Debug](./09_foutcatalogus_en_debug.md) bij fouten.

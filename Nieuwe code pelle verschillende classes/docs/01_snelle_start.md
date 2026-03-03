@@ -1,92 +1,149 @@
-﻿# 01 Snelle Start
+# 01 Snelle Start
 
 ## 1. Voorwaarden
 
-- Python 3.10+ (getest met 3.11).
+Minimaal nodig:
+
+- Python 3.10 of hoger (getest met 3.11).
 - Packages:
   - `numpy`
   - `pandas`
   - `matplotlib`
-- Werkdirectory:
-  - `C:\Users\Janal\deelopdracht8gr10\Nieuwe code pelle verschillende classes`
 
-## 2. Basisrun
+Aanbevolen werkmap:
 
-In PowerShell, vanuit projectmap:
+`C:\Users\Janal\deelopdracht8gr10\Nieuwe code pelle verschillende classes`
+
+## 2. Eenmalige installatie
+
+Open PowerShell in de projectmap en installeer dependencies:
+
+```powershell
+python -m pip install numpy pandas matplotlib
+```
+
+Controleer Python versie:
+
+```powershell
+python --version
+```
+
+## 3. Basisrun
+
+Run zonder extra flags:
 
 ```powershell
 python Main_pelle.py
 ```
 
-Dit gebruikt standaard `data/`.
+Gedrag van deze run:
 
-## 3. Run met fallback naar voorbeelddata
+1. gebruikt standaard `data/` als primaire datamap;
+2. probeert alle drie loadcases;
+3. schrijft output naar `output/`.
+
+## 4. Run met expliciete fallback
+
+Alleen gebruiken als je lokale data onvolledig is:
 
 ```powershell
 python Main_pelle.py --allow-fallback
 ```
 
-Gebruik dit alleen als lokale hydrostatische data ongeldig is.
+Zonder `--allow-fallback` zal ongeldige primaire data direct een fout geven.
 
-## 4. Run met aparte data per loadcase
+## 5. Run met loadcase-specifieke data
+
+Aanbevolen voor teamwerk:
 
 ```powershell
 python Main_pelle.py --loadcase-config data/loadcase_config.json
 ```
 
-Dit is de aanbevolen route voor teamgebruik, omdat elke loadcase andere invoer kan hebben.
+Voordelen:
 
-## 5. Waar output staat
+- elke loadcase kan een eigen datafolder gebruiken;
+- minder kans op conflict tussen transport-, kraan- en alleskunnerinstellingen.
 
-Na een succesvolle run:
+## 6. Belangrijkste outputbestanden
 
-- `output/ship_results.json`
-- `output/errors.json`
-- `output/ship_results_graph.png`
-- `output/antwoordenblad_TransportSchip.json`
-- `output/antwoordenblad_KraanSchip.json`
-- `output/antwoordenblad_Alleskunner.json`
-- `output/antwoordenblad.json` (default kopie)
+Na een complete run staan in `output/`:
 
-## 6. Interpretatie van status
+- `ship_results.json`
+- `errors.json`
+- `ship_results_graph.png`
+- `antwoordenblad_TransportSchip.json`
+- `antwoordenblad_KraanSchip.json`
+- `antwoordenblad_Alleskunner.json`
+- `antwoordenblad.json` (default kopie)
 
-In `ship_results.json` en `errors.json` staat per loadcase:
+## 7. Eerste controle na run
 
-- `status: "ok"` -> case is doorgerekend.
-- `status: "infeasible"` -> input/constraints maken de case fysisch of numeriek onhaalbaar.
+Controleer direct:
 
-## 7. Snelle checklist bij eerste run
+1. zijn alle outputbestanden aangemaakt;
+2. staat per loadcase een `status` (`ok` of `infeasible`);
+3. zijn tankpercentages plausibel (0 tot 100);
+4. is `GM` ingevuld voor alle `ok` cases.
 
-1. Bestaat `antwoordenblad.json` in gebruikte datamap?
-2. Bestaat `InputData_Gr.._V..json` voor de juiste `file_id`?
-3. Is `Buoyant_Volume_m3 > 0` in `MainShipParticulars_...json`?
-4. Zijn tankdiagram CSV's aanwezig?
-5. Klopt pad in `--loadcase-config`?
+## 8. Snelle interpretatie van status
 
-## 8. Veelgemaakte fouten
+- `status: "ok"`: loadcase volledig doorgerekend.
+- `status: "infeasible"`: input of constraints maken de case fysisch/numeriek onhaalbaar.
 
-### 8.1 Verkeerde werkdirectory
+Een `infeasible` case is meestal een data- of modelgrensprobleem, niet per se een crash van het programma.
 
-Symptoom: bestanden niet gevonden.
+## 9. Veelvoorkomende opstartproblemen
 
-Oplossing: run commando vanuit projectmap.
+### 9.1 Verkeerde werkdirectory
 
-### 8.2 BOM in JSON
+Symptoom:
 
-Symptoom: `Unexpected UTF-8 BOM`.
+- bestanden worden niet gevonden;
+- outputmap blijft leeg.
 
-Status: opgelost in code door `utf-8-sig` reader.
+Actie:
 
-### 8.3 Infeasible tank-oplossing
+- ga naar `Nieuwe code pelle verschillende classes` en run opnieuw.
 
-Symptoom: `Doelwaarde buiten bereik ... tank massa->percentage`.
+### 9.2 Onjuiste of ontbrekende inputbestanden
 
-Oplossing: check lading/huiddikte/tank3-instelling per loadcase.
+Symptoom:
 
-## 9. Regressiecheck
+- `Template ontbreekt ... antwoordenblad.json`;
+- `InputData ontbreekt ...`.
+
+Actie:
+
+- controleer bestandsnamen en groepsversie in de gekozen datamap.
+
+### 9.3 Tankdoel buiten bereik
+
+Symptoom:
+
+- `Doelwaarde buiten bereik bij 'tank massa->percentage'`.
+
+Actie:
+
+- controleer lading, tank3 startpercentage en loadcase-specifieke input.
+
+## 10. Regressiecheck
+
+Voor een snelle baseline check:
 
 ```powershell
 python regressie_check_gr98_v1.py
 ```
 
-Let op: bij `--loadcase-config` wordt de standaard regressiecheck in `Main_pelle.py` bewust overgeslagen, omdat die check op een vaste referentie-case gebaseerd is.
+Belangrijk:
+
+- bij `--loadcase-config` wordt de ingebouwde regressiecheck in `Main_pelle.py` bewust overgeslagen.
+- gebruik dan bij voorkeur een aparte regressiecontrole per teamdataset.
+
+## 11. Aanbevolen vervolg
+
+Na je eerste succesvolle run:
+
+1. lees [03 Data Contracten](./03_data_contracten.md);
+2. configureer [04 Loadcase Configuratie](./04_loadcase_configuratie.md);
+3. raadpleeg [08 Output Referentie](./08_output_referentie.md) voor interpretatie.

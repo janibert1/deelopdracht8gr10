@@ -18,6 +18,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      pages_artifact_name: ${{ steps.pages_artifact_name.outputs.name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,9 +37,14 @@ jobs:
       - name: Build MkDocs site
         run: mkdocs build -f mkdocs.yml
 
+      - name: Set Pages artifact name
+        id: pages_artifact_name
+        run: echo "name=github-pages-${{ github.run_id }}-${{ github.run_attempt }}" >> "$GITHUB_OUTPUT"
+
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
+          name: ${{ steps.pages_artifact_name.outputs.name }}
           path: site
 
   deploy:
@@ -50,3 +57,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: ${{ needs.build.outputs.pages_artifact_name }}

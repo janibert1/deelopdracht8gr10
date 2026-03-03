@@ -1,8 +1,15 @@
-﻿# Documentatie-index
+# Documentatie-index
 
-Deze map bevat de volledige Nederlandstalige documentatie van de code in `Nieuwe code pelle verschillende classes`.
+Deze map bevat de volledige Nederlandstalige documentatie voor de class-gebaseerde implementatie in `Nieuwe code pelle verschillende classes`.
 
-## Leesvolgorde
+Doel van deze documentatie:
+
+- je snel een werkende run laten doen;
+- je uitleggen welke invoer exact verwacht wordt;
+- inzicht geven in het rekenmodel, de grenzen en de foutafhandeling;
+- bijdragen aan veilige teamwijzigingen zonder regressies.
+
+## Aanbevolen leesvolgorde
 
 1. [00 Overzicht en Scope](./00_overzicht_en_scope.md)
 2. [01 Snelle Start](./01_snelle_start.md)
@@ -18,18 +25,32 @@ Deze map bevat de volledige Nederlandstalige documentatie van de code in `Nieuwe
 12. [11 Assignment Traceability MT1466](./11_assignment_traceability_mt1466.md)
 13. [12 Bijdragen en Onderhoud](./12_bijdragen_en_onderhoud.md)
 
-## Doelgroep
+## Leesroute per rol
 
-- Studenten die de code willen draaien voor deelopdracht 8.
-- Teamleden die code willen aanpassen zonder regressies.
-- Nakijkers/peers die willen begrijpen welke aannames en formules gebruikt zijn.
+Als je nieuw bent in het project:
 
-## Kernprincipe van deze documentatie
+1. Start bij `00` en `01`.
+2. Controleer daarna `03` en `04` voor jouw databronnen.
+3. Gebruik `09` zodra je foutmeldingen ziet.
 
-Elke belangrijke component is gedocumenteerd op:
+Als je vooral code wijzigt:
 
-- **Wat** het doet.
-- **Waarom** het bestaat.
-- **Welke invoer** nodig is.
-- **Welke uitvoer** geproduceerd wordt.
-- **Welke fouten** kunnen optreden en hoe je die oplost.
+1. Lees `05`, `06`, `07` voor model- en code-inzicht.
+2. Gebruik `10` voor teststrategie.
+3. Rond af met `12` voor onderhoudsafspraken.
+
+Als je resultaten beoordeelt:
+
+1. Lees `05` voor de berekeningslogica.
+2. Lees `08` voor outputinterpretatie.
+3. Lees `11` voor traceability naar assignment-eisen.
+
+## Wat je op elke pagina terugvindt
+
+Elke pagina probeert expliciet antwoord te geven op:
+
+- wat doet dit onderdeel;
+- waarom is deze keuze gemaakt;
+- welke invoer en aannames gelden;
+- welke output verwacht je;
+- hoe herken en herstel je fouten.

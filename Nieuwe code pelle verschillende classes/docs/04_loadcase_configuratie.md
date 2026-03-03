@@ -1,25 +1,32 @@
-﻿# 04 Loadcase Configuratie
+# 04 Loadcase Configuratie
 
-## 1. Waarom deze file
+## 1. Waarom `loadcase_config.json`
 
-`loadcase_config.json` maakt het mogelijk om voor elke loadcase eigen inputdata en gedrag te kiezen.
+Met een gedeelde datafolder lopen transport-, kraan- en alleskunnercases vaak door elkaar. `loadcase_config.json` lost dat op door per loadcase een eigen bronconfig te laten instellen.
 
-Dit is essentieel omdat:
+Typische voordelen:
 
-- transportschip, kraanschip en alleskunner vaak niet dezelfde tank- en kraancondities hebben;
-- een enkele shared `antwoordenblad.json` tot infeasible cases kan leiden.
+- eigen `data_dir` per loadcase;
+- eigen fallbackbeleid per loadcase;
+- eigen keuze voor `tank2_is_movable` en `strict_residuen`.
 
-## 2. Locatie
+## 2. Locatie en activering
 
-Aanbevolen:
+Aanbevolen locatie:
 
 - `data/loadcase_config.json`
 
-Voorbeeldtemplate:
+Activeren via CLI:
+
+```powershell
+python Main_pelle.py --loadcase-config data/loadcase_config.json
+```
+
+Template beschikbaar:
 
 - `data/loadcase_config.example.json`
 
-## 3. JSON-schema
+## 3. Schema
 
 Top-level keys:
 
@@ -27,18 +34,31 @@ Top-level keys:
 - `KraanSchip`
 - `Alleskunner`
 
-Per key:
+Per key zijn deze velden mogelijk:
 
-- `data_dir` (string, pad)
-- `fallback_data_dir` (string, pad)
+- `data_dir` (string)
+- `fallback_data_dir` (string)
 - `allow_fallback` (bool)
 - `tank2_is_movable` (bool)
 - `strict_residuen` (bool)
 
-## 4. Padresolutie
+## 4. Resolutie- en prioriteitsregels
 
-- Relatieve paden worden opgelost t.o.v. de map waar `loadcase_config.json` staat.
-- Absolute paden worden direct gebruikt.
+### 4.1 Relatieve paden
+
+Relatieve paden worden opgelost ten opzichte van de map waarin `loadcase_config.json` staat, niet ten opzichte van je huidige shell directory.
+
+### 4.2 Overrides
+
+Voor elke loadcase geldt:
+
+1. begin met globale CLI-defaults;
+2. pas velden uit de JSON override toe als ze aanwezig zijn;
+3. ontbrekende velden erven de globale waarde.
+
+### 4.3 Onbekende loadcase keys
+
+Onbekende keys in JSON worden genegeerd met runtime-waarschuwing.
 
 ## 5. Volledig voorbeeld
 
@@ -68,18 +88,41 @@ Per key:
 }
 ```
 
-## 6. Bekende valkuilen
+## 6. Minimalistisch voorbeeld met alleen afwijkingen
 
-1. BOM in JSON door editor/powershell.
-   - Status: reader ondersteunt `utf-8-sig`.
-2. Verkeerde relatieve paden (`./data/...` vs `./...`).
-3. `allow_fallback=false` met ongeldige lokale hydrodata.
+Je hoeft niet elk veld per loadcase te zetten. Alleen verschillen opnemen is vaak duidelijker:
+
+```json
+{
+  "KraanSchip": {
+    "data_dir": "./data_kraanschip",
+    "strict_residuen": true
+  }
+}
+```
+
+In dit voorbeeld gebruiken overige loadcases de globale CLI-settings.
 
 ## 7. Diagnostiek
 
-Controleer na run:
+Na een run kun je in `output/ship_results.json` bij `scenarios` per loadcase zien:
 
-- `output/errors.json`
-- `output/ship_results.json` -> blok `scenarios` en `results`.
+- welke `data_dir` actief was;
+- of fallback was toegestaan;
+- of `tank2_is_movable` en `strict_residuen` aanstonden.
 
-Daarin zie je exact welke data-dir per loadcase gebruikt is.
+Gebruik `output/errors.json` voor een compacte status per loadcase.
+
+## 8. Veelvoorkomende valkuilen
+
+1. Relatieve paden die vanaf de verkeerde map zijn gedacht.
+2. Vergeten dat `allow_fallback=false` harde fouten geeft bij ongeldige primaire data.
+3. JSON met syntaxfout of verkeerde booleans (`"true"` als string in plaats van `true`).
+4. Verwarring tussen `--tank2-movable` (globaal) en `tank2_is_movable` (per loadcase override).
+
+## 9. Aanbevolen werkwijze in teams
+
+1. Maak een aparte datamap per loadcase.
+2. Leg alle drie loadcases expliciet vast in `loadcase_config.json`.
+3. Commit config en datafolderstructuur samen.
+4. Documenteer afwijkingen in [12 Bijdragen en Onderhoud](./12_bijdragen_en_onderhoud.md).

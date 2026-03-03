@@ -1,61 +1,139 @@
-﻿# 10 Validatie, Regressie en Teststrategie
+# 10 Validatie, Regressie en Teststrategie
 
 ## 1. Testdoelen
 
-- numerieke juistheid van kernformules;
-- robuust foutgedrag bij slechte input;
-- consistentie van outputstructuur.
+Deze codebase moet aantoonbaar voldoen op drie assen:
 
-## 2. Testniveaus
+- numerieke consistentie van de kernberekening;
+- robuust gedrag bij onvolledige of ongeldige data;
+- stabiele outputstructuur voor downstream gebruik.
 
-### 2.1 Smoke test
+## 2. Aanbevolen testlagen
+
+### 2.1 Smoke test (altijd)
+
+Doel:
+
+- check dat de volledige run succesvol produceert.
+
+Commando:
 
 ```powershell
 python Main_pelle.py --loadcase-config data/loadcase_config.json
 ```
 
-Check:
+Controle:
 
-- alle outputbestanden bestaan;
-- alle loadcases hebben status (`ok`/`infeasible`).
+1. alle outputbestanden bestaan;
+2. elke loadcase heeft status;
+3. JSON's zijn parsebaar.
 
-### 2.2 Regressietest (baseline)
+### 2.2 Baseline regressietest
+
+Doel:
+
+- detecteer ongewenste numerieke drift op bekende referentie.
+
+Commando:
 
 ```powershell
 python regressie_check_gr98_v1.py
 ```
 
-Checkt vaste referentie voor alleskunner.
+Referentiechecks:
 
-### 2.3 Data-validatie test
+- `tank1_percentage` rond `59.322`
+- `tank2_percentage` rond `85.1747`
+- `GM` rond `1.0585`
 
-- verwijder tijdelijk een required bestand;
-- verwacht expliciete `DataValidatieFout`.
+### 2.3 Data-validatietests
 
-### 2.4 Infeasible test
+Doel:
 
-- zet extreem lage tank3 of hoge lading;
-- verwacht `status: infeasible` en duidelijke fouttekst.
+- aantonen dat verkeerde data expliciet faalt.
+
+Voorbeelden:
+
+1. verwijder tijdelijk `MainShipParticulars_...json`;
+2. zet `Buoyant_Volume_m3` op `0`;
+3. verwijder een verplichte CSV-kolom.
+
+Verwachting:
+
+- duidelijke `DataValidatieFout` en geen stille fallback zonder flag.
+
+### 2.4 Infeasible tests
+
+Doel:
+
+- check gecontroleerd gedrag bij fysisch onhaalbare cases.
+
+Voorbeelden:
+
+1. extreem hoge lading;
+2. onrealistische tank3-start;
+3. combinatie met strikte residucheck.
+
+Verwachting:
+
+- status `infeasible` met duidelijke fouttekst in output.
+
+### 2.5 Residu- en gevoeligheidstest
+
+Doel:
+
+- inzicht in stabiliteit van oplossing onder kleine inputvariaties.
+
+Aanpak:
+
+1. run standaard;
+2. varieer een parameter licht (bijvoorbeeld huiddikte);
+3. vergelijk verandering in tankpercentages en GM.
 
 ## 3. Acceptatiecriteria voor teamrelease
 
-1. `ship_results.json` parsebaar.
-2. `errors.json` aanwezig en consistent.
-3. antwoordenbladen per loadcase aanwezig.
-4. geen stille drop van loadcases.
-5. unitconversies zichtbaar in scenario-output.
+Minimaal akkoord als:
 
-## 4. Aanbevolen CI-checks
+1. `ship_results.json` parsebaar is;
+2. `errors.json` aanwezig en consistent is;
+3. antwoordenbladen per loadcase zijn aangemaakt;
+4. geen loadcase stil verdwijnt uit output;
+5. regressiecheck slaagt of afwijking verklaard is.
 
-- run smoke command;
-- run regressie_check;
-- check aanwezigheid output files;
-- optioneel: JSON schema validation.
+## 4. Praktische commandoreeks voor releasecheck
 
-## 5. Handmatige review checklist
+```powershell
+python Main_pelle.py --loadcase-config data/loadcase_config.json
+python regressie_check_gr98_v1.py
+```
+
+Aanvullend (optioneel): run met strict residuen.
+
+```powershell
+python Main_pelle.py --loadcase-config data/loadcase_config.json --strict-residuen
+```
+
+## 5. CI-aanbevelingen
+
+In een eenvoudige CI-pipeline:
+
+1. dependencies installeren;
+2. smoke run uitvoeren;
+3. regressie script uitvoeren;
+4. outputbestanden op aanwezigheid controleren.
+
+## 6. Handmatige reviewchecklist
 
 1. Kloppen bronpaden per loadcase?
-2. Kloppen huiddiktes per loadcase?
-3. Klopt kraanhoek/pivot per loadcase?
-4. Zijn tankpercentages fysisch plausibel?
-5. Is GM trend logisch tussen loadcases?
+2. Zijn units consequent (`N` extern, `kg` intern)?
+3. Zijn tankpercentages fysisch plausibel?
+4. Is GM-trend logisch tussen loadcases?
+5. Zijn foutmeldingen expliciet genoeg voor gebruikers?
+
+## 7. Wanneer tolerantie aanpassen
+
+Pas toleranties alleen aan als:
+
+- de modelwijziging inhoudelijk verklaarbaar is;
+- er een gedocumenteerde reden is in commit of changelog;
+- update is opgenomen in docs en regressie-aanpak.

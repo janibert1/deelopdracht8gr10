@@ -1,111 +1,150 @@
-﻿# 05 Rekenmodel en Formules
+# 05 Rekenmodel en Formules
 
-## 1. Rekenstappen op hoofdlijn
+## 1. Rekenketen op hoofdlijn
 
-Voor elke loadcase:
+Per loadcase doorloopt `Ship` in vaste volgorde:
 
-1. Lees hydrostatische data en tankdiagramdata.
-2. Bouw droge massa (`dry_data`) uit dek/kraan/lading + staal.
-3. Zet tank 3 op initiieel percentage.
-4. Los tank 1 op uit dwarsscheeps momentevenwicht.
-5. Los tank 2 op uit verticaal krachtevenwicht.
-6. Bepaal tank 2 langsscheepse oplossing (`tank2_lcg_solved`).
-7. Bereken `KB`, `KG`, `BM`, `GM`.
-8. Controleer residuen en grenzen.
+1. hoofddata en tankdata inlezen;
+2. droge massa opbouwen (`deck` + `plates`);
+3. tank 3 instellen op inputpercentage;
+4. tank 1 oplossen uit dwarsscheeps momentevenwicht;
+5. tank 2 oplossen uit verticaal krachtevenwicht;
+6. tank 2 LCG afleiden uit langsscheeps momentevenwicht;
+7. stabiliteit (`KB`, `KG`, `BM`, `GM`) berekenen;
+8. residuen en grenzen valideren.
 
-## 2. Massa- en momentdefinities
+## 2. Notatie en referenties
 
-Notatie:
+Gebruikte symbolen:
 
-- `m_i`: massa van post `i` [kg]
-- `x_i, y_i, z_i`: LCG, TCG, VCG [m]
-- `x_cov`: COV x-coordinaat [m]
-- `x_cob`: COB x-coordinaat [m]
-- `m_b`: buoyant mass [kg]
+- `m_i`: massa van component `i` `[kg]`
+- `x_i, y_i, z_i`: LCG/TCG/VCG van component `i` `[m]`
+- `x_cov`: langsscheepse coordinate van COV `[m]`
+- `x_cob`: langsscheepse coordinate van COB `[m]`
+- `m_b`: opwaarts verplaatste massa (`buoyant_volume * water_density`) `[kg]`
 
-Langsscheeps moment van post `i`:
+Momenten in code worden intern in `kgm` behandeld.
 
-`M_long,i = m_i * (x_i - x_cov)`
+## 3. Opbouw van droge massa
 
-Dwarsscheeps moment van post `i`:
+### 3.1 Dekcomponenten (`deck(...)`)
 
-`M_trans,i = m_i * y_i`
+Afhankelijk van loadcase bevat dekdata:
 
-Buoyancy-term in langsscheeps balans:
+- kraanhuismassa (`0.34 * crane_swl_mass_kg`);
+- gieksmassa (`0.17 * crane_swl_mass_kg`);
+- hook load (`hook_tp_mass_kg`);
+- transition pieces op dek (`deck_tp_amount * deck_tp_mass_kg`).
 
-`M_long,buoy = m_b * (x_cov - x_cob)`
+### 3.2 Staalmassa (`plates(...)`)
 
-## 3. Tank 1 oplossing
+Huid:
 
-Doel: sluit dwarsscheeps balans met tank 1.
+- `volume_hull = area_hull * hull_thickness`
+- `mass_hull = volume_hull * material_density * mass_factor`
 
-`target_tM_tank1 = - (sum(M_trans,dry) + M_trans,tank3)`
+Schotten:
 
-Tankdiagram gebruikt interpolatie:
+- `volume_bhd = area_bhd * BHD_thickness`
+- `mass_bhd = volume_bhd * material_density * mass_factor`
 
-`percentage_tank1 = f_inv_tM(target_tM_tank1)`
+## 4. Dwarsscheeps balans: oplossing tank 1
 
-waar `f_inv_tM` begrensde inverse mapping is op basis van tabeldata.
+De code gebruikt:
 
-## 4. Tank 2 oplossing
+- `dry_tM = sum(m_i * y_i)` over droge componenten
+- `initial_tM = dry_tM + tank3_tM`
+- `tank1_tM_target = -initial_tM`
 
-Doel: sluit krachtevenwicht in massa.
+Daarna inverse interpolatie:
 
-`m_tank2,target = m_b - (m_dry + m_tank1 + m_tank3)`
+`tank1_percentage = f_inv_tM(tank1_tM_target)`
 
-`percentage_tank2 = f_inv_mass(m_tank2,target)`
+waar `f_inv_tM` begrensd is op de tabelrange.
 
-Als `m_tank2,target` buiten tabelrange valt -> loadcase infeasible.
+## 5. Verticaal krachtevenwicht: oplossing tank 2
 
-## 5. Tank 2 LCG-oplossing
+Stap 1:
 
-`target_lM_tank2 = - (M_long,dry + M_long,buoy + M_long,tank1 + M_long,tank3)`
+`m_b = buoyant_volume * water_density`
 
-`x_tank2,solved = target_lM_tank2 / m_tank2 + x_cov`
+Stap 2:
+
+`m_tank2_target = m_b - (m_dry + m_tank1 + m_tank3)`
+
+Stap 3:
+
+`tank2_percentage = f_inv_mass(m_tank2_target)`
+
+Als `m_tank2_target` buiten de massarange van tank 2 valt, volgt `InfeasibleLoadCaseError`.
+
+## 6. Langsscheeps momentevenwicht: tank 2 LCG
+
+Langsscheeps momenten:
+
+- droog: `dry_lM = sum(m_i * (x_i - x_cov))`
+- buoyancyterm: `buoyant_lM = m_b * (x_cov - x_cob)`
+
+Doelmoment tank 2:
+
+`tank2_lM_target = -(dry_lM + buoyant_lM + tank1_lM + tank3_lM)`
+
+Opgeloste positie:
+
+`tank2_lcg_solved = (tank2_lM_target / m_tank2) + x_cov`
 
 Gedrag:
 
-- `tank2_is_movable=false`: geometrische tank-LCG blijft actief.
-- `tank2_is_movable=true`: opgeloste waarde wordt gebruikt (met range-check).
+- `tank2_is_movable=false`: gebruik geometrische tank2-LCG uit tabel;
+- `tank2_is_movable=true`: gebruik `tank2_lcg_solved` mits binnen `[lcg_min, lcg_max]`.
 
-## 6. Stabiliteit
+## 7. Stabiliteitsgrootheden
 
-`KB = COB_z`
+De code rekent:
 
-`KG = sum(m_i * z_i) / sum(m_i)`
-
-`BM = I_wp_x / V_buoyant - (GG_t1 + GG_t2 + GG_t3)`
-
-`GM = KB - KG + BM`
+- `KB = COB_z`
+- `KG = sum(m_i * z_i) / sum(m_i)`
+- `BM = I_wp_x / buoyant_volume - (GG_t1 + GG_t2 + GG_t3)`
+- `GM = KB - KG + BM`
 
 Waar:
 
-- `I_wp_x`: waterplane inertia x [m4]
-- `V_buoyant`: buoyant volume [m3]
-- `GG_t*`: vrije-oppervlakcorrectie per tank [m]
+- `I_wp_x` uit `Inertia_WPA_around_COF_m4`;
+- `GG_t*` vrije-oppervlakcorrecties uit tank-waterplane data.
 
-## 7. Residucontrole
+## 8. Residucontrole
 
-Na oplossen:
+Berekeningen:
 
-- `force_residual_kg`
-- `long_m_residual_kgm`
-- `trans_m_residual_kgm`
+- `force_residual_kg = m_b - sum(m_i)`
+- `long_m_residual_kgm = sum(m_i*(x_i-x_cov)) + m_b*(x_cov-x_cob)`
+- `trans_m_residual_kgm = sum(m_i*y_i) + m_b*(-y_cob)`
 
-Toleranties zijn functie van buoyant mass en hoofdafmetingen.
+Toleranties:
 
-## 8. Fysische begrenzingen
+- `force_tol = max(0.001 * m_b, 25.0)`
+- `long_tol = max(0.001 * m_b * max(LOA, 1.0), 250.0)`
+- `trans_tol = max(0.001 * m_b * max(width, 1.0), 250.0)`
 
-- Tankpercentages moeten binnen [0,100] liggen.
-- Inverse interpolatie buiten range is niet toegestaan.
-- Indien geactiveerd: `tank2_lcg_solved` binnen tank-geometriebereik.
+Bij overschrijding:
 
-## 9. Numerieke methoden
+- waarschuwing als `strict_residuen=false`;
+- `InfeasibleLoadCaseError` als `strict_residuen=true`.
 
-De huidige inverse interpolatie gebruikt begrensde lineaire interpolatie (`np.interp`) op gesorteerde, unieke assen.
+## 9. Interpolatiemethode en grenzen
 
-Gevolg:
+`Functions_pelle._interpoleer_begrensd(...)`:
 
-- robuuster dan vrije spline-extrapolatie;
-- voorspelbaar foutgedrag;
-- minder kans op niet-fysische negatieve percentages.
+1. sorteert en dedupliceert de as;
+2. controleert minimaal 2 unieke punten;
+3. weigert targets buiten range;
+4. gebruikt lineaire interpolatie (`np.interp`) binnen range.
+
+Gevolg: numeriek voorspelbaar gedrag zonder extrapolatie.
+
+## 10. Samenvatting modelaannames
+
+- alle interne berekeningen gebeuren in `kg`, `m`, `kgm`;
+- tanktabellen bepalen harde fysische grenzen;
+- loadcases worden onafhankelijk opgelost maar in een gezamenlijke run gerapporteerd;
+- residuen zijn expliciet zichtbaar voor kwaliteitscontrole.
