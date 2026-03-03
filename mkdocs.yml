@@ -1,0 +1,25 @@
+site_name: Deelopdracht 8 Documentatie
+site_description: MT1466 stabiliteit- en evenwichtscode
+site_url: https://janibert1.github.io/deelopdracht8gr10/
+
+theme:
+  name: material
+  language: nl
+
+docs_dir: "Nieuwe code pelle verschillende classes/docs"
+
+nav:
+  - Home: INDEX.md
+  - Overzicht: 00_overzicht_en_scope.md
+  - Snelle Start: 01_snelle_start.md
+  - CLI Referentie: 02_cli_referentie.md
+  - Data Contracten: 03_data_contracten.md
+  - Loadcase Configuratie: 04_loadcase_configuratie.md
+  - Rekenmodel en Formules: 05_rekenmodel_en_formules.md
+  - Units en Tekenafspraken: 06_units_assen_en_tekenafspraken.md
+  - Code Referentie: 07_code_referentie_modules.md
+  - Output Referentie: 08_output_referentie.md
+  - Foutcatalogus en Debug: 09_foutcatalogus_en_debug.md
+  - Validatie en Regressie: 10_validatie_regressie_en_teststrategie.md
+  - Assignment Traceability: 11_assignment_traceability_mt1466.md
+  - Bijdragen en Onderhoud: 12_bijdragen_en_onderhoud.md
