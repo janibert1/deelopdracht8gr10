@@ -20,6 +20,10 @@ Belangrijkste ontwerpdoelen:
   - Schrijft uitvoerbestanden:
     - `output/ship_results.json`
     - `output/ship_results_graph.png`
+    - `output/antwoordenblad.json`
+    - `output/antwoordenblad_TransportSchip.json`
+    - `output/antwoordenblad_KraanSchip.json`
+    - `output/antwoordenblad_Alleskunner.json`
 - `Ship_pelle.py`
   - Generieke `Ship`-klasse.
   - Verwerkt data-inlees, tankinterpolatie, evenwichtsoplossing en GM.
@@ -38,6 +42,7 @@ Belangrijkste ontwerpdoelen:
   - `Alleskunner`: kraanconditie plus deklading.
 - `data/`
   - Invoer-CSV/JSON gegenereerd door Rhino/Grasshopper.
+  - Bevat ook `antwoordenblad.json` als templatebestand dat wordt ingelezen.
 - `output/`
   - Gegenereerde JSON- en grafiekbestanden (ontstaan na run van `Main_pelle.py`).
 
@@ -90,7 +95,7 @@ python Main_pelle.py
 
 Verwachte terminaluitvoer:
 - één samenvattingsblok per scheepstype (`TransportSchip`, `KraanSchip`, `Alleskunner`)
-- paden van opgeslagen JSON- en PNG-uitvoer
+- paden van opgeslagen JSON/antwoordenblad- en PNG-uitvoer
 
 ## Gegenereerde uitvoer
 
@@ -103,6 +108,11 @@ Na een succesvolle run:
   - Figuur met:
     - GM-staafdiagram per scheepstype
     - Tankvullingspercentages per scheepstype
+- `output/antwoordenblad.json`
+  - Ingevuld antwoordenblad in exact hetzelfde key-format als het template.
+  - Standaard wordt hier de alleskunner-conditie weggeschreven.
+- `output/antwoordenblad_*.json`
+  - Ook per scheepstype een apart ingevuld antwoordenblad.
 
 ## Opmerkingen voor vervolgstappen
 
