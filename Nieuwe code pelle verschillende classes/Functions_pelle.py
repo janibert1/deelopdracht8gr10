@@ -1,4 +1,8 @@
-"""Core utility functions and tank helper class for ship calculations."""
+"""Core utility functions and tank helper class for ship calculations.
+
+The goal of this module is to keep the `Ship` class focused on workflow while
+this file handles reusable data transforms and interpolation logic.
+"""
 
 from __future__ import annotations
 
@@ -11,7 +15,21 @@ from scipy.interpolate import CubicSpline
 
 
 class Tank:
-    """Ballast tank interpolation helper based on volume and waterplane diagrams."""
+    """Ballast tank interpolation helper based on volume and waterplane diagrams.
+
+    Parameters
+    ----------
+    volume_file : str | Path
+        CSV with filling percentage, volume and COG per fill level.
+    waterplane_file : str | Path
+        CSV with waterplane inertia per fill level.
+    water_density : float
+        Density of ballast water in kg/m3.
+    buoyant_volume : float
+        Total displaced volume, used for free-surface correction conversion.
+    cov : array-like
+        Center of volume reference, used to compute longitudinal moments.
+    """
 
     def __init__(self, volume_file, waterplane_file, water_density, buoyant_volume, cov):
         self.volume_data = pd.read_csv(volume_file, delimiter=",", skiprows=1)
@@ -37,7 +55,11 @@ class Tank:
         self.waterplane_data[" GG [m]"] = self.GG
 
     def percentage_filled(self, percentage):
-        """Interpolate tank properties for a given fill percentage."""
+        """Interpolate tank properties for a given fill percentage.
+
+        Cubic splines are used so the returned properties are smooth and can be
+        evaluated at non-tabulated percentages.
+        """
         self.exact_lM = CubicSpline(self.percentage, self.lM)(percentage)
         self.exact_tM = CubicSpline(self.percentage, self.tM)(percentage)
         self.exact_lcg = CubicSpline(self.percentage, self.lcg)(percentage)
@@ -58,7 +80,14 @@ def deck(
     slewing_angle=0.0,
     pivot_height=0.0,
 ):
-    """Build deck load matrix [mass, lcg, tcg, vcg] for cargo and optional crane."""
+    """Build deck load matrix [mass, lcg, tcg, vcg] for cargo and optional crane.
+
+    Returns
+    -------
+    np.ndarray
+        4 x N matrix: row0 mass, row1 lcg, row2 tcg, row3 vcg.
+    """
+    # No crane branch (transport-only condition).
     if crane_position is None or jib_length is None:
         if TP_position is None or TP_amount == 0:
             return np.zeros((4, 0))
@@ -73,6 +102,7 @@ def deck(
             dtype=float,
         )
 
+    # Crane branch (kraanschip/alleskunner condition).
     jib_angle_rad = math.radians(jib_angle)
     slewing_angle_rad = math.radians(slewing_angle)
 
@@ -80,6 +110,7 @@ def deck(
     crane_housing_tcg = crane_position[1]
     crane_housing_vcg = crane_position[2] + pivot_height
 
+    # Assignment convention: SWL = TP_mass / 0.94
     crane_swl = TP_mass / 0.94 if TP_mass else 0.0
     crane_housing_mass = 0.34 * crane_swl
     jib_mass = 0.17 * crane_swl
@@ -101,6 +132,7 @@ def deck(
     )
     load_vcg = crane_housing_vcg + jib_length * math.sin(jib_angle_rad)
 
+    # If TP position is omitted, use hook position as effective cargo location.
     if TP_position is None:
         cargo_lcg, cargo_tcg, cargo_vcg = load_lcg, load_tcg, load_vcg
     else:
@@ -117,7 +149,11 @@ def deck(
 
 
 def plates(file_id, hull_thickness, BHD_thickness, material_density, mass_factor, data_dir="data"):
-    """Calculate hull and bulkhead steel masses and centers of gravity."""
+    """Calculate hull and bulkhead steel masses and centers of gravity.
+
+    The steel mass includes a stiffener factor (`mass_factor`), matching the
+    project instruction to scale plate-field mass to plate+stiffener mass.
+    """
     data_dir = Path(data_dir)
     hull_path = data_dir / f"HullAreaData_Gr{file_id[0]}_V{file_id[1]}.{file_id[2]}.csv"
     bhd_path = data_dir / f"TankBHD_Data_Gr{file_id[0]}_V{file_id[1]}.{file_id[2]}.csv"
@@ -130,6 +166,7 @@ def plates(file_id, hull_thickness, BHD_thickness, material_density, mass_factor
     tcg_hull = hull_data[" tca [m]"].to_numpy()
     vcg_hull = hull_data[" vca [m]"].to_numpy()
 
+    # Accept either one constant thickness or an array per hull section.
     hull_thickness_arr = np.asarray(hull_thickness, dtype=float)
     if hull_thickness_arr.size == 1:
         hull_thickness_arr = np.full_like(area_hull, float(hull_thickness_arr), dtype=float)
@@ -166,7 +203,11 @@ def array_add(arr1, arr2, arr3):
 
 
 def matrix_add(matrix1, matrix2):
-    """Concatenate two [4 x n] matrices along columns."""
+    """Concatenate two [4 x n] matrices along columns.
+
+    Empty matrix guards keep caller code simple:
+    - If one side is empty, return the other side unchanged.
+    """
     matrix1 = np.asarray(matrix1, dtype=float)
     matrix2 = np.asarray(matrix2, dtype=float)
 

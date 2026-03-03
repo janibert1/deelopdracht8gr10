@@ -4,7 +4,10 @@ from Ship_pelle import Ship
 
 
 class TransportSchip(Ship):
-    """Transport condition: no crane, transition pieces on deck."""
+    """Transport condition: no crane, transition pieces on deck.
+
+    This subclass only maps input defaults; all calculations remain in `Ship`.
+    """
 
     def __init__(self, file, TP_position, TP_mass, TP_amount, **kwargs):
         kwargs.setdefault("slewing_angle", 0.0)

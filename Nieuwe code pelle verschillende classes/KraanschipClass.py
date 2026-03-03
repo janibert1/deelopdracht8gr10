@@ -4,7 +4,10 @@ from Ship_pelle import Ship
 
 
 class KraanSchip(Ship):
-    """Crane operating condition with one TP in the hook."""
+    """Crane operating condition with one TP in the hook.
+
+    Deck cargo amount is forced to zero for this load case.
+    """
 
     def __init__(
         self,

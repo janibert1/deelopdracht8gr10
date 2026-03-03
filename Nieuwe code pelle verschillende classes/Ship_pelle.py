@@ -1,4 +1,12 @@
-"""Ship model used by the class-based project variant."""
+"""Ship model used by the class-based project variant.
+
+The class implements the same high-level workflow as used in the earlier
+assignment scripts:
+1. Read hydrostatic and tank input data.
+2. Build dry mass contributions (steel + cargo/crane).
+3. Solve tank percentages to satisfy transverse and vertical equilibrium.
+4. Compute initial stability metrics (KB, KG, BM, GM).
+"""
 
 from __future__ import annotations
 
@@ -12,7 +20,14 @@ from Functions_pelle import Tank, ZCG, deck, matrix_add, plates
 
 
 class Ship:
-    """Generic ship class for equilibrium and initial stability calculations."""
+    """Generic ship class for equilibrium and initial stability calculations.
+
+    Notes
+    -----
+    - Input `file` is expected as `[group, version, subversion]`.
+    - Distances are in meters, masses in kilograms.
+    - Water density defaults to seawater (1025 kg/m3).
+    """
 
     def __init__(
         self,
@@ -57,7 +72,11 @@ class Ship:
         self._calculate_stability()
 
     def _resolve_data_dir(self, data_dir):
-        """Pick a usable data folder; fallback to repository example data if needed."""
+        """Pick a usable data folder; fallback to repository example data if needed.
+
+        This makes the project more robust when copied between machines:
+        local `data/` is used first, then a known repository-level fallback.
+        """
         module_dir = Path(__file__).resolve().parent
         candidates = []
         if data_dir is not None:
@@ -100,7 +119,11 @@ class Ship:
             return json.load(handle)
 
     def _read_main_dimensions(self):
-        """Read commonly used dimensions and hydrostatics into attributes."""
+        """Read commonly used dimensions and hydrostatics into attributes.
+
+        The hydrostatic JSON keeps values in nested sections. This method
+        flattens the values we use repeatedly in the calculations.
+        """
         dimensions = self.main_data["MAIN DIMENSIONS"]
         volume_data = self.main_data["VOLUME RELATED DATA (MOULDED)"]
         underwater_data = self.main_data["DATA OF UNDERWATER AREAS (MOULDED)"]
@@ -141,7 +164,15 @@ class Ship:
         self.tank3.percentage_filled(self.tank3_initial)
 
     def _calculate_mass_balance(self):
-        """Calculate deck/steel contributions and solve tank 1 and tank 2 equilibrium."""
+        """Calculate deck/steel contributions and solve tank 1 and tank 2 equilibrium.
+
+        Calculation flow:
+        - Build dry-mass matrix from deck loads and steel plates.
+        - Use tank 3 as known initial condition.
+        - Solve tank 1 fill from transverse moment equilibrium.
+        - Solve tank 2 mass from total mass equilibrium.
+        - Solve tank 2 longitudinal location from longitudinal moment equilibrium.
+        """
         self.deck_data = deck(
             self.crane_position,
             self.TP_position,
@@ -162,17 +193,20 @@ class Ship:
         )
         self.dry_data = matrix_add(self.deck_data, self.plates_data)
 
+        # Dry-mass moments around COV (x) and centerline (y).
         self.lM_dry = self.dry_data[0] * (self.dry_data[1] - self.COV[0])
         self.tM_dry = self.dry_data[0] * self.dry_data[2]
         self.dry_mass = np.sum(self.dry_data[0])
         self.dry_lM = np.sum(self.lM_dry)
         self.dry_tM = np.sum(self.tM_dry)
 
+        # Tank 1 is used to close transverse moment equilibrium: sum(tM) = 0.
         self.initial_tM = self.dry_tM + self.tank3.exact_tM
         self.tank1_tM = -self.initial_tM
         self.tank1_percentage = CubicSpline(self.tank1.tM, self.tank1.percentage)(self.tank1_tM)
         self.tank1.percentage_filled(self.tank1_percentage)
 
+        # Tank 2 is used to close vertical force equilibrium: displacement = weight.
         self.buoyant_mass = self.buoyant_volume * self.water_density
         self.tank2_mass = self.buoyant_mass - (
             self.dry_mass + self.tank1.exact_mass + self.tank3.exact_mass
@@ -180,6 +214,7 @@ class Ship:
         self.tank2_percentage = CubicSpline(self.tank2.mass, self.tank2.percentage)(self.tank2_mass)
         self.tank2.percentage_filled(self.tank2_percentage)
 
+        # Tank 2 longitudinal position that closes longitudinal moment equilibrium.
         self.buoyant_lM = self.buoyant_mass * (self.COV[0] - self.COB[0])
         self.initial_lM = (
             self.dry_lM + self.buoyant_lM + self.tank1.exact_lM + self.tank3.exact_lM
@@ -199,7 +234,10 @@ class Ship:
         self.ship_data = matrix_add(self.dry_data, self.tank_data)
 
     def _calculate_stability(self):
-        """Compute KB, KG, BM and GM values."""
+        """Compute KB, KG, BM and GM values.
+
+        BM uses the free-surface correction by subtracting per-tank GG terms.
+        """
         self.KB = self.COB[2]
         self.KG = ZCG(self.ship_data[0], self.ship_data[3])
         self.BM = self.I[0] / self.buoyant_volume - (

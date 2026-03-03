@@ -4,7 +4,10 @@ from Ship_pelle import Ship
 
 
 class Alleskunner(Ship):
-    """Combined condition with crane load and transition pieces on deck."""
+    """Combined condition with crane load and transition pieces on deck.
+
+    This class represents the assignment's "alleskunner" load case.
+    """
 
     def __init__(
         self,
