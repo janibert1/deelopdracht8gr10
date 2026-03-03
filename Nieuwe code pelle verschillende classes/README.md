@@ -18,13 +18,15 @@ Belangrijkste verbeteringen in deze versie:
 
 - `Main_pelle.py`
   - Hoofdingang.
-  - Leest scenario uit `data/antwoordenblad.json` + `InputData_*.json`.
+  - Leest scenario per load case uit `data/antwoordenblad.json` + `InputData_*.json`.
+  - Ondersteunt per-loadcase overrides via `--loadcase-config`.
   - Rekent load cases door.
   - Schrijft output:
     - `output/ship_results.json`
+    - `output/errors.json`
     - `output/ship_results_graph.png`
     - `output/antwoordenblad.json`
-    - `output/antwoordenblad_*.json` (per succesvolle load case)
+    - `output/antwoordenblad_*.json` (ook voor infeasible load cases)
 - `Ship_pelle.py`
   - Generieke scheepsklasse.
   - Data-validatie, massa- en momentbalans, stabiliteit, residuchecks.
@@ -95,6 +97,10 @@ Optionele flags:
 - `--skip-regression-check`
 - `--data-dir <pad>`
 - `--fallback-data-dir <pad>`
+- `--loadcase-config <pad>`
+
+Voorbeeld per-loadcase configuratie:
+- `data/loadcase_config.example.json`
 
 ## Regressiecheck
 
@@ -115,4 +121,9 @@ met tolerantie op deltas.
 
 Als een load case fysisch niet haalbaar is met de huidige invoer
 (bijvoorbeeld benodigde tankmassa buiten tankdiagram-bereik),
-dan wordt dit expliciet gemeld en in `ship_results.json` opgenomen onder `errors`.
+dan wordt dit expliciet gemeld in:
+- `output/ship_results.json`
+- `output/errors.json`
+
+Het script blijft de andere load cases wel doorrekenen en schrijft voor alle drie
+een `antwoordenblad_<loadcase>.json`.

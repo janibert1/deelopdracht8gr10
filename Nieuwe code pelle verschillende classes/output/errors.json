@@ -1,0 +1,20 @@
+{
+    "TransportSchip": {
+        "status": "ok",
+        "error": null,
+        "data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Nieuwe code pelle verschillende classes\\data\\data_transport",
+        "fallback_data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps"
+    },
+    "KraanSchip": {
+        "status": "ok",
+        "error": null,
+        "data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Nieuwe code pelle verschillende classes\\data\\data_kraanschip",
+        "fallback_data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps"
+    },
+    "Alleskunner": {
+        "status": "ok",
+        "error": null,
+        "data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Nieuwe code pelle verschillende classes\\data\\data_alleskunner",
+        "fallback_data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps"
+    }
+}

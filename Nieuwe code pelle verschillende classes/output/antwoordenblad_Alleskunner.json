@@ -12,7 +12,7 @@
         "Totale_weerstand_bij_14_kn #[kN]": 1055023
     },
     "Stabiliteit": {
-        "GM_aanvangsstabiliteit #[m]": 1.0953
+        "GM_aanvangsstabiliteit #[m]": 1.0039
     },
     "Geometrie": {
         "Toggle_Ship_1_Barge_0 #[1/0]": "1",
@@ -24,7 +24,7 @@
         "Hellingshoek #[graden]": 0
     },
     "Constructie": {
-        "Huid_en_dek_dikte #[mm]": 20.0
+        "Huid_en_dek_dikte #[mm]": 12.0
     },
     "Waterballast": {
         "Aantal_WB_tanks #[-]": 3,
@@ -37,9 +37,9 @@
     },
     "Neerwaartse_krachten": {
         "Deplacement #[N]": 121454244.606,
-        "LCG #[m]": 31.7217,
-        "TCG #[m]": -0.0,
-        "VCG #[m]": 7.3393
+        "LCG #[m]": 31.0338,
+        "TCG #[m]": 0.0,
+        "VCG #[m]": 7.4293
     },
     "Opwaartse_krachten": {
         "Buoyancy #[N]": 121454244.606,
@@ -48,9 +48,9 @@
         "VCB #[m]": 5.2767
     },
     "Evenwichtsafwijkingen": {
-        "Afwijking_verticaal_krachtevenwicht #[N]": 0.0,
-        "Afwijking_longitudinaal_momentevenwicht #[Nm]": -12189772.802,
-        "Afwijking_transversaal_momentevenwicht #[Nm]": 4483.784
+        "Afwijking_verticaal_krachtevenwicht #[N]": -0.0,
+        "Afwijking_longitudinaal_momentevenwicht #[Nm]": 71348610.773,
+        "Afwijking_transversaal_momentevenwicht #[Nm]": -1359.83
     },
     "Deklast_transition_pieces": {
         "Aantal_transition_pieces #[-]": 4,
@@ -65,23 +65,23 @@
         "Gewicht_per_TP #[N]": 2256300.0,
         "Lengte_kraanfundatie #[m]": 4,
         "Draaihoogte_kraan #[m]": 1.0,
-        "Kraanboom_lengte #[m]": 32.5,
-        "Zwenkhoek #[graden]": 90.0,
-        "Giekhoek #[graden]": 60.0
+        "Kraanboom_lengte #[m]": 40.0,
+        "Zwenkhoek #[graden]": 180.0,
+        "Giekhoek #[graden]": 45.0
     },
     "Zwaartepunten_kraanlast": {
-        "LCG_kraanlast #[m]": 31.0,
-        "TCG_kraanlast #[m]": 23.75,
-        "VCG_kraanlast #[m]": 42.1458,
+        "LCG_kraanlast #[m]": 2.7157,
+        "TCG_kraanlast #[m]": 7.5,
+        "VCG_kraanlast #[m]": 43.2843,
         "LCG_kraanhuis #[m]": 31.0,
         "TCG_kraanhuis #[m]": 7.5,
         "VCG_kraanhuis #[m]": 15.0,
-        "LCG_kraanboom #[m]": 31.0,
-        "TCG_kraanboom #[m]": 15.625,
-        "VCG_kraanboom #[m]": 29.0729,
-        "LCG_hijsgerei #[m]": 31.0,
-        "TCG_hijsgerei #[m]": 23.75,
-        "VCG_hijsgerei #[m]": 42.1458
+        "LCG_kraanboom #[m]": 16.8579,
+        "TCG_kraanboom #[m]": 7.5,
+        "VCG_kraanboom #[m]": 29.1421,
+        "LCG_hijsgerei #[m]": 2.7157,
+        "TCG_hijsgerei #[m]": 7.5,
+        "VCG_hijsgerei #[m]": 43.2843
     },
     "Sterkte_vanaf_deelopdracht_9": {
         "Maximaal_moment #[Nm]": 151598819.54,

@@ -15,6 +15,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 import json
 from pathlib import Path
+import warnings
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -76,6 +77,18 @@ class LoadCaseConfig:
     hook_tp_mass_kg: float
 
 
+@dataclass
+class LoadCaseBronConfig:
+    """Broninstellingen per load case."""
+
+    naam: str
+    data_dir: Path
+    fallback_data_dir: Path
+    allow_fallback: bool
+    tank2_is_movable: bool
+    strict_residuen: bool
+
+
 def gewicht_n_naar_massa_kg(gewicht_n):
     """Converteer gewicht [N] naar massa [kg]."""
     return float(gewicht_n) / G
@@ -105,7 +118,8 @@ def parse_file_id_uit_template(template):
 
 def lees_json(path):
     """Lees JSON-bestand naar dictionary."""
-    with open(path, "r", encoding="utf-8") as handle:
+    # `utf-8-sig` voorkomt fouten bij JSON-bestanden met BOM (vaak uit PowerShell).
+    with open(path, "r", encoding="utf-8-sig") as handle:
         return json.load(handle)
 
 
@@ -125,6 +139,75 @@ def lees_input_data(file_id, data_dir):
     if not path.exists():
         raise DataValidatieFout(f"InputData ontbreekt: {path}")
     return lees_json(path)
+
+
+def _resolve_path(base_dir, raw_path):
+    """Resolve pad relatief aan `base_dir` als nodig."""
+    path = Path(raw_path)
+    if not path.is_absolute():
+        path = (base_dir / path).resolve()
+    return path.resolve()
+
+
+def bouw_loadcase_bron_configs(args, loadcase_names):
+    """Bouw bronconfiguratie per load case met optionele JSON-overrides."""
+    defaults = {
+        naam: LoadCaseBronConfig(
+            naam=naam,
+            data_dir=args.data_dir.resolve(),
+            fallback_data_dir=args.fallback_data_dir.resolve(),
+            allow_fallback=bool(args.allow_fallback),
+            tank2_is_movable=bool(args.tank2_movable),
+            strict_residuen=bool(args.strict_residuen),
+        )
+        for naam in loadcase_names
+    }
+
+    if args.loadcase_config is None:
+        return defaults
+
+    config_path = args.loadcase_config.resolve()
+    if not config_path.exists():
+        raise DataValidatieFout(f"Loadcase-config bestand bestaat niet: {config_path}")
+
+    raw = lees_json(config_path)
+    if not isinstance(raw, dict):
+        raise DataValidatieFout("Loadcase-config moet een JSON object zijn.")
+
+    base_dir = config_path.parent
+    for naam, override in raw.items():
+        if naam not in defaults:
+            warnings.warn(
+                f"Onbekende load case in loadcase-config wordt genegeerd: {naam}",
+                RuntimeWarning,
+            )
+            continue
+        if not isinstance(override, dict):
+            raise DataValidatieFout(
+                f"Load case override voor '{naam}' moet een JSON object zijn."
+            )
+
+        huidige = defaults[naam]
+        data_dir = _resolve_path(base_dir, override["data_dir"]) if "data_dir" in override else huidige.data_dir
+        fallback_data_dir = (
+            _resolve_path(base_dir, override["fallback_data_dir"])
+            if "fallback_data_dir" in override
+            else huidige.fallback_data_dir
+        )
+        allow_fallback = bool(override.get("allow_fallback", huidige.allow_fallback))
+        tank2_is_movable = bool(override.get("tank2_is_movable", huidige.tank2_is_movable))
+        strict_residuen = bool(override.get("strict_residuen", huidige.strict_residuen))
+
+        defaults[naam] = LoadCaseBronConfig(
+            naam=naam,
+            data_dir=data_dir,
+            fallback_data_dir=fallback_data_dir,
+            allow_fallback=allow_fallback,
+            tank2_is_movable=tank2_is_movable,
+            strict_residuen=strict_residuen,
+        )
+
+    return defaults
 
 
 def bouw_basis_scenario_config(
@@ -311,33 +394,60 @@ def print_result(name, ship):
     print(f"  Residu kracht [kg]: {result['force_residual_kg']:.4f}")
 
 
-def build_result_payload(basis, ship_results):
-    """Bouw JSON-serialiseerbare payload met scenario en resultaten."""
+def basis_naar_dict(basis):
+    """Converteer scenario-config naar JSON-serialiseerbare dictionary."""
     return {
-        "scenario": {
-            "groepsnummer": basis.groepsnummer,
-            "file_id": basis.file_id,
-            "hull_thickness_m": basis.hull_thickness_m,
-            "BHD_thickness_m": basis.BHD_thickness_m,
-            "mass_factor": basis.mass_factor,
-            "material_density": basis.material_density,
-            "water_density": basis.water_density,
-            "tank3_initial": basis.tank3_initial,
-            "deck_tp_weight_n": basis.deck_tp_weight_n,
-            "deck_tp_mass_kg": basis.deck_tp_mass_kg,
-            "hook_tp_weight_n": basis.hook_tp_weight_n,
-            "hook_tp_mass_kg": basis.hook_tp_mass_kg,
-            "crane_swl_weight_n": basis.crane_swl_weight_n,
-            "crane_swl_mass_kg": basis.crane_swl_mass_kg,
-            "jib_length": basis.jib_length,
-            "jib_angle": basis.jib_angle,
-            "slewing_angle": basis.slewing_angle,
-            "pivot_height": basis.pivot_height,
-            "allow_fallback": basis.allow_fallback,
-            "tank2_is_movable": basis.tank2_is_movable,
-            "strict_residuen": basis.strict_residuen,
-        },
+        "groepsnummer": basis.groepsnummer,
+        "file_id": basis.file_id,
+        "data_dir": str(basis.data_dir),
+        "fallback_data_dir": str(basis.fallback_data_dir),
+        "hull_thickness_m": basis.hull_thickness_m,
+        "BHD_thickness_m": basis.BHD_thickness_m,
+        "mass_factor": basis.mass_factor,
+        "material_density": basis.material_density,
+        "water_density": basis.water_density,
+        "tank3_initial": basis.tank3_initial,
+        "deck_tp_weight_n": basis.deck_tp_weight_n,
+        "deck_tp_mass_kg": basis.deck_tp_mass_kg,
+        "hook_tp_weight_n": basis.hook_tp_weight_n,
+        "hook_tp_mass_kg": basis.hook_tp_mass_kg,
+        "crane_swl_weight_n": basis.crane_swl_weight_n,
+        "crane_swl_mass_kg": basis.crane_swl_mass_kg,
+        "jib_length": basis.jib_length,
+        "jib_angle": basis.jib_angle,
+        "slewing_angle": basis.slewing_angle,
+        "pivot_height": basis.pivot_height,
+        "allow_fallback": basis.allow_fallback,
+        "tank2_is_movable": basis.tank2_is_movable,
+        "strict_residuen": basis.strict_residuen,
+    }
+
+
+def infeasible_result_dict(error_msg):
+    """Maak uniforme resultaatsstructuur voor infeasible cases."""
+    return {
+        "status": "infeasible",
+        "error": error_msg,
+        "tank1_percentage": None,
+        "tank2_percentage": None,
+        "tank2_lcg": None,
+        "tank2_lcg_solved": None,
+        "KB": None,
+        "KG": None,
+        "BM": None,
+        "GM": None,
+        "force_residual_kg": None,
+        "long_m_residual_kgm": None,
+        "trans_m_residual_kgm": None,
+    }
+
+
+def build_result_payload(scenarios_per_loadcase, ship_results, fouten):
+    """Bouw JSON-serialiseerbare payload met scenario's, resultaten en fouten."""
+    return {
+        "scenarios": scenarios_per_loadcase,
         "results": ship_results,
+        "errors": fouten,
     }
 
 
@@ -347,6 +457,23 @@ def write_results_json(output_dir, payload):
     output_path = output_dir / "ship_results.json"
     with open(output_path, "w", encoding="utf-8") as handle:
         json.dump(payload, handle, indent=4)
+    return output_path
+
+
+def write_errors_json(output_dir, ship_results, scenarios_per_loadcase):
+    """Schrijf compacte statusrapportage per load case."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_path = output_dir / "errors.json"
+    report = {}
+    for naam, result in ship_results.items():
+        report[naam] = {
+            "status": result.get("status"),
+            "error": result.get("error"),
+            "data_dir": scenarios_per_loadcase.get(naam, {}).get("data_dir"),
+            "fallback_data_dir": scenarios_per_loadcase.get(naam, {}).get("fallback_data_dir"),
+        }
+    with open(output_path, "w", encoding="utf-8") as handle:
+        json.dump(report, handle, indent=4)
     return output_path
 
 
@@ -570,8 +697,24 @@ def vul_antwoordenblad_in(template, ship_name, ship, basis, loadcase):
     return data
 
 
-def schrijf_antwoordenbladen(output_dir, template, ship_objects, basis, loadcases):
-    """Schrijf ingevulde antwoordenbladen per scheepstype en standaardbestand."""
+def vul_antwoordenblad_infeasible(template, ship_name, basis):
+    """Maak placeholder-antwoordenblad voor infeasible load case."""
+    data = deepcopy(template)
+    data["Project_info"]["Groepsnummer #[-]"] = basis.groepsnummer
+    data["Project_info"]["MT #[jaar]"] = "MT1466"
+    data["Project_info"]["Groepsversie #[naam/nummer]"] = (
+        f"{basis.groepsnummer}.{basis.file_id[1]}.{basis.file_id[2]}_{ship_name}_INFEASIBLE"
+    )
+
+    data["Stabiliteit"]["GM_aanvangsstabiliteit #[m]"] = None
+    data["Evenwichtsafwijkingen"]["Afwijking_verticaal_krachtevenwicht #[N]"] = None
+    data["Evenwichtsafwijkingen"]["Afwijking_longitudinaal_momentevenwicht #[Nm]"] = None
+    data["Evenwichtsafwijkingen"]["Afwijking_transversaal_momentevenwicht #[Nm]"] = None
+    return data
+
+
+def schrijf_antwoordenbladen(output_dir, case_context, ship_objects):
+    """Schrijf antwoordenbladen per scheepstype, ook bij infeasible cases."""
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Verwijder oude antwoordenbladen zodat alleen actuele output overblijft.
@@ -579,14 +722,26 @@ def schrijf_antwoordenbladen(output_dir, template, ship_objects, basis, loadcase
         oud.unlink(missing_ok=True)
 
     paden = {}
-    for ship_name, ship in ship_objects.items():
-        ingevuld = vul_antwoordenblad_in(
-            template=template,
-            ship_name=ship_name,
-            ship=ship,
-            basis=basis,
-            loadcase=loadcases[ship_name],
-        )
+    for ship_name, context in case_context.items():
+        template = context["template"]
+        basis = context["basis"]
+        loadcase = context["loadcase"]
+        ship = ship_objects.get(ship_name)
+
+        if ship is None:
+            ingevuld = vul_antwoordenblad_infeasible(
+                template=template,
+                ship_name=ship_name,
+                basis=basis,
+            )
+        else:
+            ingevuld = vul_antwoordenblad_in(
+                template=template,
+                ship_name=ship_name,
+                ship=ship,
+                basis=basis,
+                loadcase=loadcase,
+            )
         pad = output_dir / f"antwoordenblad_{ship_name}.json"
         with open(pad, "w", encoding="utf-8") as handle:
             json.dump(ingevuld, handle, indent=4)
@@ -673,77 +828,85 @@ def parse_args():
         action="store_true",
         help="Maak residuchecks hard-failing in plaats van waarschuwingen.",
     )
+    parser.add_argument(
+        "--loadcase-config",
+        type=Path,
+        default=None,
+        help=(
+            "Optionele JSON met overrides per load case. "
+            "Keys: TransportSchip, KraanSchip, Alleskunner."
+        ),
+    )
     return parser.parse_args()
 
 
 def main():
-    """Run alle load cases, schrijf outputbestanden en voer regressiecheck uit."""
+    """Run alle load cases en schrijf altijd complete outputbestanden."""
     args = parse_args()
     output_dir = Path(__file__).resolve().parent / "output"
 
-    basis = bouw_basis_scenario_config(
-        data_dir=args.data_dir,
-        fallback_data_dir=args.fallback_data_dir,
-        allow_fallback=args.allow_fallback,
-        tank2_is_movable=args.tank2_movable,
-        strict_residuen=args.strict_residuen,
-    )
-    template = lees_antwoordenblad_template(args.data_dir)
-    loadcases = bouw_loadcases(basis)
+    loadcase_names = ["TransportSchip", "KraanSchip", "Alleskunner"]
+    bron_configs = bouw_loadcase_bron_configs(args, loadcase_names)
 
+    case_context = {}
+    scenarios_per_loadcase = {}
     ship_objects = {}
-    fouten = {}
-    for naam, loadcase in loadcases.items():
-        try:
-            ship_objects[naam] = maak_ship_object(loadcase, basis)
-            print_result(naam, ship_objects[naam])
-        except (InfeasibleLoadCaseError, DataValidatieFout) as exc:
-            fouten[naam] = str(exc)
-            print(f"\n{naam}")
-            print(f"  Infeasible load case: {exc}")
-
-    if not ship_objects:
-        raise DataValidatieFout("Geen enkele load case kon succesvol worden doorgerekend.")
-
     ship_results = {}
-    for naam in loadcases.keys():
-        if naam in ship_objects:
-            result = ship_objects[naam].to_dict()
+    fouten = {}
+
+    for naam in loadcase_names:
+        bron = bron_configs[naam]
+        basis = bouw_basis_scenario_config(
+            data_dir=bron.data_dir,
+            fallback_data_dir=bron.fallback_data_dir,
+            allow_fallback=bron.allow_fallback,
+            tank2_is_movable=bron.tank2_is_movable,
+            strict_residuen=bron.strict_residuen,
+        )
+        template = lees_antwoordenblad_template(bron.data_dir)
+        loadcase = bouw_loadcases(basis)[naam]
+        case_context[naam] = {
+            "basis": basis,
+            "template": template,
+            "loadcase": loadcase,
+        }
+        scenarios_per_loadcase[naam] = basis_naar_dict(basis)
+
+        try:
+            ship = maak_ship_object(loadcase, basis)
+            ship_objects[naam] = ship
+            print_result(naam, ship)
+            result = ship.to_dict()
             result["status"] = "ok"
             result["error"] = None
             ship_results[naam] = result
-        else:
-            ship_results[naam] = {
-                "status": "infeasible",
-                "error": fouten.get(naam, "Onbekende fout"),
-                "tank1_percentage": None,
-                "tank2_percentage": None,
-                "tank2_lcg": None,
-                "tank2_lcg_solved": None,
-                "KB": None,
-                "KG": None,
-                "BM": None,
-                "GM": None,
-                "force_residual_kg": None,
-                "long_m_residual_kgm": None,
-                "trans_m_residual_kgm": None,
-            }
-    payload = build_result_payload(basis, ship_results)
-    payload["errors"] = fouten
+        except (InfeasibleLoadCaseError, DataValidatieFout) as exc:
+            msg = str(exc)
+            fouten[naam] = msg
+            ship_results[naam] = infeasible_result_dict(msg)
+            print(f"\n{naam}")
+            print(f"  Infeasible load case: {msg}")
+
+    payload = build_result_payload(scenarios_per_loadcase, ship_results, fouten)
     json_path = write_results_json(output_dir, payload)
-    graph_path = write_results_graph(output_dir, ship_results, list(loadcases.keys()))
+    errors_path = write_errors_json(output_dir, ship_results, scenarios_per_loadcase)
+    graph_path = write_results_graph(output_dir, ship_results, loadcase_names)
     antwoordenblad_paden = schrijf_antwoordenbladen(
         output_dir=output_dir,
-        template=template,
+        case_context=case_context,
         ship_objects=ship_objects,
-        basis=basis,
-        loadcases=loadcases,
     )
 
-    if not args.skip_regression_check:
-        voer_regressiecheck_uit(ship_objects, template)
+    if args.loadcase_config is not None and not args.skip_regression_check:
+        print("Regressiecheck overgeslagen: custom --loadcase-config actief.")
+    elif not args.skip_regression_check:
+        if "Alleskunner" in ship_objects:
+            voer_regressiecheck_uit(ship_objects, case_context["Alleskunner"]["template"])
+        else:
+            print("Regressiecheck overgeslagen: Alleskunner load case is infeasible.")
 
     print(f"\nJSON-resultaten opgeslagen in: {json_path}")
+    print(f"Statusrapport opgeslagen in:   {errors_path}")
     print(f"PNG-grafiek opgeslagen in:    {graph_path}")
     if "default" in antwoordenblad_paden:
         print(f"Antwoordenblad opgeslagen in: {antwoordenblad_paden['default']}")

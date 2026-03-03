@@ -12,7 +12,7 @@
         "Totale_weerstand_bij_14_kn #[kN]": 1055023
     },
     "Stabiliteit": {
-        "GM_aanvangsstabiliteit #[m]": 1.8452
+        "GM_aanvangsstabiliteit #[m]": 1.7332
     },
     "Geometrie": {
         "Toggle_Ship_1_Barge_0 #[1/0]": "1",
@@ -24,7 +24,7 @@
         "Hellingshoek #[graden]": 0
     },
     "Constructie": {
-        "Huid_en_dek_dikte #[mm]": 20.0
+        "Huid_en_dek_dikte #[mm]": 12.0
     },
     "Waterballast": {
         "Aantal_WB_tanks #[-]": 3,
@@ -37,9 +37,9 @@
     },
     "Neerwaartse_krachten": {
         "Deplacement #[N]": 121454244.606,
-        "LCG #[m]": 31.3299,
+        "LCG #[m]": 31.5058,
         "TCG #[m]": 0.0,
-        "VCG #[m]": 6.5879
+        "VCG #[m]": 6.6999
     },
     "Opwaartse_krachten": {
         "Buoyancy #[N]": 121454244.606,
@@ -49,7 +49,7 @@
     },
     "Evenwichtsafwijkingen": {
         "Afwijking_verticaal_krachtevenwicht #[N]": 0.0,
-        "Afwijking_longitudinaal_momentevenwicht #[Nm]": 35390406.99,
+        "Afwijking_longitudinaal_momentevenwicht #[Nm]": 14025906.817,
         "Afwijking_transversaal_momentevenwicht #[Nm]": -67.976
     },
     "Deklast_transition_pieces": {
@@ -66,8 +66,8 @@
         "Lengte_kraanfundatie #[m]": 4,
         "Draaihoogte_kraan #[m]": 1.0,
         "Kraanboom_lengte #[m]": 32.5,
-        "Zwenkhoek #[graden]": 90.0,
-        "Giekhoek #[graden]": 60.0
+        "Zwenkhoek #[graden]": 0.0,
+        "Giekhoek #[graden]": 0.0
     },
     "Zwaartepunten_kraanlast": {
         "LCG_kraanlast #[m]": 31.0,
