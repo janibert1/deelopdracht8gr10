@@ -1,4 +1,4 @@
-site_name: Deelopdracht 8 Documentatie
+﻿site_name: Deelopdracht 8 Documentatie
 site_description: MT1466 stabiliteit- en evenwichtscode
 site_url: https://janibert1.github.io/deelopdracht8gr10/
 
@@ -9,7 +9,7 @@ theme:
 docs_dir: "Nieuwe code pelle verschillende classes/docs"
 
 nav:
-  - Home: INDEX.md
+  - Home: index.md
   - Overzicht: 00_overzicht_en_scope.md
   - Snelle Start: 01_snelle_start.md
   - CLI Referentie: 02_cli_referentie.md
@@ -23,3 +23,4 @@ nav:
   - Validatie en Regressie: 10_validatie_regressie_en_teststrategie.md
   - Assignment Traceability: 11_assignment_traceability_mt1466.md
   - Bijdragen en Onderhoud: 12_bijdragen_en_onderhoud.md
+

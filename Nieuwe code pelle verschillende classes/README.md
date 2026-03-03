@@ -6,7 +6,7 @@ De code volgt de structuur-richtlijnen uit:
 `Tips om een Python code te organiseren`
 
 Volledige (zeer uitgebreide) Nederlandstalige documentatie:
-- `docs/INDEX.md`
+- `docs/index.md`
 
 Belangrijkste verbeteringen in deze versie:
 - Interne eenheden zijn expliciet en consistent: `kg`, `m`, `kgm`.
