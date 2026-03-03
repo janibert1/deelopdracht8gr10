@@ -1,123 +1,118 @@
 ## Overzicht
 
-Deze map bevat de class-gebaseerde implementatie voor de MT1463/MT1466
-workflow voor stabiliteit en evenwicht.
+Deze map bevat de class-gebaseerde implementatie voor MT1463/MT1466.
 
-De code is gestructureerd volgens:
+De code volgt de structuur-richtlijnen uit:
 `Tips om een Python code te organiseren`
 
-Belangrijkste ontwerpdoelen:
-- één herbruikbare generieke scheepsklasse gebruiken;
-- hulpfuncties scheiden van scenario-orchestratie;
-- alle drie verplichte scheepstypen ondersteunen via subklassen;
-- consistente naamgeving en documentatie aanhouden.
+Belangrijkste verbeteringen in deze versie:
+- Interne eenheden zijn expliciet en consistent: `kg`, `m`, `kgm`.
+- TP-gewichten uit antwoordenblad (`N`) worden expliciet omgezet naar massa (`kg`).
+- Tankoplossing is begrensd: geen extrapolatie buiten tankdiagrammen.
+- Onmogelijke load cases geven een expliciete foutmelding.
+- Tank2 kan expliciet als vast of verplaatsbaar worden gemodelleerd.
+- Output wordt geschreven in het antwoordenblad-JSON format.
+- Regressiecheckscript toegevoegd voor Gr98 V1.0.
 
-## Mappenstructuur
+## Bestandsstructuur
 
 - `Main_pelle.py`
-  - Hoofdingangspunt.
-  - Definieert één scenario, rekent alle drie scheepstypen door en print een samenvatting.
-  - Schrijft uitvoerbestanden:
+  - Hoofdingang.
+  - Leest scenario uit `data/antwoordenblad.json` + `InputData_*.json`.
+  - Rekent load cases door.
+  - Schrijft output:
     - `output/ship_results.json`
     - `output/ship_results_graph.png`
     - `output/antwoordenblad.json`
-    - `output/antwoordenblad_TransportSchip.json`
-    - `output/antwoordenblad_KraanSchip.json`
-    - `output/antwoordenblad_Alleskunner.json`
+    - `output/antwoordenblad_*.json` (per succesvolle load case)
 - `Ship_pelle.py`
-  - Generieke `Ship`-klasse.
-  - Verwerkt data-inlees, tankinterpolatie, evenwichtsoplossing en GM.
+  - Generieke scheepsklasse.
+  - Data-validatie, massa- en momentbalans, stabiliteit, residuchecks.
 - `Functions_pelle.py`
-  - Herbruikbare hulpfuncties:
-    - `Tank`-interpolatieklasse
-    - `deck(...)`
-    - `plates(...)`
-    - `ZCG(...)`
-    - `matrix_add(...)`
+  - Tankklasse met begrensde interpolatie.
+  - Hulpfuncties voor dekbelasting en staalmassa.
+  - Bevat `DataValidatieFout` en `InfeasibleLoadCaseError`.
 - `TransportschipClass.py`
-  - `TransportSchip`: alleen deklading, geen kraan.
+  - Transport load case (deklading, geen kraan).
 - `KraanschipClass.py`
-  - `KraanSchip`: kraanconditie, geen deklading.
+  - Kraan load case (wel kraan, geen deklading).
 - `AlleskunnerClass.py`
-  - `Alleskunner`: kraanconditie plus deklading.
-- `data/`
-  - Invoer-CSV/JSON gegenereerd door Rhino/Grasshopper.
-  - Bevat ook `antwoordenblad.json` als templatebestand dat wordt ingelezen.
-- `output/`
-  - Gegenereerde JSON- en grafiekbestanden (ontstaan na run van `Main_pelle.py`).
+  - Gecombineerde load case (kraan + deklading).
+- `regressie_check_gr98_v1.py`
+  - Eenvoudige regressiecheck tegen bekende referentiewaarden.
 
-## Rekenworkflow
+## Unitbeleid
 
-1. Lees hydrostatische scheepsdata (`MainShipParticulars_...json`).
-2. Bouw 3 tankobjecten op basis van tankdiagram-CSV's.
-3. Bouw de droge-lastmatrix uit:
-   - dek-/kraanlasten
-   - staalgewicht van huid en schotten
-4. Los evenwicht op:
-   - Tank 1 vulling uit dwarsscheeps momentevenwicht
-   - Tank 2 massa uit verticaal krachtevenwicht
-   - Tank 2 langsscheepse locatie uit langsscheeps momentevenwicht
-5. Bereken stabiliteit:
-   - `KB` uit opwaarts aangrijpingspunt
-   - `KG` uit massaverdeling
-   - `BM` uit waterplane-traagheid met vrije-oppervlakcorrectie
-   - `GM = KB - KG + BM`
+Interne standaard:
+- massa: `kg`
+- lengte: `m`
+- moment: `kgm`
 
-## Invoeraannames in deze code
+Conventie:
+- invoer uit antwoordenblad kan in `N` staan;
+- conversie naar `kg` gebeurt direct bij inlezen;
+- terugconversie naar `N` gebeurt alleen bij wegschrijven van antwoordenblad.
 
-- Soortelijk gewicht staal: `7850 kg/m3`
-- Soortelijk gewicht water (buiten + ballast): `1025 kg/m3`
-- Plaat+verstijver-factor: `2.1`
-- Kraanmassamodel:
-  - kraanhuis = `0.34 * SWL`
-  - giek = `0.17 * SWL`
-  - `SWL = TP_mass / 0.94`
+## Data en validatie
 
-Deze waarden zijn nog steeds instelbaar in `Main_pelle.py`.
+Verplichte bestanden in `data/`:
+- `antwoordenblad.json`
+- `InputData_Gr<groep>_V<versie>.<subversie>.json`
 
-## Datapadgedrag
+Hydrostatische/tank-data wordt gelezen uit de gekozen data-map.
+Als lokale data ongeldig is (bijv. `Buoyant_Volume_m3 <= 0`), dan:
+- standaard: harde fout;
+- met `--allow-fallback`: expliciete fallback naar voorbeelddata + waarschuwing.
 
-De `Ship`-klasse probeert eerst lokale `data/`.
-Als die map een onbruikbare `MainShipParticulars` heeft (bijvoorbeeld drijfvolume
-gelijk aan 0), dan valt de code automatisch terug op:
+## Solver-gedrag
 
-`../Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps`
-
-Hierdoor blijft het project uitvoerbaar als lokale exports onvolledig zijn.
+- Tank 1 en tank 2 worden opgelost met begrensde interpolatie.
+- Doelwaarde buiten diagram-bereik geeft `InfeasibleLoadCaseError`.
+- Tank2-locatie:
+  - vast (`--tank2-movable` uit): vaste geometrische `lcg` blijft actief;
+  - verplaatsbaar (`--tank2-movable` aan): opgeloste `lcg` wordt toegepast.
+- Residuen (kracht/moment) worden gecontroleerd:
+  - standaard: waarschuwing bij overschrijding;
+  - met `--strict-residuen`: fout bij overschrijding.
 
 ## Uitvoeren
 
-Voer uit vanuit deze map:
+Standaard (strikte data, geen fallback):
 
 ```bash
 python Main_pelle.py
 ```
 
-Verwachte terminaluitvoer:
-- één samenvattingsblok per scheepstype (`TransportSchip`, `KraanSchip`, `Alleskunner`)
-- paden van opgeslagen JSON/antwoordenblad- en PNG-uitvoer
+Met expliciete fallback naar voorbeelddata:
 
-## Gegenereerde uitvoer
+```bash
+python Main_pelle.py --allow-fallback
+```
 
-Na een succesvolle run:
+Optionele flags:
+- `--tank2-movable`
+- `--strict-residuen`
+- `--skip-regression-check`
+- `--data-dir <pad>`
+- `--fallback-data-dir <pad>`
 
-- `output/ship_results.json`
-  - Scenarioconstanten + berekende waarden per schip (`tank1_percentage`,
-    `tank2_percentage`, `tank2_lcg`, `KB`, `KG`, `BM`, `GM`)
-- `output/ship_results_graph.png`
-  - Figuur met:
-    - GM-staafdiagram per scheepstype
-    - Tankvullingspercentages per scheepstype
-- `output/antwoordenblad.json`
-  - Ingevuld antwoordenblad in exact hetzelfde key-format als het template.
-  - Standaard wordt hier de alleskunner-conditie weggeschreven.
-- `output/antwoordenblad_*.json`
-  - Ook per scheepstype een apart ingevuld antwoordenblad.
+## Regressiecheck
 
-## Opmerkingen voor vervolgstappen
+Run:
 
-- Deze code focust nu op evenwicht/stabiliteit en rapportage-uitvoer.
-- `Main_pelle.py` kan worden uitgebreid met:
-  - mapping/schrijven naar antwoordenblad.json
-  - officiële puntentelling zodra alle formules vastliggen
-  - vergelijkingslijsten voor meerdere ontwerpen/varianten
+```bash
+python regressie_check_gr98_v1.py
+```
+
+Checkt (Alleskunner, Gr98 V1.0) tegen referentie:
+- tank1 ~ 59.322%
+- tank2 ~ 85.1747%
+- GM ~ 1.0585 m
+
+met tolerantie op deltas.
+
+## Opmerking over infeasible cases
+
+Als een load case fysisch niet haalbaar is met de huidige invoer
+(bijvoorbeeld benodigde tankmassa buiten tankdiagram-bereik),
+dan wordt dit expliciet gemeld en in `ship_results.json` opgenomen onder `errors`.

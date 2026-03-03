@@ -1,10 +1,10 @@
 {
     "Project_info": {
-        "Groepsnummer #[-]": 14,
+        "Groepsnummer #[-]": 98,
         "MT #[jaar]": "MT1466",
         "Naam_Rhino_bestand #[.3dm]": "MT1463_HullGenerator_V3.34",
         "Naam_Grasshopper_bestand #[.gh]": "MT1463_HullGenerator_V3.34",
-        "Groepsversie #[naam/nummer]": "14.1.0_Alleskunner"
+        "Groepsversie #[naam/nummer]": "98.1.0_Alleskunner"
     },
     "Weerstand_Holtrop_Mennen": {
         "Cstern #[-]": -10,
@@ -12,7 +12,7 @@
         "Totale_weerstand_bij_14_kn #[kN]": 1055023
     },
     "Stabiliteit": {
-        "GM_aanvangsstabiliteit #[m]": -29.415
+        "GM_aanvangsstabiliteit #[m]": 1.0953
     },
     "Geometrie": {
         "Toggle_Ship_1_Barge_0 #[1/0]": "1",
@@ -24,7 +24,7 @@
         "Hellingshoek #[graden]": 0
     },
     "Constructie": {
-        "Huid_en_dek_dikte #[mm]": 12.0
+        "Huid_en_dek_dikte #[mm]": 20.0
     },
     "Waterballast": {
         "Aantal_WB_tanks #[-]": 3,
@@ -32,14 +32,14 @@
         "WB_tank_gedeeltelijk_gevuld #[Ja/Nee]": "ja"
     },
     "Materiaal": {
-        "Soortelijk_gewicht_staal #[kg/m3]": 7850,
-        "Soortelijk_gewicht_zeewater #[kg/m3]": 1025
+        "Soortelijk_gewicht_staal #[kg/m3]": 7850.0,
+        "Soortelijk_gewicht_zeewater #[kg/m3]": 1025.0
     },
     "Neerwaartse_krachten": {
-        "Deplacement #[N]": 121454295.08,
-        "LCG #[m]": 50.25,
+        "Deplacement #[N]": 121454244.606,
+        "LCG #[m]": 31.7217,
         "TCG #[m]": -0.0,
-        "VCG #[m]": 37.848
+        "VCG #[m]": 7.3393
     },
     "Opwaartse_krachten": {
         "Buoyancy #[N]": 121454244.606,
@@ -48,40 +48,40 @@
         "VCB #[m]": 5.2767
     },
     "Evenwichtsafwijkingen": {
-        "Afwijking_verticaal_krachtevenwicht #[N]": -50.474,
-        "Afwijking_longitudinaal_momentevenwicht #[Nm]": -2262529940.334,
-        "Afwijking_transversaal_momentevenwicht #[Nm]": 4146.916
+        "Afwijking_verticaal_krachtevenwicht #[N]": 0.0,
+        "Afwijking_longitudinaal_momentevenwicht #[Nm]": -12189772.802,
+        "Afwijking_transversaal_momentevenwicht #[Nm]": 4483.784
     },
     "Deklast_transition_pieces": {
         "Aantal_transition_pieces #[-]": 4,
         "Gewicht_per_transition_piece #[N]": 2256300.0,
-        "LCG_transition_pieces #[m]": 76.0925,
-        "TCG_transition_pieces #[m]": 0.0,
-        "VCG_transition_pieces #[m]": 18.0
+        "LCG_transition_pieces #[m]": 31.0,
+        "TCG_transition_pieces #[m]": -2.5,
+        "VCG_transition_pieces #[m]": 23.0
     },
     "Kraan_beladingsconditie": {
-        "SWLmax_kraan #[N]": 2400319.14893617,
+        "SWLmax_kraan #[N]": 2400319.149,
         "Aantal_TP_in_kraan #[-]": 1,
         "Gewicht_per_TP #[N]": 2256300.0,
         "Lengte_kraanfundatie #[m]": 4,
         "Draaihoogte_kraan #[m]": 1.0,
-        "Kraanboom_lengte #[m]": 40.0,
-        "Zwenkhoek #[graden]": 180.0,
-        "Giekhoek #[graden]": 45.0
+        "Kraanboom_lengte #[m]": 32.5,
+        "Zwenkhoek #[graden]": 90.0,
+        "Giekhoek #[graden]": 60.0
     },
     "Zwaartepunten_kraanlast": {
-        "LCG_kraanlast #[m]": -17.2843,
-        "TCG_kraanlast #[m]": 0.0,
-        "VCG_kraanlast #[m]": 35.2843,
-        "LCG_kraanhuis #[m]": 11.0,
-        "TCG_kraanhuis #[m]": 0.0,
-        "VCG_kraanhuis #[m]": 7.0,
-        "LCG_kraanboom #[m]": -3.1421,
-        "TCG_kraanboom #[m]": 0.0,
-        "VCG_kraanboom #[m]": 21.1421,
-        "LCG_hijsgerei #[m]": -17.2843,
-        "TCG_hijsgerei #[m]": 0.0,
-        "VCG_hijsgerei #[m]": 35.2843
+        "LCG_kraanlast #[m]": 31.0,
+        "TCG_kraanlast #[m]": 23.75,
+        "VCG_kraanlast #[m]": 42.1458,
+        "LCG_kraanhuis #[m]": 31.0,
+        "TCG_kraanhuis #[m]": 7.5,
+        "VCG_kraanhuis #[m]": 15.0,
+        "LCG_kraanboom #[m]": 31.0,
+        "TCG_kraanboom #[m]": 15.625,
+        "VCG_kraanboom #[m]": 29.0729,
+        "LCG_hijsgerei #[m]": 31.0,
+        "TCG_hijsgerei #[m]": 23.75,
+        "VCG_hijsgerei #[m]": 42.1458
     },
     "Sterkte_vanaf_deelopdracht_9": {
         "Maximaal_moment #[Nm]": 151598819.54,
@@ -91,24 +91,24 @@
     },
     "Lading_locaties": {
         "Transition_piece_1": {
-            "LCG #[m]": 76.0925,
-            "TCG #[m]": 0.0,
-            "VCG #[m]": 18.0
+            "LCG #[m]": 16.1066,
+            "TCG #[m]": 1.0,
+            "VCG #[m]": 23.0
         },
         "Transition_piece_2": {
-            "LCG #[m]": 76.0925,
-            "TCG #[m]": 0.0,
-            "VCG #[m]": 18.0
+            "LCG #[m]": 21.9549,
+            "TCG #[m]": -6.0,
+            "VCG #[m]": 23.0
         },
         "Transition_piece_3": {
-            "LCG #[m]": 76.0925,
-            "TCG #[m]": 0.0,
-            "VCG #[m]": 18.0
+            "LCG #[m]": 40.0451,
+            "TCG #[m]": -6.0,
+            "VCG #[m]": 23.0
         },
         "Transition_piece_4": {
-            "LCG #[m]": 76.0925,
-            "TCG #[m]": 0.0,
-            "VCG #[m]": 18.0
+            "LCG #[m]": 45.8934,
+            "TCG #[m]": 1.0,
+            "VCG #[m]": 23.0
         }
     }
 }
