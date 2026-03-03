@@ -43,7 +43,24 @@
             "GM": 1.8452321298874486,
             "force_residual_kg": 1.862645149230957e-09,
             "long_m_residual_kgm": -3607584.810412801,
-            "trans_m_residual_kgm": 6.9292159751057625
+            "trans_m_residual_kgm": 6.9292159751057625,
+            "status": "ok",
+            "error": null
+        },
+        "KraanSchip": {
+            "status": "infeasible",
+            "error": "Doelwaarde buiten bereik bij 'tank massa->percentage': target=3826088.618895, toegestaan=[2334.950000, 3032866.555000].",
+            "tank1_percentage": null,
+            "tank2_percentage": null,
+            "tank2_lcg": null,
+            "tank2_lcg_solved": null,
+            "KB": null,
+            "KG": null,
+            "BM": null,
+            "GM": null,
+            "force_residual_kg": null,
+            "long_m_residual_kgm": null,
+            "trans_m_residual_kgm": null
         },
         "Alleskunner": {
             "file": [
@@ -61,7 +78,9 @@
             "GM": 1.0952662409366765,
             "force_residual_kg": 1.862645149230957e-09,
             "long_m_residual_kgm": 1242586.4222543966,
-            "trans_m_residual_kgm": -457.06255108490586
+            "trans_m_residual_kgm": -457.06255108490586,
+            "status": "ok",
+            "error": null
         }
     },
     "errors": {

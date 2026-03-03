@@ -350,23 +350,41 @@ def write_results_json(output_dir, payload):
     return output_path
 
 
-def write_results_graph(output_dir, ship_results):
-    """Maak en bewaar PNG-grafiek met GM en tankvullingspercentages."""
+def write_results_graph(output_dir, ship_results, loadcase_names):
+    """Maak en bewaar PNG-grafiek met GM en tankvullingspercentages.
+
+    Ook infeasible load cases worden getoond (grijs gemarkeerd).
+    """
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    names = list(ship_results.keys())
-    gm_values = [ship_results[name]["GM"] for name in names]
-    tank1_values = [ship_results[name]["tank1_percentage"] for name in names]
-    tank2_values = [ship_results[name]["tank2_percentage"] for name in names]
+    names = list(loadcase_names)
+    gm_values = []
+    tank1_values = []
+    tank2_values = []
+    ok_flags = []
+
+    for name in names:
+        result = ship_results[name]
+        is_ok = result.get("status") == "ok"
+        ok_flags.append(is_ok)
+        if is_ok:
+            gm_values.append(float(result["GM"]))
+            tank1_values.append(float(result["tank1_percentage"]))
+            tank2_values.append(float(result["tank2_percentage"]))
+        else:
+            gm_values.append(0.0)
+            tank1_values.append(0.0)
+            tank2_values.append(0.0)
 
     fig, axes = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
-    axes[0].bar(names, gm_values, color=["#1f77b4", "#ff7f0e", "#2ca02c"])
+    x = np.arange(len(names))
+    kleuren = ["#1f77b4" if ok else "#bdbdbd" for ok in ok_flags]
+    axes[0].bar(x, gm_values, color=kleuren)
     axes[0].set_title("Aanvangsstabiliteit (GM) per scheepstype")
     axes[0].set_ylabel("GM [m]")
     axes[0].axhline(0.0, color="black", linewidth=1)
     axes[0].grid(axis="y", linestyle="--", alpha=0.4)
 
-    x = np.arange(len(names))
     width = 0.35
     axes[1].bar(x - width / 2, tank1_values, width=width, label="Tank 1 vulling [%]")
     axes[1].bar(x + width / 2, tank2_values, width=width, label="Tank 2 vulling [%]")
@@ -376,6 +394,29 @@ def write_results_graph(output_dir, ship_results):
     axes[1].set_xticklabels(names)
     axes[1].grid(axis="y", linestyle="--", alpha=0.4)
     axes[1].legend()
+
+    for idx, ok in enumerate(ok_flags):
+        if not ok:
+            axes[0].axvspan(idx - 0.5, idx + 0.5, color="#d9d9d9", alpha=0.35, zorder=0)
+            axes[1].axvspan(idx - 0.5, idx + 0.5, color="#d9d9d9", alpha=0.35, zorder=0)
+            axes[0].text(
+                idx,
+                max(0.05, 0.05 * max(max(gm_values), 1.0)),
+                "infeasible",
+                ha="center",
+                va="bottom",
+                rotation=90,
+                fontsize=9,
+            )
+            axes[1].text(
+                idx,
+                max(0.05, 0.05 * max(max(tank1_values + tank2_values), 1.0)),
+                "infeasible",
+                ha="center",
+                va="bottom",
+                rotation=90,
+                fontsize=9,
+            )
 
     plt.tight_layout()
     output_path = output_dir / "ship_results_graph.png"
@@ -664,11 +705,33 @@ def main():
     if not ship_objects:
         raise DataValidatieFout("Geen enkele load case kon succesvol worden doorgerekend.")
 
-    ship_results = {naam: ship.to_dict() for naam, ship in ship_objects.items()}
+    ship_results = {}
+    for naam in loadcases.keys():
+        if naam in ship_objects:
+            result = ship_objects[naam].to_dict()
+            result["status"] = "ok"
+            result["error"] = None
+            ship_results[naam] = result
+        else:
+            ship_results[naam] = {
+                "status": "infeasible",
+                "error": fouten.get(naam, "Onbekende fout"),
+                "tank1_percentage": None,
+                "tank2_percentage": None,
+                "tank2_lcg": None,
+                "tank2_lcg_solved": None,
+                "KB": None,
+                "KG": None,
+                "BM": None,
+                "GM": None,
+                "force_residual_kg": None,
+                "long_m_residual_kgm": None,
+                "trans_m_residual_kgm": None,
+            }
     payload = build_result_payload(basis, ship_results)
     payload["errors"] = fouten
     json_path = write_results_json(output_dir, payload)
-    graph_path = write_results_graph(output_dir, ship_results)
+    graph_path = write_results_graph(output_dir, ship_results, list(loadcases.keys()))
     antwoordenblad_paden = schrijf_antwoordenbladen(
         output_dir=output_dir,
         template=template,
