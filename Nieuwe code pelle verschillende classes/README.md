@@ -5,6 +5,9 @@ Deze map bevat de class-gebaseerde implementatie voor MT1463/MT1466.
 De code volgt de structuur-richtlijnen uit:
 `Tips om een Python code te organiseren`
 
+Volledige (zeer uitgebreide) Nederlandstalige documentatie:
+- `docs/INDEX.md`
+
 Belangrijkste verbeteringen in deze versie:
 - Interne eenheden zijn expliciet en consistent: `kg`, `m`, `kgm`.
 - TP-gewichten uit antwoordenblad (`N`) worden expliciet omgezet naar massa (`kg`).
