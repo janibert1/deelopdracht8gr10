@@ -1,20 +1,20 @@
 {
     "TransportSchip": {
-        "status": "ok",
-        "error": null,
-        "data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Nieuwe code pelle verschillende classes\\data\\data_transport",
+        "status": "non_equilibrium",
+        "error": "Langsscheeps residu te groot: -3607584.810 kgm, tolerantie 866645.986 kgm.",
+        "data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Nieuwe code pelle verschillende classes\\data",
         "fallback_data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps"
     },
     "KraanSchip": {
-        "status": "ok",
-        "error": null,
-        "data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Nieuwe code pelle verschillende classes\\data\\data_kraanschip",
+        "status": "infeasible",
+        "error": "Doelwaarde buiten bereik bij 'tank massa->percentage': target=3826088.618895, toegestaan=[2334.950000, 3032866.555000].",
+        "data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Nieuwe code pelle verschillende classes\\data",
         "fallback_data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps"
     },
     "Alleskunner": {
-        "status": "ok",
-        "error": null,
-        "data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Nieuwe code pelle verschillende classes\\data\\data_alleskunner",
+        "status": "non_equilibrium",
+        "error": "Langsscheeps residu te groot: 1242586.422 kgm, tolerantie 866645.986 kgm.",
+        "data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Nieuwe code pelle verschillende classes\\data",
         "fallback_data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps"
     }
 }
