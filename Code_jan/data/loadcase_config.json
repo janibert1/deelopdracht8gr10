@@ -1,0 +1,23 @@
+﻿{
+    "TransportSchip":  {
+                           "data_dir":  "./data_transport",
+                           "fallback_data_dir":  "../../Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps",
+                           "allow_fallback":  false,
+                           "tank2_is_movable":  false,
+                           "strict_residuen":  false
+                       },
+    "KraanSchip":  {
+                       "data_dir":  "./data_kraanschip",
+                       "fallback_data_dir":  "../../Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps",
+                       "allow_fallback":  false,
+                       "tank2_is_movable":  false,
+                       "strict_residuen":  false
+                   },
+    "Alleskunner":  {
+                        "data_dir":  "./data_alleskunner",
+                        "fallback_data_dir":  "../../Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps",
+                        "allow_fallback":  false,
+                        "tank2_is_movable":  false,
+                        "strict_residuen":  false
+                    }
+}

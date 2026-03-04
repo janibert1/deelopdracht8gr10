@@ -1,0 +1,154 @@
+{
+    "scenarios": {
+        "TransportSchip": {
+            "groepsnummer": 98,
+            "file_id": [
+                98,
+                1,
+                0
+            ],
+            "data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Nieuwe code pelle verschillende classes\\data\\data_transport",
+            "fallback_data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps",
+            "hull_thickness_m": 0.012,
+            "BHD_thickness_m": 0.01,
+            "mass_factor": 2.1,
+            "material_density": 7850.0,
+            "water_density": 1025.0,
+            "tank3_initial": 72.0,
+            "deck_tp_weight_n": 2256300.0,
+            "deck_tp_mass_kg": 230000.0,
+            "hook_tp_weight_n": 2256300.0,
+            "hook_tp_mass_kg": 230000.0,
+            "crane_swl_weight_n": 2400319.14893617,
+            "crane_swl_mass_kg": 244680.85106382976,
+            "jib_length": 32.5,
+            "jib_angle": 0.0,
+            "slewing_angle": 0.0,
+            "pivot_height": 1.0,
+            "allow_fallback": false,
+            "tank2_is_movable": false,
+            "strict_residuen": false
+        },
+        "KraanSchip": {
+            "groepsnummer": 98,
+            "file_id": [
+                98,
+                1,
+                0
+            ],
+            "data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Nieuwe code pelle verschillende classes\\data\\data_kraanschip",
+            "fallback_data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps",
+            "hull_thickness_m": 0.008,
+            "BHD_thickness_m": 0.01,
+            "mass_factor": 2.1,
+            "material_density": 7850.0,
+            "water_density": 1025.0,
+            "tank3_initial": 88.0,
+            "deck_tp_weight_n": 2256300.0,
+            "deck_tp_mass_kg": 230000.0,
+            "hook_tp_weight_n": 2256300.0,
+            "hook_tp_mass_kg": 230000.0,
+            "crane_swl_weight_n": 2400319.14893617,
+            "crane_swl_mass_kg": 244680.85106382976,
+            "jib_length": 32.5,
+            "jib_angle": 60.0,
+            "slewing_angle": 75.0,
+            "pivot_height": 3.0,
+            "allow_fallback": false,
+            "tank2_is_movable": false,
+            "strict_residuen": false
+        },
+        "Alleskunner": {
+            "groepsnummer": 98,
+            "file_id": [
+                98,
+                1,
+                0
+            ],
+            "data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Nieuwe code pelle verschillende classes\\data\\data_alleskunner",
+            "fallback_data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps",
+            "hull_thickness_m": 0.012,
+            "BHD_thickness_m": 0.01,
+            "mass_factor": 2.1,
+            "material_density": 7850.0,
+            "water_density": 1025.0,
+            "tank3_initial": 72.0,
+            "deck_tp_weight_n": 2256300.0,
+            "deck_tp_mass_kg": 230000.0,
+            "hook_tp_weight_n": 2256300.0,
+            "hook_tp_mass_kg": 230000.0,
+            "crane_swl_weight_n": 2400319.14893617,
+            "crane_swl_mass_kg": 244680.85106382976,
+            "jib_length": 40.0,
+            "jib_angle": 45.0,
+            "slewing_angle": 180.0,
+            "pivot_height": 1.0,
+            "allow_fallback": false,
+            "tank2_is_movable": false,
+            "strict_residuen": false
+        }
+    },
+    "results": {
+        "TransportSchip": {
+            "file": [
+                98,
+                1,
+                0
+            ],
+            "tank1_percentage": 78.10116189655758,
+            "tank2_percentage": 81.85148308983018,
+            "tank2_lcg": 33.9131,
+            "tank2_lcg_solved": 34.59798723754731,
+            "KB": 5.2767,
+            "KG": 6.699944368456208,
+            "BM": 3.1564172674259483,
+            "GM": 1.7331728989697401,
+            "force_residual_kg": 1.862645149230957e-09,
+            "long_m_residual_kgm": -1429756.0466044182,
+            "trans_m_residual_kgm": 6.9292159751057625,
+            "status": "ok",
+            "error": null
+        },
+        "KraanSchip": {
+            "file": [
+                98,
+                1,
+                0
+            ],
+            "tank1_percentage": 70.49761784545774,
+            "tank2_percentage": 94.47188085630629,
+            "tank2_lcg": 33.9131,
+            "tank2_lcg_solved": 34.1378577316921,
+            "KB": 5.2767,
+            "KG": 6.663391066290057,
+            "BM": 3.156371279294635,
+            "GM": 1.7696802130045781,
+            "force_residual_kg": -1.862645149230957e-09,
+            "long_m_residual_kgm": -450489.9977711793,
+            "trans_m_residual_kgm": -315.9148255251348,
+            "status": "ok",
+            "error": null
+        },
+        "Alleskunner": {
+            "file": [
+                98,
+                1,
+                0
+            ],
+            "tank1_percentage": 71.04333167646436,
+            "tank2_percentage": 83.48652766264277,
+            "tank2_lcg": 33.9131,
+            "tank2_lcg_solved": 36.88572039114966,
+            "KB": 5.2767,
+            "KG": 7.429257716175197,
+            "BM": 3.1564987930550936,
+            "GM": 1.0039410768798964,
+            "force_residual_kg": -1.862645149230957e-09,
+            "long_m_residual_kgm": -7273049.008479275,
+            "trans_m_residual_kgm": 138.61675751581788,
+            "status": "ok",
+            "error": null
+        }
+    },
+    "errors": {}
+}

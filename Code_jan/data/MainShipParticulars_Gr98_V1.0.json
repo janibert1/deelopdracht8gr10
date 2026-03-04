@@ -1,0 +1,46 @@
+{
+    "MAIN DIMENSIONS": {
+        "Loa_m": 34.8997,
+        "B_m": 19.998,
+        "H_m": 12.999,
+        "Lpp_m": 65.8,
+        "Lwl_m": 0.0,
+        "X_midship_aft_m": 20.4638,
+        "X_midship_fwd_m": 45.3362,
+        "Bilge_Radius_m": 1.0
+    },
+    "DRAUGHT DATA": {
+        "T_moulded_m": 9.999,
+        "T_aft_m": 0.0,
+        "T_fwd_m": 0.0,
+        "heel_deg": 0.0
+    },
+    "WATERLINE ENTRANCE ANGLE": {
+        "Waterline_Entrace_angle_deg": 0.0,
+        "Location_of_WEA_%Bwl": 30.0,
+        "XYZ_location_of_WEA_m": 0.0
+    },
+    "VOLUME RELATED DATA (MOULDED)": {
+        "Buoyant_Volume_m3": 0.0,
+        "Total_Volume_m3": 0.0,
+        "COB_m": 0.0,
+        "COV_Total_m": 0.0,
+        "Cb_pp": 0.0,
+        "Cb_wl": 0.0
+    },
+    "DATA OF UNDERWATER AREAS (MOULDED)": {
+        "Water_Plane_Area_m2": 0.0,
+        "COF_m": 0.0,
+        "Inertia_WPA_around_COF_m4": 0.0,
+        "Wetted_Shell_Area_m2": 0.0,
+        "Wetted_Transom_Area_m2": 0.0,
+        "Am_m2": 0.0
+    },
+    "_export_info": {
+        "created": "2026-02-27T16:52:57.589302+01:00",
+        "source_file": "MT1463_HullGenerator_V3.34_Gr98V1.0.gh",
+        "group": 98.0,
+        "version": 1,
+        "subversion": 0.0
+    }
+}
