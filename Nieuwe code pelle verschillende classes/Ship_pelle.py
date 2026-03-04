@@ -53,6 +53,8 @@ class Ship:
         hook_position=None,
         tank2_is_movable=False,
         strict_residuen=False,
+        allow_trim_balance=True,
+        max_trim_deg=5.0,
     ):
         self.file = file
         self.crane_position = crane_position
@@ -75,6 +77,8 @@ class Ship:
         self.hook_position = hook_position
         self.tank2_is_movable = bool(tank2_is_movable)
         self.strict_residuen = bool(strict_residuen)
+        self.allow_trim_balance = bool(allow_trim_balance)
+        self.max_trim_deg = float(max_trim_deg)
 
         self.data_dir = self._resolve_data_dir(data_dir, fallback_data_dir)
         self.main_data = self._load_main_data()
@@ -163,9 +167,12 @@ class Ship:
         self.LPP = float(dimensions["Lpp_m"])
 
         self.COB = np.asarray(volume_data["COB_m"], dtype=float)
+        self.COB_effective = self.COB.copy()
         self.COV = np.asarray(volume_data["COV_Total_m"], dtype=float)
         self.buoyant_volume = float(volume_data["Buoyant_Volume_m3"])
         self.I = np.asarray(underwater_data["Inertia_WPA_around_COF_m4"], dtype=float)
+        self.trim_deg = 0.0
+        self.trim_applied = False
         if self.buoyant_volume <= 0.0:
             raise DataValidatieFout("Buoyant_Volume_m3 moet > 0 zijn.")
 
@@ -277,6 +284,8 @@ class Ship:
         """Bereken KB, KG, BM en GM."""
         self.KB = float(self.COB[2])
         self.KG = ZCG(self.ship_data[0], self.ship_data[3])
+        self.BML = float(self.I[1] / self.buoyant_volume)
+        self.GML = float(self.KB - self.KG + self.BML)
         self.BM = float(
             self.I[0] / self.buoyant_volume
             - (self.tank1.exact_GG + self.tank2.exact_GG + self.tank3.exact_GG)
@@ -291,12 +300,39 @@ class Ship:
 
         force_residual_kg = float(self.buoyant_mass - np.sum(massa))
         long_m_residual_kgm = float(
-            np.sum(massa * (lcg - self.COV[0])) + self.buoyant_mass * (self.COV[0] - self.COB[0])
+            np.sum(massa * (lcg - self.COV[0])) + self.buoyant_mass * (self.COV[0] - self.COB_effective[0])
         )
         trans_m_residual_kgm = float(
-            np.sum(massa * (tcg - self.COV[1])) + self.buoyant_mass * (self.COV[1] - self.COB[1])
+            np.sum(massa * (tcg - self.COV[1])) + self.buoyant_mass * (self.COV[1] - self.COB_effective[1])
         )
         return force_residual_kg, long_m_residual_kgm, trans_m_residual_kgm
+
+    def _probe_trim_balance(self):
+        """Probeer langsscheeps residu op te lossen via trim binnen limieten."""
+        if self.GML <= 0.0:
+            return False, "Trimcorrectie niet mogelijk: GML <= 0."
+
+        massa = np.asarray(self.ship_data[0], dtype=float)
+        lcg = np.asarray(self.ship_data[1], dtype=float)
+        totale_massa = float(np.sum(massa))
+        if totale_massa <= 0.0:
+            return False, "Trimcorrectie niet mogelijk: totale massa <= 0."
+
+        lcg_tot = float(np.sum(massa * lcg) / totale_massa)
+        delta_l = lcg_tot - float(self.COB[0])
+        trim_rad = float(np.arctan(delta_l / self.GML))
+        trim_deg = float(np.degrees(trim_rad))
+        if abs(trim_deg) > self.max_trim_deg:
+            return (
+                False,
+                f"Benodigde trim {trim_deg:.3f} graden overschrijdt limiet {self.max_trim_deg:.3f} graden.",
+            )
+
+        self.trim_deg = trim_deg
+        self.trim_applied = abs(trim_deg) > 1e-9
+        self.COB_effective = self.COB.copy()
+        self.COB_effective[0] = lcg_tot
+        return True, None
 
     def _validate_solution(self):
         """Controleer fysische grenzen en numerieke residuen."""
@@ -310,14 +346,20 @@ class Ship:
                     f"Vullingspercentage buiten [0,100] voor {naam}: {pct:.4f}%."
                 )
 
-        force_residual_kg, long_m_residual_kgm, trans_m_residual_kgm = self._bereken_residuen()
-        self.force_residual_kg = force_residual_kg
-        self.long_m_residual_kgm = long_m_residual_kgm
-        self.trans_m_residual_kgm = trans_m_residual_kgm
-
         force_tol = max(0.001 * self.buoyant_mass, 25.0)
         long_tol = max(0.001 * self.buoyant_mass * max(self.LOA, 1.0), 250.0)
         trans_tol = max(0.001 * self.buoyant_mass * max(self.width, 1.0), 250.0)
+
+        force_residual_kg, long_m_residual_kgm, trans_m_residual_kgm = self._bereken_residuen()
+        trim_fout = None
+        if abs(long_m_residual_kgm) > long_tol and self.allow_trim_balance:
+            trim_ok, trim_fout = self._probe_trim_balance()
+            if trim_ok:
+                force_residual_kg, long_m_residual_kgm, trans_m_residual_kgm = self._bereken_residuen()
+
+        self.force_residual_kg = force_residual_kg
+        self.long_m_residual_kgm = long_m_residual_kgm
+        self.trans_m_residual_kgm = trans_m_residual_kgm
 
         fouten = []
         if abs(force_residual_kg) > force_tol:
@@ -332,6 +374,8 @@ class Ship:
             fouten.append(
                 f"Dwarsscheeps residu te groot: {trans_m_residual_kgm:.3f} kgm, tolerantie {trans_tol:.3f} kgm."
             )
+        if trim_fout is not None:
+            fouten.append(trim_fout)
 
         self.residuen_ok = True
         self.residu_melding = None
@@ -355,6 +399,10 @@ class Ship:
             "KG": float(self.KG),
             "BM": float(self.BM),
             "GM": float(self.GM),
+            "BML": float(self.BML),
+            "GML": float(self.GML),
+            "trim_deg": float(self.trim_deg),
+            "trim_applied": bool(self.trim_applied),
             "force_residual_kg": float(self.force_residual_kg),
             "long_m_residual_kgm": float(self.long_m_residual_kgm),
             "trans_m_residual_kgm": float(self.trans_m_residual_kgm),

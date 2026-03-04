@@ -103,13 +103,17 @@
             "KG": 6.5878851375385,
             "BM": 3.1564172674259483,
             "GM": 1.8452321298874486,
+            "BML": 40.960615711487314,
+            "GML": 39.64943057394881,
+            "trim_deg": -0.4210665279081261,
+            "trim_applied": true,
             "force_residual_kg": 1.862645149230957e-09,
-            "long_m_residual_kgm": -3607584.810412801,
+            "long_m_residual_kgm": -1.4901161193847656e-08,
             "trans_m_residual_kgm": 6.9292159751057625,
-            "residuen_ok": false,
-            "residu_melding": "Langsscheeps residu te groot: -3607584.810 kgm, tolerantie 866645.986 kgm.",
-            "status": "non_equilibrium",
-            "error": "Langsscheeps residu te groot: -3607584.810 kgm, tolerantie 866645.986 kgm."
+            "residuen_ok": true,
+            "residu_melding": null,
+            "status": "ok",
+            "error": null
         },
         "KraanSchip": {
             "status": "infeasible",
@@ -122,6 +126,10 @@
             "KG": null,
             "BM": null,
             "GM": null,
+            "BML": null,
+            "GML": null,
+            "trim_deg": null,
+            "trim_applied": null,
             "force_residual_kg": null,
             "long_m_residual_kgm": null,
             "trans_m_residual_kgm": null,
@@ -142,18 +150,20 @@
             "KG": 7.339284590875186,
             "BM": 3.1578508318118628,
             "GM": 1.0952662409366765,
+            "BML": 40.960615711487314,
+            "GML": 38.89803112061213,
+            "trim_deg": 0.14783489702503486,
+            "trim_applied": true,
             "force_residual_kg": 1.862645149230957e-09,
-            "long_m_residual_kgm": 1242586.4222543966,
+            "long_m_residual_kgm": -6.705522537231445e-08,
             "trans_m_residual_kgm": -457.06255108490586,
-            "residuen_ok": false,
-            "residu_melding": "Langsscheeps residu te groot: 1242586.422 kgm, tolerantie 866645.986 kgm.",
-            "status": "non_equilibrium",
-            "error": "Langsscheeps residu te groot: 1242586.422 kgm, tolerantie 866645.986 kgm."
+            "residuen_ok": true,
+            "residu_melding": null,
+            "status": "ok",
+            "error": null
         }
     },
     "errors": {
-        "TransportSchip": "Langsscheeps residu te groot: -3607584.810 kgm, tolerantie 866645.986 kgm.",
-        "KraanSchip": "Doelwaarde buiten bereik bij 'tank massa->percentage': target=3826088.618895, toegestaan=[2334.950000, 3032866.555000].",
-        "Alleskunner": "Langsscheeps residu te groot: 1242586.422 kgm, tolerantie 866645.986 kgm."
+        "KraanSchip": "Doelwaarde buiten bereik bij 'tank massa->percentage': target=3826088.618895, toegestaan=[2334.950000, 3032866.555000]."
     }
 }

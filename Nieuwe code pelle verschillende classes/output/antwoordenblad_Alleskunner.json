@@ -20,7 +20,7 @@
         "Breedte #[m]": 19.998,
         "Holte #[m]": 12.999,
         "Diepgang #[m]": 9.999,
-        "Trim #[graden]": 0,
+        "Trim #[graden]": 0.1478,
         "Hellingshoek #[graden]": 0
     },
     "Constructie": {
@@ -49,7 +49,7 @@
     },
     "Evenwichtsafwijkingen": {
         "Afwijking_verticaal_krachtevenwicht #[N]": 0.0,
-        "Afwijking_longitudinaal_momentevenwicht #[Nm]": -12189772.802,
+        "Afwijking_longitudinaal_momentevenwicht #[Nm]": 0.0,
         "Afwijking_transversaal_momentevenwicht #[Nm]": 4483.784
     },
     "Deklast_transition_pieces": {

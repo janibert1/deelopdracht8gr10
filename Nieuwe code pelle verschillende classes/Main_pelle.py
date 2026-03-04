@@ -436,6 +436,10 @@ def infeasible_result_dict(error_msg):
         "KG": None,
         "BM": None,
         "GM": None,
+        "BML": None,
+        "GML": None,
+        "trim_deg": None,
+        "trim_applied": None,
         "force_residual_kg": None,
         "long_m_residual_kgm": None,
         "trans_m_residual_kgm": None,
@@ -571,11 +575,11 @@ def bereken_scheepseigenschappen(ship):
     verticaal_afwijking_n = buoyancy_n - deplacement_n
 
     neer_m_long_nm = float(np.sum((massa * G) * (lcg - ship.COV[0])))
-    op_m_long_nm = float(buoyancy_n * (ship.COB[0] - ship.COV[0]))
+    op_m_long_nm = float(buoyancy_n * (ship.COB_effective[0] - ship.COV[0]))
     afwijking_long_nm = op_m_long_nm - neer_m_long_nm
 
     neer_m_trans_nm = float(np.sum((massa * G) * (tcg - ship.COV[1])))
-    op_m_trans_nm = float(buoyancy_n * (ship.COB[1] - ship.COV[1]))
+    op_m_trans_nm = float(buoyancy_n * (ship.COB_effective[1] - ship.COV[1]))
     afwijking_trans_nm = op_m_trans_nm - neer_m_trans_nm
 
     return {
@@ -606,7 +610,7 @@ def vul_antwoordenblad_in(template, ship_name, ship, basis, loadcase):
     data["Geometrie"]["Lengte #[m]"] = round(float(ship.LOA), 4)
     data["Geometrie"]["Breedte #[m]"] = round(float(ship.width), 4)
     data["Geometrie"]["Holte #[m]"] = round(float(ship.height), 4)
-    data["Geometrie"]["Trim #[graden]"] = 0
+    data["Geometrie"]["Trim #[graden]"] = round(float(ship.trim_deg), 4)
     data["Geometrie"]["Hellingshoek #[graden]"] = 0
 
     data["Constructie"]["Huid_en_dek_dikte #[mm]"] = round(basis.hull_thickness_m * 1000.0, 3)

@@ -1,7 +1,7 @@
 {
     "TransportSchip": {
-        "status": "non_equilibrium",
-        "error": "Langsscheeps residu te groot: -3607584.810 kgm, tolerantie 866645.986 kgm.",
+        "status": "ok",
+        "error": null,
         "data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Nieuwe code pelle verschillende classes\\data",
         "fallback_data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps"
     },
@@ -12,8 +12,8 @@
         "fallback_data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps"
     },
     "Alleskunner": {
-        "status": "non_equilibrium",
-        "error": "Langsscheeps residu te groot: 1242586.422 kgm, tolerantie 866645.986 kgm.",
+        "status": "ok",
+        "error": null,
         "data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Nieuwe code pelle verschillende classes\\data",
         "fallback_data_dir": "C:\\Users\\Janal\\deelopdracht8gr10\\Data voorbeeld ship 1 alleskunner met kraan dwarsscheeps"
     }
