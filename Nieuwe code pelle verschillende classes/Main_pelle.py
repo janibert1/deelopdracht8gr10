@@ -439,6 +439,8 @@ def infeasible_result_dict(error_msg):
         "force_residual_kg": None,
         "long_m_residual_kgm": None,
         "trans_m_residual_kgm": None,
+        "residuen_ok": None,
+        "residu_melding": None,
     }
 
 
@@ -572,8 +574,8 @@ def bereken_scheepseigenschappen(ship):
     op_m_long_nm = float(buoyancy_n * (ship.COB[0] - ship.COV[0]))
     afwijking_long_nm = op_m_long_nm - neer_m_long_nm
 
-    neer_m_trans_nm = float(np.sum((massa * G) * tcg))
-    op_m_trans_nm = float(buoyancy_n * ship.COB[1])
+    neer_m_trans_nm = float(np.sum((massa * G) * (tcg - ship.COV[1])))
+    op_m_trans_nm = float(buoyancy_n * (ship.COB[1] - ship.COV[1]))
     afwijking_trans_nm = op_m_trans_nm - neer_m_trans_nm
 
     return {
@@ -877,8 +879,15 @@ def main():
             ship_objects[naam] = ship
             print_result(naam, ship)
             result = ship.to_dict()
-            result["status"] = "ok"
-            result["error"] = None
+            if result.get("residuen_ok", True):
+                result["status"] = "ok"
+                result["error"] = None
+            else:
+                msg = result.get("residu_melding") or "Residu buiten tolerantie."
+                fouten[naam] = msg
+                result["status"] = "non_equilibrium"
+                result["error"] = msg
+                print(f"  Niet in evenwicht: {msg}")
             ship_results[naam] = result
         except (InfeasibleLoadCaseError, DataValidatieFout) as exc:
             msg = str(exc)

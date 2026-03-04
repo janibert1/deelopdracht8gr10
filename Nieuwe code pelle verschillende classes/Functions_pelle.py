@@ -71,7 +71,7 @@ class Tank:
         # Interne standaard: kg, m, kgm.
         self.mass = self.volume * float(water_density)
         self.lM = self.mass * (self.lcg - float(cov[0]))
-        self.tM = self.mass * self.tcg
+        self.tM = self.mass * (self.tcg - float(cov[1]))
         self.Ix = self.waterplane_data[" Inertia_x [m4]"].to_numpy(dtype=float)
         self.GG = self.Ix / float(buoyant_volume)
 

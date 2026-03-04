@@ -220,7 +220,7 @@ class Ship:
         self.dry_data = matrix_add(self.deck_data, self.plates_data)
 
         self.lM_dry = self.dry_data[0] * (self.dry_data[1] - self.COV[0])
-        self.tM_dry = self.dry_data[0] * self.dry_data[2]
+        self.tM_dry = self.dry_data[0] * (self.dry_data[2] - self.COV[1])
         self.dry_mass = float(np.sum(self.dry_data[0]))
         self.dry_lM = float(np.sum(self.lM_dry))
         self.dry_tM = float(np.sum(self.tM_dry))
@@ -293,7 +293,9 @@ class Ship:
         long_m_residual_kgm = float(
             np.sum(massa * (lcg - self.COV[0])) + self.buoyant_mass * (self.COV[0] - self.COB[0])
         )
-        trans_m_residual_kgm = float(np.sum(massa * tcg) + self.buoyant_mass * (-self.COB[1]))
+        trans_m_residual_kgm = float(
+            np.sum(massa * (tcg - self.COV[1])) + self.buoyant_mass * (self.COV[1] - self.COB[1])
+        )
         return force_residual_kg, long_m_residual_kgm, trans_m_residual_kgm
 
     def _validate_solution(self):
@@ -331,8 +333,12 @@ class Ship:
                 f"Dwarsscheeps residu te groot: {trans_m_residual_kgm:.3f} kgm, tolerantie {trans_tol:.3f} kgm."
             )
 
+        self.residuen_ok = True
+        self.residu_melding = None
         if fouten:
             msg = " | ".join(fouten)
+            self.residuen_ok = False
+            self.residu_melding = msg
             if self.strict_residuen:
                 raise InfeasibleLoadCaseError(msg)
             warnings.warn(f"Residuwaarschuwing: {msg}", RuntimeWarning)
@@ -352,4 +358,6 @@ class Ship:
             "force_residual_kg": float(self.force_residual_kg),
             "long_m_residual_kgm": float(self.long_m_residual_kgm),
             "trans_m_residual_kgm": float(self.trans_m_residual_kgm),
+            "residuen_ok": bool(self.residuen_ok),
+            "residu_melding": self.residu_melding,
         }
